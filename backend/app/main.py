@@ -18,19 +18,16 @@ app = FastAPI(
 )
 
 
-# Allowed frontend origins
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://netshield-ai-frontend-fpbu.onrender.com",
-    "https://net-shield-ai-azure.vercel.app",
-]
-
-
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://netshield-ai-frontend-fpbu.onrender.com",
+        "https://net-shield-ai-azure.vercel.app",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
