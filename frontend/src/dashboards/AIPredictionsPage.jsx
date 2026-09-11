@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./SecurityDashboard.css";
 
-const API_BASE_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_BASE_URL = "https://netshield-ai-nq52.onrender.com";
 
 function AIPredictionsPage() {
   const [dataset, setDataset] = useState("cic");

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import "./SecurityDashboard.css";
 
-const API_BASE_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_BASE_URL = "https://netshield-ai-nq52.onrender.com";
 
 function SecurityReportsPage() {
   const [report, setReport] = useState(null);
@@ -126,7 +126,7 @@ function SecurityReportsPage() {
     return (
       <div className="section">
         <h2>
-          ⏳ Loading NetShield AI Threat Intelligence...
+          â³ Loading NetShield AI Threat Intelligence...
         </h2>
 
         <p>
@@ -145,7 +145,7 @@ function SecurityReportsPage() {
     return (
       <div className="section">
         <h2>
-          ❌ Failed to Load Report
+          âŒ Failed to Load Report
         </h2>
 
         <p>
@@ -219,7 +219,7 @@ function SecurityReportsPage() {
         <div>
 
           <h1>
-            📄 Security Reports
+            ðŸ“„ Security Reports
           </h1>
 
           <p>
@@ -251,7 +251,7 @@ function SecurityReportsPage() {
             height: "45px",
           }}
         >
-          ⬇ Download Report
+          â¬‡ Download Report
         </button>
 
       </div>
@@ -344,7 +344,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          🚨 Threat Intelligence Summary
+          ðŸš¨ Threat Intelligence Summary
         </h2>
 
         <table>
@@ -439,7 +439,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          ⚔ Attack Distribution
+          âš” Attack Distribution
         </h2>
 
         <table>
@@ -505,7 +505,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          🧠 AI Dataset Distribution
+          ðŸ§  AI Dataset Distribution
         </h2>
 
         <table>
@@ -571,7 +571,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          🔔 Alert Intelligence
+          ðŸ”” Alert Intelligence
         </h2>
 
         <table>
@@ -621,7 +621,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          🔍 Incident Intelligence
+          ðŸ” Incident Intelligence
         </h2>
 
         <table>
@@ -687,7 +687,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          🌐 Wireshark Network Intelligence
+          ðŸŒ Wireshark Network Intelligence
         </h2>
 
         <table>
@@ -779,7 +779,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          📡 Network Protocol Distribution
+          ðŸ“¡ Network Protocol Distribution
         </h2>
 
         <table>
@@ -845,7 +845,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          🔼 Top Source IP Addresses
+          ðŸ”¼ Top Source IP Addresses
         </h2>
 
         <table>
@@ -911,7 +911,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          🔽 Top Destination IP Addresses
+          ðŸ”½ Top Destination IP Addresses
         </h2>
 
         <table>
@@ -977,7 +977,7 @@ function SecurityReportsPage() {
       <div className="section">
 
         <h2>
-          💡 Security Recommendations
+          ðŸ’¡ Security Recommendations
         </h2>
 
         <ol>
@@ -1038,7 +1038,7 @@ function SecurityReportsPage() {
         >
           {loading
             ? "Refreshing..."
-            : "🔄 Refresh Live Report"}
+            : "ðŸ”„ Refresh Live Report"}
         </button>
 
       </div>

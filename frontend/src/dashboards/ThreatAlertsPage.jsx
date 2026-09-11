@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
 
-const API_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_URL = "https://netshield-ai-nq52.onrender.com";
 
 function ThreatAlertsPage() {
   const [alerts, setAlerts] = useState([]);
@@ -217,7 +217,7 @@ function ThreatAlertsPage() {
       <div className="topbar">
 
         <div>
-          <h1>🚨 Threat Alerts</h1>
+          <h1>ðŸš¨ Threat Alerts</h1>
 
           <p>
             AI-generated security alerts from
@@ -233,7 +233,7 @@ function ThreatAlertsPage() {
         >
           {loading
             ? "Loading..."
-            : "🔄 Refresh"}
+            : "ðŸ”„ Refresh"}
         </button>
 
       </div>
@@ -244,7 +244,7 @@ function ThreatAlertsPage() {
 
       {error && (
         <div className="error-message">
-          ⚠️ {error}
+          âš ï¸ {error}
         </div>
       )}
 
@@ -282,12 +282,12 @@ function ThreatAlertsPage() {
 
       <div className="section">
 
-        <h2>⚠️ Threat Severity</h2>
+        <h2>âš ï¸ Threat Severity</h2>
 
         {loading ? (
 
           <div className="warning-message">
-            ⏳ Loading severity information...
+            â³ Loading severity information...
           </div>
 
         ) : (
@@ -306,7 +306,7 @@ function ThreatAlertsPage() {
 
               <tr>
                 <td className="status-red">
-                  🔴 Critical
+                  ðŸ”´ Critical
                 </td>
 
                 <td>{critical}</td>
@@ -325,7 +325,7 @@ function ThreatAlertsPage() {
 
               <tr>
                 <td className="status-orange">
-                  🟠 High
+                  ðŸŸ  High
                 </td>
 
                 <td>{high}</td>
@@ -344,7 +344,7 @@ function ThreatAlertsPage() {
 
               <tr>
                 <td className="status-yellow">
-                  🟡 Medium
+                  ðŸŸ¡ Medium
                 </td>
 
                 <td>{medium}</td>
@@ -363,7 +363,7 @@ function ThreatAlertsPage() {
 
               <tr>
                 <td className="status-green">
-                  🟢 Low
+                  ðŸŸ¢ Low
                 </td>
 
                 <td>{low}</td>
@@ -394,24 +394,24 @@ function ThreatAlertsPage() {
 
       <div className="section">
 
-        <h2>📋 Recent Threat Alerts</h2>
+        <h2>ðŸ“‹ Recent Threat Alerts</h2>
 
         {loading ? (
 
           <div className="warning-message">
-            ⏳ Loading threat alerts from MongoDB...
+            â³ Loading threat alerts from MongoDB...
           </div>
 
         ) : error ? (
 
           <div className="error-message">
-            ⚠️ {error}
+            âš ï¸ {error}
           </div>
 
         ) : alerts.length === 0 ? (
 
           <div className="warning-message">
-            ℹ️ No threat alerts found.
+            â„¹ï¸ No threat alerts found.
           </div>
 
         ) : (
@@ -529,7 +529,7 @@ function ThreatAlertsPage() {
 
       <div className="section">
 
-        <h2>🛡 Security Alert Summary</h2>
+        <h2>ðŸ›¡ Security Alert Summary</h2>
 
         <div className="report-info">
 

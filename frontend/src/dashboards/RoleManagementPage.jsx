@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
 
-const API_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_URL = "https://netshield-ai-nq52.onrender.com";
 
 function RoleManagementPage() {
   const [roles, setRoles] = useState([]);
@@ -63,7 +63,7 @@ function RoleManagementPage() {
       <div className="topbar">
 
         <div>
-          <h1>🛡 Role Management</h1>
+          <h1>ðŸ›¡ Role Management</h1>
 
           <p>
             System Role Overview & Permissions
@@ -76,7 +76,7 @@ function RoleManagementPage() {
           onClick={loadRoles}
           disabled={loading}
         >
-          {loading ? "Loading..." : "🔄 Refresh"}
+          {loading ? "Loading..." : "ðŸ”„ Refresh"}
         </button>
 
       </div>
@@ -87,7 +87,7 @@ function RoleManagementPage() {
 
       {error && (
         <div className="error-message">
-          ⚠️ {error}
+          âš ï¸ {error}
         </div>
       )}
 
@@ -125,7 +125,7 @@ function RoleManagementPage() {
 
       <div className="section">
 
-        <h2>👥 System Roles</h2>
+        <h2>ðŸ‘¥ System Roles</h2>
 
         <p>
           NetShield AI uses two fixed system roles:
@@ -135,13 +135,13 @@ function RoleManagementPage() {
         {loading ? (
 
           <div className="warning-message">
-            ⏳ Loading role information...
+            â³ Loading role information...
           </div>
 
         ) : roles.length === 0 ? (
 
           <div className="warning-message">
-            ℹ️ No role information was returned by the backend.
+            â„¹ï¸ No role information was returned by the backend.
           </div>
 
         ) : (
@@ -234,7 +234,7 @@ function RoleManagementPage() {
 
       <div className="section">
 
-        <h2>🔑 Permission Matrix</h2>
+        <h2>ðŸ”‘ Permission Matrix</h2>
 
         <p>
           Access permissions are fixed according to the
@@ -257,50 +257,50 @@ function RoleManagementPage() {
 
             <tr>
               <td>User Management</td>
-              <td>✅ Full Access</td>
-              <td>❌ No Access</td>
+              <td>âœ… Full Access</td>
+              <td>âŒ No Access</td>
             </tr>
 
             <tr>
               <td>Threat Analysis</td>
-              <td>✅ Full Access</td>
-              <td>✅ Full Access</td>
+              <td>âœ… Full Access</td>
+              <td>âœ… Full Access</td>
             </tr>
 
             <tr>
               <td>Live Monitoring</td>
-              <td>👁 View</td>
-              <td>👁 View</td>
+              <td>ðŸ‘ View</td>
+              <td>ðŸ‘ View</td>
             </tr>
 
             <tr>
               <td>AI Prediction</td>
-              <td>✅ Full Access</td>
-              <td>✅ Full Access</td>
+              <td>âœ… Full Access</td>
+              <td>âœ… Full Access</td>
             </tr>
 
             <tr>
               <td>Incident Management</td>
-              <td>✅ Full Access</td>
-              <td>✅ Full Access</td>
+              <td>âœ… Full Access</td>
+              <td>âœ… Full Access</td>
             </tr>
 
             <tr>
               <td>Threat Alerts</td>
-              <td>✅ Full Access</td>
-              <td>✅ Full Access</td>
+              <td>âœ… Full Access</td>
+              <td>âœ… Full Access</td>
             </tr>
 
             <tr>
               <td>Reports</td>
-              <td>✅ Full Access</td>
-              <td>✅ Full Access</td>
+              <td>âœ… Full Access</td>
+              <td>âœ… Full Access</td>
             </tr>
 
             <tr>
               <td>Settings</td>
-              <td>✅ Full Access</td>
-              <td>❌ No Access</td>
+              <td>âœ… Full Access</td>
+              <td>âŒ No Access</td>
             </tr>
 
           </tbody>
@@ -315,7 +315,7 @@ function RoleManagementPage() {
 
       <div className="section">
 
-        <h2>🛡 RBAC Configuration</h2>
+        <h2>ðŸ›¡ RBAC Configuration</h2>
 
         <div className="report-info">
 

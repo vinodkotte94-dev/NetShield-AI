@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
 
-const API = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API = "https://netshield-ai-nq52.onrender.com";
 
 function ReportsPage() {
   const [reportData, setReportData] = useState(null);
@@ -107,7 +107,7 @@ function ReportsPage() {
   if (loading) {
     return (
       <div className="section">
-        <h2>📄 Loading Reports...</h2>
+        <h2>ðŸ“„ Loading Reports...</h2>
 
         <p>
           Fetching the latest NetShield AI
@@ -181,7 +181,7 @@ function ReportsPage() {
       <div className="topbar">
 
         <div>
-          <h1>📄 Reports Center</h1>
+          <h1>ðŸ“„ Reports Center</h1>
 
           <p>
             Generate, view and download NetShield AI
@@ -190,7 +190,7 @@ function ReportsPage() {
         </div>
 
         <h3 className="status-green">
-          🟢 Reporting System Active
+          ðŸŸ¢ Reporting System Active
         </h3>
 
       </div>
@@ -201,7 +201,7 @@ function ReportsPage() {
 
       {error && (
         <div className="error-message">
-          ⚠️ {error}
+          âš ï¸ {error}
         </div>
       )}
 
@@ -260,7 +260,7 @@ function ReportsPage() {
       <div className="section">
 
         <h2>
-          📊 Security Report Overview
+          ðŸ“Š Security Report Overview
         </h2>
 
         <table>
@@ -350,7 +350,7 @@ function ReportsPage() {
       <div className="section">
 
         <h2>
-          📁 Available Reports
+          ðŸ“ Available Reports
         </h2>
 
         {!hasReportData ? (
@@ -392,7 +392,7 @@ function ReportsPage() {
                 </td>
 
                 <td className="status-green">
-                  🟢 Ready
+                  ðŸŸ¢ Ready
                 </td>
 
                 <td>
@@ -406,7 +406,7 @@ function ReportsPage() {
                   >
                     {generating
                       ? "Generating..."
-                      : "📥 Download PDF"}
+                      : "ðŸ“¥ Download PDF"}
                   </button>
 
                 </td>
@@ -428,7 +428,7 @@ function ReportsPage() {
       <div className="section">
 
         <h2>
-          🚨 Threat Intelligence
+          ðŸš¨ Threat Intelligence
         </h2>
 
         {Object.keys(
@@ -498,8 +498,8 @@ function ReportsPage() {
                         }
                       >
                         {isBenign
-                          ? "🟢 Normal"
-                          : "🚨 Threat"}
+                          ? "ðŸŸ¢ Normal"
+                          : "ðŸš¨ Threat"}
                       </td>
 
                     </tr>
@@ -522,7 +522,7 @@ function ReportsPage() {
       <div className="section">
 
         <h2>
-          🗂 Dataset Reports
+          ðŸ—‚ Dataset Reports
         </h2>
 
         {Object.keys(
@@ -592,7 +592,7 @@ function ReportsPage() {
       <div className="section">
 
         <h2>
-          ⚡ Generate Quick Report
+          âš¡ Generate Quick Report
         </h2>
 
         <p>
@@ -609,7 +609,7 @@ function ReportsPage() {
         >
           {generating
             ? "Generating PDF..."
-            : "🤖 Generate AI Report"}
+            : "ðŸ¤– Generate AI Report"}
         </button>
 
       </div>
@@ -621,7 +621,7 @@ function ReportsPage() {
       <div className="section">
 
         <h2>
-          💾 Report System Status
+          ðŸ’¾ Report System Status
         </h2>
 
         <table>
@@ -635,7 +635,7 @@ function ReportsPage() {
               </th>
 
               <td className="status-green">
-                🟢 Active
+                ðŸŸ¢ Active
               </td>
 
             </tr>
@@ -647,7 +647,7 @@ function ReportsPage() {
               </th>
 
               <td className="status-green">
-                🟢 Connected
+                ðŸŸ¢ Connected
               </td>
 
             </tr>
@@ -659,7 +659,7 @@ function ReportsPage() {
               </th>
 
               <td className="status-green">
-                🟢 Available
+                ðŸŸ¢ Available
               </td>
 
             </tr>
@@ -671,7 +671,7 @@ function ReportsPage() {
               </th>
 
               <td className="status-green">
-                Random Forest — Active
+                Random Forest â€” Active
               </td>
 
             </tr>
@@ -683,7 +683,7 @@ function ReportsPage() {
               </th>
 
               <td className="status-green">
-                🟢 Connected
+                ðŸŸ¢ Connected
               </td>
 
             </tr>
@@ -707,7 +707,7 @@ function ReportsPage() {
         >
           {loading
             ? "Refreshing..."
-            : "🔄 Refresh Reports"}
+            : "ðŸ”„ Refresh Reports"}
         </button>
 
       </div>

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
 
-const API_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_URL = "https://netshield-ai-nq52.onrender.com";
 
 const ALLOWED_ROLES = [
     "Administrator",
@@ -145,7 +145,7 @@ function UserManagementPage() {
             <div className="topbar">
 
                 <div>
-                    <h1>👥 User Management</h1>
+                    <h1>ðŸ‘¥ User Management</h1>
 
                     <p>
                         Manage registered users stored in MongoDB.
@@ -158,7 +158,7 @@ function UserManagementPage() {
                     onClick={loadUsers}
                     disabled={loading}
                 >
-                    {loading ? "Loading..." : "🔄 Refresh"}
+                    {loading ? "Loading..." : "ðŸ”„ Refresh"}
                 </button>
 
             </div>
@@ -169,7 +169,7 @@ function UserManagementPage() {
 
             {error && (
                 <div className="error-message">
-                    ⚠️ {error}
+                    âš ï¸ {error}
                 </div>
             )}
 
@@ -234,13 +234,13 @@ function UserManagementPage() {
                 {loading ? (
 
                     <div className="warning-message">
-                        ⏳ Loading users from MongoDB...
+                        â³ Loading users from MongoDB...
                     </div>
 
                 ) : users.length === 0 ? (
 
                     <div className="warning-message">
-                        ℹ️ No registered users were found in MongoDB.
+                        â„¹ï¸ No registered users were found in MongoDB.
                     </div>
 
                 ) : (

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./SecurityDashboard.css";
 
-const API_BASE_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_BASE_URL = "https://netshield-ai-nq52.onrender.com";
 
 function ThreatTimelinePage() {
   const [data, setData] = useState(null);
@@ -147,7 +147,7 @@ function ThreatTimelinePage() {
   if (error && !data) {
     return (
       <div className="section">
-        <h2>⚠️ Threat Timeline Error</h2>
+        <h2>âš ï¸ Threat Timeline Error</h2>
 
         <p>{error}</p>
 
@@ -243,7 +243,7 @@ function ThreatTimelinePage() {
 
       <div className="topbar">
         <div>
-          <h1>📈 Threat Timeline</h1>
+          <h1>ðŸ“ˆ Threat Timeline</h1>
 
           <p>
             Security activity summary based on the
@@ -253,7 +253,7 @@ function ThreatTimelinePage() {
         </div>
 
         <h3>
-          🟢 Analytics Monitoring
+          ðŸŸ¢ Analytics Monitoring
         </h3>
       </div>
 
@@ -312,7 +312,7 @@ function ThreatTimelinePage() {
       <div className="section">
 
         <h2>
-          📊 Timeline Summary
+          ðŸ“Š Timeline Summary
         </h2>
 
         <table>
@@ -400,7 +400,7 @@ function ThreatTimelinePage() {
       <div className="section">
 
         <h2>
-          🕒 Network Threat Activity
+          ðŸ•’ Network Threat Activity
         </h2>
 
         <p>
@@ -416,7 +416,7 @@ function ThreatTimelinePage() {
         {threatEntries.length === 0 ? (
 
           <p>
-            🟢 No threat activity available.
+            ðŸŸ¢ No threat activity available.
           </p>
 
         ) : (
@@ -516,13 +516,13 @@ function ThreatTimelinePage() {
       <div className="section">
 
         <h2>
-          📉 Attack Distribution
+          ðŸ“‰ Attack Distribution
         </h2>
 
         {threatEntries.length === 0 ? (
 
           <p>
-            🟢 No threats detected.
+            ðŸŸ¢ No threats detected.
           </p>
 
         ) : (
@@ -614,7 +614,7 @@ function ThreatTimelinePage() {
       <div className="section">
 
         <h2>
-          🗂 Dataset Activity
+          ðŸ—‚ Dataset Activity
         </h2>
 
         {datasetEntries.length === 0 ? (
@@ -673,7 +673,7 @@ function ThreatTimelinePage() {
       <div className="section">
 
         <h2>
-          🤖 AI Timeline Insights
+          ðŸ¤– AI Timeline Insights
         </h2>
 
         <table>
@@ -736,7 +736,7 @@ function ThreatTimelinePage() {
               </th>
 
               <td className="status-green">
-                🟢 Every 10 seconds
+                ðŸŸ¢ Every 10 seconds
               </td>
             </tr>
 
@@ -753,7 +753,7 @@ function ThreatTimelinePage() {
       <div className="section">
 
         <h2>
-          🛡 Security Assessment
+          ðŸ›¡ Security Assessment
         </h2>
 
         {totalThreats === 0 ? (
@@ -768,7 +768,7 @@ function ThreatTimelinePage() {
           >
 
             <h3>
-              🟢 Network Appears Normal
+              ðŸŸ¢ Network Appears Normal
             </h3>
 
             <p>
@@ -790,7 +790,7 @@ function ThreatTimelinePage() {
           >
 
             <h3>
-              🚨 Threat Activity Detected
+              ðŸš¨ Threat Activity Detected
             </h3>
 
             <p>
@@ -824,7 +824,7 @@ function ThreatTimelinePage() {
       <div className="section">
 
         <h2>
-          🛡 Monitoring Status
+          ðŸ›¡ Monitoring Status
         </h2>
 
         <table>
@@ -837,7 +837,7 @@ function ThreatTimelinePage() {
               </th>
 
               <td className="status-green">
-                Random Forest — Active
+                Random Forest â€” Active
               </td>
             </tr>
 
@@ -847,7 +847,7 @@ function ThreatTimelinePage() {
               </th>
 
               <td className="status-green">
-                🟢 Connected
+                ðŸŸ¢ Connected
               </td>
             </tr>
 
@@ -857,7 +857,7 @@ function ThreatTimelinePage() {
               </th>
 
               <td className="status-green">
-                🟢 Every 10 seconds
+                ðŸŸ¢ Every 10 seconds
               </td>
             </tr>
 
@@ -867,7 +867,7 @@ function ThreatTimelinePage() {
               </th>
 
               <td className="status-green">
-                🟢 Available
+                ðŸŸ¢ Available
               </td>
             </tr>
 
@@ -889,7 +889,7 @@ function ThreatTimelinePage() {
         >
           {loading
             ? "Refreshing..."
-            : "🔄 Refresh Timeline"}
+            : "ðŸ”„ Refresh Timeline"}
         </button>
 
       </div>

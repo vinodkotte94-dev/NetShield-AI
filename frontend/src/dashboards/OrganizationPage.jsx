@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
 
-const API_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_URL = "https://netshield-ai-nq52.onrender.com";
 
 function OrganizationPage() {
   const [organization, setOrganization] = useState(null);
@@ -46,7 +46,7 @@ function OrganizationPage() {
     return (
       <div className="page">
         <div className="warning-message">
-          ⏳ Loading organization information...
+          â³ Loading organization information...
         </div>
       </div>
     );
@@ -60,7 +60,7 @@ function OrganizationPage() {
     return (
       <div className="page">
         <div className="error-message">
-          ⚠️ {error}
+          âš ï¸ {error}
         </div>
 
         <button
@@ -68,7 +68,7 @@ function OrganizationPage() {
           className="action-btn"
           onClick={loadOrganization}
         >
-          🔄 Try Again
+          ðŸ”„ Try Again
         </button>
       </div>
     );
@@ -82,7 +82,7 @@ function OrganizationPage() {
     return (
       <div className="page">
         <div className="warning-message">
-          ℹ️ No organization information available.
+          â„¹ï¸ No organization information available.
         </div>
       </div>
     );
@@ -122,7 +122,7 @@ function OrganizationPage() {
       <div className="topbar">
 
         <div>
-          <h1>🏢 Organization Management</h1>
+          <h1>ðŸ¢ Organization Management</h1>
 
           <p>
             Organization Overview & Department Information
@@ -135,7 +135,7 @@ function OrganizationPage() {
           onClick={loadOrganization}
           disabled={loading}
         >
-          🔄 Refresh
+          ðŸ”„ Refresh
         </button>
 
       </div>
@@ -174,7 +174,7 @@ function OrganizationPage() {
 
       <div className="section">
 
-        <h2>🏢 Company Information</h2>
+        <h2>ðŸ¢ Company Information</h2>
 
         <table>
 
@@ -229,12 +229,12 @@ function OrganizationPage() {
 
       <div className="section">
 
-        <h2>🏬 Departments</h2>
+        <h2>ðŸ¬ Departments</h2>
 
         {departments.length === 0 ? (
 
           <div className="warning-message">
-            ℹ️ No departments are currently available.
+            â„¹ï¸ No departments are currently available.
           </div>
 
         ) : (
@@ -343,7 +343,7 @@ function OrganizationPage() {
 
       <div className="section">
 
-        <h2>📋 Organization Hierarchy</h2>
+        <h2>ðŸ“‹ Organization Hierarchy</h2>
 
         <table>
 
@@ -387,7 +387,7 @@ function OrganizationPage() {
 
       <div className="section">
 
-        <h2>🛡 Organization Status</h2>
+        <h2>ðŸ›¡ Organization Status</h2>
 
         <div className="report-info">
 

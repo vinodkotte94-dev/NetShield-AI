@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 
-const API_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_URL = "https://netshield-ai-nq52.onrender.com";
 
 function AttackVisualization() {
   const [analytics, setAnalytics] = useState(null);
@@ -103,7 +103,7 @@ function AttackVisualization() {
     return (
       <div style={styles.loadingPage}>
         <div style={styles.loadingCard}>
-          <div style={styles.loadingSpinner}>◌</div>
+          <div style={styles.loadingSpinner}>â—Œ</div>
           <h2>Loading Security Analytics</h2>
           <p>Connecting to NetShield AI monitoring services...</p>
         </div>
@@ -115,7 +115,7 @@ function AttackVisualization() {
     return (
       <div style={styles.page}>
         <div style={styles.errorBox}>
-          <div style={styles.errorIcon}>⚠</div>
+          <div style={styles.errorIcon}>âš </div>
 
           <h2 style={styles.errorTitle}>
             Security Analytics Unavailable
@@ -127,7 +127,7 @@ function AttackVisualization() {
             onClick={() => loadSecurityData(false)}
             style={styles.primaryButton}
           >
-            ↻ Retry Connection
+            â†» Retry Connection
           </button>
         </div>
       </div>
@@ -312,7 +312,7 @@ function AttackVisualization() {
       <div style={styles.header}>
         <div>
           <div style={styles.eyebrow}>
-            NETSHIELD AI • SECURITY OPERATIONS
+            NETSHIELD AI â€¢ SECURITY OPERATIONS
           </div>
 
           <h1 style={styles.title}>
@@ -330,7 +330,7 @@ function AttackVisualization() {
           style={styles.refreshButton}
           disabled={refreshing}
         >
-          {refreshing ? "Refreshing..." : "↻ Refresh"}
+          {refreshing ? "Refreshing..." : "â†» Refresh"}
         </button>
       </div>
 
@@ -344,7 +344,7 @@ function AttackVisualization() {
 
           <strong>Security monitoring active</strong>
 
-          <span style={styles.separator}>•</span>
+          <span style={styles.separator}>â€¢</span>
 
           <span>
             FastAPI + MongoDB
@@ -366,7 +366,7 @@ function AttackVisualization() {
         <MetricCard
           title="Total Records"
           value={formatNumber(totalRecords)}
-          icon="◈"
+          icon="â—ˆ"
           description="Network records analyzed"
         />
 
@@ -381,7 +381,7 @@ function AttackVisualization() {
         <MetricCard
           title="Benign Records"
           value={formatNumber(benignRecords)}
-          icon="✓"
+          icon="âœ“"
           description="Normal network activity"
           success
         />
@@ -412,7 +412,7 @@ function AttackVisualization() {
         <MetricCard
           title="Incidents"
           value={formatNumber(totalIncidents)}
-          icon="◆"
+          icon="â—†"
           description="Security incidents"
           danger={openIncidents > 0}
         />
@@ -420,7 +420,7 @@ function AttackVisualization() {
         <MetricCard
           title="PCAP Analyses"
           value={formatNumber(totalPcapAnalyses)}
-          icon="⌁"
+          icon="âŒ"
           description="Captured traffic analyses"
         />
       </div>
@@ -763,14 +763,14 @@ function AttackVisualization() {
           <strong>NetShield AI</strong>
           <span>
             {" "}
-            • Network Anomaly Detection & Threat
+            â€¢ Network Anomaly Detection & Threat
             Monitoring System
           </span>
         </div>
 
         <div>
-          AI Detection • Alerts • Incidents •
-          PCAP • MongoDB
+          AI Detection â€¢ Alerts â€¢ Incidents â€¢
+          PCAP â€¢ MongoDB
         </div>
       </footer>
     </div>
@@ -898,7 +898,7 @@ function DistributionChart({ data }) {
     return (
       <div style={styles.empty}>
         <span style={styles.emptyIcon}>
-          ◌
+          â—Œ
         </span>
 
         <p>No data available</p>
@@ -1088,7 +1088,7 @@ function IPVisualization({
       {entries.length === 0 ? (
         <div style={styles.empty}>
           <span style={styles.emptyIcon}>
-            ◌
+            â—Œ
           </span>
 
           <p>No IP data available</p>

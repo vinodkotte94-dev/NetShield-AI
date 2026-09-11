@@ -45,7 +45,7 @@ function Register() {
     try {
 
       const response = await axios.post(
-        "https://network-anomaly-detection-threat-5ihm.onrender.com/auth/register",
+        "https://netshield-ai-nq52.onrender.com/auth/register",
         {
           name: formData.name,
           email: formData.email,

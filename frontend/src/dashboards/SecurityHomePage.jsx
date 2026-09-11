@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import {
@@ -15,7 +15,7 @@ import {
   Legend,
 } from "recharts";
 
-const API_BASE_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_BASE_URL = "https://netshield-ai-nq52.onrender.com";
 
 const SecurityHomePage = () => {
   // ============================================================
@@ -388,7 +388,7 @@ const SecurityHomePage = () => {
             fontWeight: "700",
           }}
         >
-          🛡 Security Analyst Dashboard
+          ðŸ›¡ Security Analyst Dashboard
         </h1>
 
         <p
@@ -643,7 +643,7 @@ const SecurityHomePage = () => {
             marginBottom: "20px",
           }}
         >
-          📊 Security Analytics Overview
+          ðŸ“Š Security Analytics Overview
         </h2>
 
         <div
@@ -725,7 +725,7 @@ const SecurityHomePage = () => {
             marginTop: 0,
           }}
         >
-          🛡 Threat Overview
+          ðŸ›¡ Threat Overview
         </h2>
 
         <div
@@ -740,7 +740,7 @@ const SecurityHomePage = () => {
 
           <div>
             <h3>
-              🛡 Threat vs Benign Records
+              ðŸ›¡ Threat vs Benign Records
             </h3>
 
             <div
@@ -784,7 +784,7 @@ const SecurityHomePage = () => {
 
           <div>
             <h3>
-              📊 Attack Distribution
+              ðŸ“Š Attack Distribution
             </h3>
 
             <div
@@ -854,7 +854,7 @@ const SecurityHomePage = () => {
         }}
       >
         <h3>
-          📋 Attack Distribution
+          ðŸ“‹ Attack Distribution
         </h3>
 
         {threatEntries.length === 0 ? (
@@ -940,7 +940,7 @@ const SecurityHomePage = () => {
         }}
       >
         <h3>
-          📚 Dataset Distribution
+          ðŸ“š Dataset Distribution
         </h3>
 
         {datasetChartData.length === 0 ? (
@@ -1013,7 +1013,7 @@ const SecurityHomePage = () => {
             </table>
 
             <h3>
-              📈 Dataset Distribution Chart
+              ðŸ“ˆ Dataset Distribution Chart
             </h3>
 
             <div
@@ -1076,7 +1076,7 @@ const SecurityHomePage = () => {
         }}
       >
         <h3>
-          🚨 Alert Severity Distribution
+          ðŸš¨ Alert Severity Distribution
         </h3>
 
         {alertStatsError && (
@@ -1142,7 +1142,7 @@ const SecurityHomePage = () => {
             {/* SUMMARY TABLE */}
 
             <h3>
-              📋 Alert Severity Summary
+              ðŸ“‹ Alert Severity Summary
             </h3>
 
             <div
@@ -1254,7 +1254,7 @@ const SecurityHomePage = () => {
                 marginBottom: "20px",
               }}
             >
-              🚨 Severity KPIs
+              ðŸš¨ Severity KPIs
             </h3>
 
             <div
@@ -1281,7 +1281,7 @@ const SecurityHomePage = () => {
                     color: "#c62828",
                   }}
                 >
-                  🔴 Critical Alerts
+                  ðŸ”´ Critical Alerts
                 </div>
 
                 <div
@@ -1324,7 +1324,7 @@ const SecurityHomePage = () => {
                     color: "#e65100",
                   }}
                 >
-                  🟠 High Alerts
+                  ðŸŸ  High Alerts
                 </div>
 
                 <div
@@ -1367,7 +1367,7 @@ const SecurityHomePage = () => {
                     color: "#9e7c00",
                   }}
                 >
-                  🟡 Medium Alerts
+                  ðŸŸ¡ Medium Alerts
                 </div>
 
                 <div
@@ -1410,7 +1410,7 @@ const SecurityHomePage = () => {
                     color: "#3949ab",
                   }}
                 >
-                  🔵 Low Alerts
+                  ðŸ”µ Low Alerts
                 </div>
 
                 <div
@@ -1456,7 +1456,7 @@ const SecurityHomePage = () => {
         }}
       >
         <h2>
-          🔍 Incident Analytics
+          ðŸ” Incident Analytics
         </h2>
 
         <div
@@ -1548,7 +1548,7 @@ const SecurityHomePage = () => {
         </div>
 
         <h3>
-          🔍 Incident Status Overview
+          ðŸ” Incident Status Overview
         </h3>
 
         <div
@@ -1609,7 +1609,7 @@ const SecurityHomePage = () => {
         }}
       >
         <h2>
-          🔔 Alert Analytics
+          ðŸ”” Alert Analytics
         </h2>
 
         <div
@@ -1677,7 +1677,7 @@ const SecurityHomePage = () => {
         }}
       >
         <h2>
-          🤖 Latest AI Predictions
+          ðŸ¤– Latest AI Predictions
         </h2>
 
         {latestPredictions.length === 0 ? (

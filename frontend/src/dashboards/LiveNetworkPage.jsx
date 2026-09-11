@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./SecurityDashboard.css";
 
-const API_BASE_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_BASE_URL = "https://netshield-ai-nq52.onrender.com";
 
 function LiveNetworkPage() {
   const [liveData, setLiveData] = useState(null);
@@ -68,7 +68,7 @@ function LiveNetworkPage() {
   if (loading) {
     return (
       <div className="section">
-        <h2>🌐 Loading Live Network...</h2>
+        <h2>ðŸŒ Loading Live Network...</h2>
       </div>
     );
   }
@@ -76,12 +76,12 @@ function LiveNetworkPage() {
   if (error && !liveData) {
     return (
       <div className="section">
-        <h2>🌐 Live Network</h2>
+        <h2>ðŸŒ Live Network</h2>
 
         <p className="status-red">{error}</p>
 
         <button onClick={loadLiveStatus}>
-          🔄 Retry
+          ðŸ”„ Retry
         </button>
       </div>
     );
@@ -166,7 +166,7 @@ function LiveNetworkPage() {
 
       <div className="topbar">
         <div>
-          <h1>🌐 Live Network Monitoring</h1>
+          <h1>ðŸŒ Live Network Monitoring</h1>
 
           <p>
             Real-Time AI Powered Network Traffic
@@ -182,15 +182,15 @@ function LiveNetworkPage() {
           }
         >
           {running
-            ? "🟢 Monitoring Active"
-            : "🔴 Monitoring Stopped"}
+            ? "ðŸŸ¢ Monitoring Active"
+            : "ðŸ”´ Monitoring Stopped"}
         </h3>
       </div>
 
       {/* MONITORING CONTROLS */}
 
       <div className="section">
-        <h2>🎛 Live Monitoring Control</h2>
+        <h2>ðŸŽ› Live Monitoring Control</h2>
 
         <table>
           <tbody>
@@ -205,8 +205,8 @@ function LiveNetworkPage() {
                 }
               >
                 {running
-                  ? "🟢 Active"
-                  : "🔴 Stopped"}
+                  ? "ðŸŸ¢ Active"
+                  : "ðŸ”´ Stopped"}
               </td>
             </tr>
 
@@ -214,7 +214,7 @@ function LiveNetworkPage() {
               <th>TShark Interface</th>
 
               <td>
-                Wi-Fi — Interface{" "}
+                Wi-Fi â€” Interface{" "}
                 {data.interface || "5"}
               </td>
             </tr>
@@ -238,16 +238,16 @@ function LiveNetworkPage() {
         >
           {!running ? (
             <button onClick={startMonitoring}>
-              ▶️ Start Live Monitoring
+              â–¶ï¸ Start Live Monitoring
             </button>
           ) : (
             <button onClick={stopMonitoring}>
-              ⏹ Stop Live Monitoring
+              â¹ Stop Live Monitoring
             </button>
           )}
 
           <button onClick={loadLiveStatus}>
-            🔄 Refresh
+            ðŸ”„ Refresh
           </button>
         </div>
 
@@ -305,7 +305,7 @@ function LiveNetworkPage() {
       {/* AI ANALYSIS SUMMARY */}
 
       <div className="section">
-        <h2>🤖 Live AI Analysis</h2>
+        <h2>ðŸ¤– Live AI Analysis</h2>
 
         <table>
           <tbody>
@@ -382,8 +382,8 @@ function LiveNetworkPage() {
                 }
               >
                 {threatCount > 0
-                  ? `🚨 ${severity}`
-                  : "🟢 Secure"}
+                  ? `ðŸš¨ ${severity}`
+                  : "ðŸŸ¢ Secure"}
               </td>
             </tr>
 
@@ -391,7 +391,7 @@ function LiveNetworkPage() {
               <th>AI Engine</th>
 
               <td className="status-green">
-                Random Forest — Active
+                Random Forest â€” Active
               </td>
             </tr>
           </tbody>
@@ -401,7 +401,7 @@ function LiveNetworkPage() {
       {/* TRAFFIC OVERVIEW */}
 
       <div className="section">
-        <h2>📡 Live Traffic Overview</h2>
+        <h2>ðŸ“¡ Live Traffic Overview</h2>
 
         <table>
           <thead>
@@ -415,7 +415,7 @@ function LiveNetworkPage() {
 
           <tbody>
             <tr>
-              <td>🟢 Benign Traffic</td>
+              <td>ðŸŸ¢ Benign Traffic</td>
 
               <td>
                 {formatNumber(benignCount)}
@@ -431,7 +431,7 @@ function LiveNetworkPage() {
             </tr>
 
             <tr>
-              <td>🔴 Threat Traffic</td>
+              <td>ðŸ”´ Threat Traffic</td>
 
               <td>
                 {formatNumber(threatCount)}
@@ -460,7 +460,7 @@ function LiveNetworkPage() {
       {/* THREAT DISTRIBUTION */}
 
       <div className="section">
-        <h2>🚨 Live Threat Distribution</h2>
+        <h2>ðŸš¨ Live Threat Distribution</h2>
 
         <table>
           <thead>
@@ -478,14 +478,14 @@ function LiveNetworkPage() {
                   const numericCount =
                     Number(count || 0);
 
-                  let risk = "🟢 Low";
+                  let risk = "ðŸŸ¢ Low";
 
                   if (numericCount >= 100) {
-                    risk = "🔴 Critical";
+                    risk = "ðŸ”´ Critical";
                   } else if (numericCount >= 50) {
-                    risk = "🟠 High";
+                    risk = "ðŸŸ  High";
                   } else if (numericCount >= 10) {
-                    risk = "🟡 Medium";
+                    risk = "ðŸŸ¡ Medium";
                   }
 
                   return (
@@ -514,7 +514,7 @@ function LiveNetworkPage() {
             ) : (
               <tr>
                 <td colSpan="3">
-                  🟢 No threats detected in the
+                  ðŸŸ¢ No threats detected in the
                   latest AI analysis.
                 </td>
               </tr>
@@ -526,7 +526,7 @@ function LiveNetworkPage() {
       {/* LATEST AI CLASSIFICATION */}
 
       <div className="section">
-        <h2>🔍 Latest AI Classification</h2>
+        <h2>ðŸ” Latest AI Classification</h2>
 
         <table>
           <thead>
@@ -565,7 +565,7 @@ function LiveNetworkPage() {
       {/* SECURITY SUMMARY */}
 
       <div className="section">
-        <h2>🛡 Live Network Security Summary</h2>
+        <h2>ðŸ›¡ Live Network Security Summary</h2>
 
         <table>
           <tbody>
@@ -580,8 +580,8 @@ function LiveNetworkPage() {
                 }
               >
                 {running
-                  ? "🟢 Active"
-                  : "🔴 Stopped"}
+                  ? "ðŸŸ¢ Active"
+                  : "ðŸ”´ Stopped"}
               </td>
             </tr>
 
@@ -642,8 +642,8 @@ function LiveNetworkPage() {
                 }
               >
                 {threatCount > 0
-                  ? "🚨 Threat Detected"
-                  : "🟢 Network Secure"}
+                  ? "ðŸš¨ Threat Detected"
+                  : "ðŸŸ¢ Network Secure"}
               </td>
             </tr>
           </tbody>

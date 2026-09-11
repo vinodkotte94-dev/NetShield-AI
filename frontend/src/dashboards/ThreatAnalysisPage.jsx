@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./SecurityDashboard.css";
 
-const API_BASE_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_BASE_URL = "https://netshield-ai-nq52.onrender.com";
 
 function ThreatAnalysisPage() {
   const [data, setData] = useState(null);
@@ -47,7 +47,7 @@ function ThreatAnalysisPage() {
   if (loading) {
     return (
       <div className="section">
-        <h2>🚨 Loading Threat Analysis...</h2>
+        <h2>ðŸš¨ Loading Threat Analysis...</h2>
 
         <p>
           Connecting to NetShield AI backend.
@@ -63,14 +63,14 @@ function ThreatAnalysisPage() {
   if (error) {
     return (
       <div className="section">
-        <h2>❌ Threat Analysis Error</h2>
+        <h2>âŒ Threat Analysis Error</h2>
 
         <p>{error}</p>
 
         <br />
 
         <button onClick={loadThreatAnalysis}>
-          🔄 Retry
+          ðŸ”„ Retry
         </button>
       </div>
     );
@@ -208,8 +208,8 @@ function ThreatAnalysisPage() {
 
   const networkStatus =
     threatPackets > 0
-      ? "⚠ Threats Detected"
-      : "🟢 Normal";
+      ? "âš  Threats Detected"
+      : "ðŸŸ¢ Normal";
 
   // ==================================================
   // PAGE
@@ -221,7 +221,7 @@ function ThreatAnalysisPage() {
 
       <div className="topbar">
         <div>
-          <h1>🚨 Threat Analysis</h1>
+          <h1>ðŸš¨ Threat Analysis</h1>
 
           <p>
             AI-powered network threat detection,
@@ -230,7 +230,7 @@ function ThreatAnalysisPage() {
         </div>
 
         <div>
-          <h3>🛡 Security Analyst</h3>
+          <h3>ðŸ›¡ Security Analyst</h3>
         </div>
       </div>
 
@@ -277,7 +277,7 @@ function ThreatAnalysisPage() {
       {/* NETWORK THREAT SUMMARY */}
 
       <div className="section">
-        <h2>📊 Network Threat Summary</h2>
+        <h2>ðŸ“Š Network Threat Summary</h2>
 
         <table>
           <thead>
@@ -291,7 +291,7 @@ function ThreatAnalysisPage() {
 
           <tbody>
             <tr>
-              <td>🟢 Normal Traffic</td>
+              <td>ðŸŸ¢ Normal Traffic</td>
 
               <td>
                 {normalPackets.toLocaleString()}
@@ -307,7 +307,7 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <td>🔴 Threat Traffic</td>
+              <td>ðŸ”´ Threat Traffic</td>
 
               <td>
                 {threatPackets.toLocaleString()}
@@ -336,7 +336,7 @@ function ThreatAnalysisPage() {
       {/* AI MODEL SUMMARY */}
 
       <div className="section">
-        <h2>🤖 AI Threat Detection Engine</h2>
+        <h2>ðŸ¤– AI Threat Detection Engine</h2>
 
         <table>
           <tbody>
@@ -349,7 +349,7 @@ function ThreatAnalysisPage() {
               <th>Detection Engine</th>
 
               <td className="status-green">
-                🟢 Active
+                ðŸŸ¢ Active
               </td>
             </tr>
 
@@ -399,11 +399,11 @@ function ThreatAnalysisPage() {
       {/* THREAT DISTRIBUTION */}
 
       <div className="section">
-        <h2>🚨 Threat Distribution</h2>
+        <h2>ðŸš¨ Threat Distribution</h2>
 
         {threatDistribution.length === 0 ? (
           <p>
-            🟢 No threat data available.
+            ðŸŸ¢ No threat data available.
           </p>
         ) : (
           <table>
@@ -435,10 +435,10 @@ function ThreatAnalysisPage() {
                       }
                     >
                       {item.risk === "High"
-                        ? "🔴 High"
+                        ? "ðŸ”´ High"
                         : item.risk === "Medium"
-                        ? "🟡 Medium"
-                        : "🟢 Low"}
+                        ? "ðŸŸ¡ Medium"
+                        : "ðŸŸ¢ Low"}
                     </td>
                   </tr>
                 )
@@ -451,7 +451,7 @@ function ThreatAnalysisPage() {
       {/* DATASET DISTRIBUTION */}
 
       <div className="section">
-        <h2>🗂 Dataset Analysis</h2>
+        <h2>ðŸ—‚ Dataset Analysis</h2>
 
         {datasets.length === 0 ? (
           <p>
@@ -488,7 +488,7 @@ function ThreatAnalysisPage() {
       {/* SECURITY ASSESSMENT */}
 
       <div className="section">
-        <h2>🛡 Security Assessment</h2>
+        <h2>ðŸ›¡ Security Assessment</h2>
 
         <table>
           <tbody>
@@ -564,7 +564,7 @@ function ThreatAnalysisPage() {
       {/* SYSTEM STATUS */}
 
       <div className="section">
-        <h2>⚙️ Detection System Status</h2>
+        <h2>âš™ï¸ Detection System Status</h2>
 
         <table>
           <thead>
@@ -579,7 +579,7 @@ function ThreatAnalysisPage() {
               <td>Random Forest AI Engine</td>
 
               <td className="status-green">
-                🟢 Active
+                ðŸŸ¢ Active
               </td>
             </tr>
 
@@ -587,7 +587,7 @@ function ThreatAnalysisPage() {
               <td>Network Threat Detection</td>
 
               <td className="status-green">
-                🟢 Active
+                ðŸŸ¢ Active
               </td>
             </tr>
 
@@ -595,7 +595,7 @@ function ThreatAnalysisPage() {
               <td>Security Analytics</td>
 
               <td className="status-green">
-                🟢 Active
+                ðŸŸ¢ Active
               </td>
             </tr>
 
@@ -603,7 +603,7 @@ function ThreatAnalysisPage() {
               <td>Threat Classification</td>
 
               <td className="status-green">
-                🟢 Active
+                ðŸŸ¢ Active
               </td>
             </tr>
           </tbody>
@@ -614,7 +614,7 @@ function ThreatAnalysisPage() {
 
       <div className="section">
         <button onClick={loadThreatAnalysis}>
-          🔄 Refresh Threat Analysis
+          ðŸ”„ Refresh Threat Analysis
         </button>
       </div>
     </>

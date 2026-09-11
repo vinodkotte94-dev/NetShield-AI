@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
 
-const API_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_URL = "https://netshield-ai-nq52.onrender.com";
 
 function AuditLogsPage() {
   const [logs, setLogs] = useState([]);
@@ -137,7 +137,7 @@ function AuditLogsPage() {
       <div className="topbar">
 
         <div>
-          <h1>📜 Audit Logs</h1>
+          <h1>ðŸ“œ Audit Logs</h1>
 
           <p>
             Monitor user and system activities
@@ -153,7 +153,7 @@ function AuditLogsPage() {
         >
           {loading
             ? "Loading..."
-            : "🔄 Refresh"}
+            : "ðŸ”„ Refresh"}
         </button>
 
       </div>
@@ -164,7 +164,7 @@ function AuditLogsPage() {
 
       {error && (
         <div className="error-message">
-          ⚠️ {error}
+          âš ï¸ {error}
         </div>
       )}
 
@@ -202,7 +202,7 @@ function AuditLogsPage() {
 
       <div className="section">
 
-        <h2>🔍 System Activity</h2>
+        <h2>ðŸ” System Activity</h2>
 
         <p>
           Audit events retrieved directly from
@@ -212,19 +212,19 @@ function AuditLogsPage() {
         {loading ? (
 
           <div className="warning-message">
-            ⏳ Loading audit logs...
+            â³ Loading audit logs...
           </div>
 
         ) : error ? (
 
           <div className="error-message">
-            ⚠️ {error}
+            âš ï¸ {error}
           </div>
 
         ) : logs.length === 0 ? (
 
           <div className="warning-message">
-            ℹ️ No audit logs found.
+            â„¹ï¸ No audit logs found.
           </div>
 
         ) : (
@@ -316,7 +316,7 @@ function AuditLogsPage() {
       <div className="section">
 
         <h2>
-          🛡 Audit Security Summary
+          ðŸ›¡ Audit Security Summary
         </h2>
 
         <div className="report-info">

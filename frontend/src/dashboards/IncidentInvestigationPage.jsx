@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./SecurityDashboard.css";
 
-const API_BASE_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_BASE_URL = "https://netshield-ai-nq52.onrender.com";
 
 function IncidentInvestigationPage() {
   const [incidents, setIncidents] = useState([]);
@@ -151,7 +151,7 @@ function IncidentInvestigationPage() {
     return (
       <div className="section">
         <h2>
-          🔍 Loading Incident Investigation...
+          ðŸ” Loading Incident Investigation...
         </h2>
 
         <p>
@@ -173,7 +173,7 @@ function IncidentInvestigationPage() {
       <div className="topbar">
         <div>
           <h1>
-            🔍 Incident Investigation
+            ðŸ” Incident Investigation
           </h1>
 
           <p>
@@ -183,7 +183,7 @@ function IncidentInvestigationPage() {
         </div>
 
         <div>
-          <h3>🟢 Live Monitoring</h3>
+          <h3>ðŸŸ¢ Live Monitoring</h3>
 
           <p>
             Auto refresh: 10 seconds
@@ -198,7 +198,7 @@ function IncidentInvestigationPage() {
           </p>
 
           <button onClick={loadIncidents}>
-            🔄 Retry
+            ðŸ”„ Retry
           </button>
         </div>
       )}
@@ -237,7 +237,7 @@ function IncidentInvestigationPage() {
 
       <div className="section">
         <h2>
-          🚨 Incident Severity Summary
+          ðŸš¨ Incident Severity Summary
         </h2>
 
         <table>
@@ -256,7 +256,7 @@ function IncidentInvestigationPage() {
               <td>{criticalCount}</td>
 
               <td className="status-red">
-                🔴 Critical
+                ðŸ”´ Critical
               </td>
             </tr>
 
@@ -266,7 +266,7 @@ function IncidentInvestigationPage() {
               <td>{highCount}</td>
 
               <td className="status-red">
-                🟠 High
+                ðŸŸ  High
               </td>
             </tr>
 
@@ -276,7 +276,7 @@ function IncidentInvestigationPage() {
               <td>{mediumCount}</td>
 
               <td className="status-yellow">
-                🟡 Medium
+                ðŸŸ¡ Medium
               </td>
             </tr>
 
@@ -286,7 +286,7 @@ function IncidentInvestigationPage() {
               <td>{lowCount}</td>
 
               <td className="status-green">
-                🟢 Low
+                ðŸŸ¢ Low
               </td>
             </tr>
           </tbody>
@@ -297,12 +297,12 @@ function IncidentInvestigationPage() {
 
       <div className="section">
         <h2>
-          🛡 Active Security Incidents
+          ðŸ›¡ Active Security Incidents
         </h2>
 
         {incidents.length === 0 ? (
           <p>
-            🟢 No security incidents have
+            ðŸŸ¢ No security incidents have
             been detected yet.
           </p>
         ) : (
@@ -428,7 +428,7 @@ function IncidentInvestigationPage() {
 
       <div className="section">
         <h2>
-          🔄 Incident Response Workflow
+          ðŸ”„ Incident Response Workflow
         </h2>
 
         <table>

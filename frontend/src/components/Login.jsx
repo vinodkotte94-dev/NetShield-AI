@@ -31,7 +31,7 @@ function Login() {
     try {
 
       const response = await axios.post(
-        "https://network-anomaly-detection-threat-5ihm.onrender.com/auth/login",
+        "https://netshield-ai-nq52.onrender.com/auth/login",
         {
           email: loginData.email,
           password: loginData.password,

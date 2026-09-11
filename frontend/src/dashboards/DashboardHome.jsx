@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
 
-const API_URL = "https://network-anomaly-detection-threat-5ihm.onrender.com";
+const API_URL = "https://netshield-ai-nq52.onrender.com";
 
 function DashboardHome() {
   const [dashboard, setDashboard] = useState(null);
@@ -93,7 +93,7 @@ function DashboardHome() {
       <div className="topbar">
         <div>
           <h1>
-            📊 Administration Dashboard
+            ðŸ“Š Administration Dashboard
           </h1>
 
           <p>
@@ -102,7 +102,7 @@ function DashboardHome() {
         </div>
 
         <h3>
-          👤 Administrator
+          ðŸ‘¤ Administrator
         </h3>
       </div>
 
@@ -191,7 +191,7 @@ function DashboardHome() {
       <div className="section">
 
         <h2>
-          🤖 AI Model Training Overview
+          ðŸ¤– AI Model Training Overview
         </h2>
 
         <table>
@@ -319,7 +319,7 @@ function DashboardHome() {
       <div className="section">
 
         <h2>
-          🟢 System Status
+          ðŸŸ¢ System Status
         </h2>
 
         <table>
@@ -374,7 +374,7 @@ function DashboardHome() {
       <div className="section">
 
         <h2>
-          🤖 Latest AI Predictions
+          ðŸ¤– Latest AI Predictions
         </h2>
 
         <table>
@@ -443,7 +443,7 @@ function DashboardHome() {
       <div className="section">
 
         <h2>
-          📜 Latest Audit Logs
+          ðŸ“œ Latest Audit Logs
         </h2>
 
         <table>
@@ -523,7 +523,7 @@ function DashboardHome() {
       <div className="section">
 
         <h2>
-          🧠 Model Generalization
+          ðŸ§  Model Generalization
         </h2>
 
         <table>

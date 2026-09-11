@@ -26,7 +26,7 @@ function CSVUpload() {
 
             const response = await axios.post(
 
-                "https://network-anomaly-detection-threat-5ihm.onrender.com/api/upload/predict",
+                "https://netshield-ai-nq52.onrender.com/api/upload/predict",
 
                 formData,
 
