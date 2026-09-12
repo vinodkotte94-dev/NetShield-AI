@@ -24,7 +24,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "https://netshield-ai-frontend-fpbu.onrender.com",
+        "https://netshield-ai-1-f.onrender.com",
         "https://net-shield-ai-azure.vercel.app",
     ],
     allow_origin_regex=r"https://.*\.vercel\.app",
@@ -53,3 +53,4 @@ def root():
         "message": "NetShield AI API is running",
         "status": "online"
     }
+
