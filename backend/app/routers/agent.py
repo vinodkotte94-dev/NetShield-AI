@@ -1,102 +1,84 @@
-import subprocess
 from pathlib import Path
+import shutil
 
-import requests
+from fastapi import APIRouter, File, Header, HTTPException, UploadFile
 
-TSHARK_PATH = r"C:\Program Files\Wireshark\tshark.exe"
-INTERFACE = "5"
+from app.services.pcap_ai_prediction import predict_pcap_threats
 
-BACKEND_URL = "https://netshield-ai-nq52.onrender.com"
-USER_ID = "test-user"
 
-BASE_DIR = Path(__file__).resolve().parent
-PCAP_FILE = BASE_DIR / "live_capture.pcapng"
+router = APIRouter(
+    prefix="/api/agent",
+    tags=["NetShield Agent"]
+)
 
-print("======================================")
-print("       NetShield AI Agent")
-print("======================================")
-print("Starting network capture...")
-print("Interface: Wi-Fi (5)")
-print(f"Output: {PCAP_FILE}")
-print("")
 
-command = [
-    TSHARK_PATH,
-    "-i",
-    INTERFACE,
-    "-a",
-    "duration:10",
-    "-w",
-    str(PCAP_FILE)
-]
+BASE_DIR = Path(__file__).resolve().parents[1]
 
-subprocess.run(command)
+AGENT_UPLOAD_DIR = BASE_DIR / "uploads" / "agent"
 
-print("")
-print("Network capture completed.")
+AGENT_UPLOAD_DIR.mkdir(
+    parents=True,
+    exist_ok=True
+)
 
-if not PCAP_FILE.exists():
-    print("PCAP was not created.")
-    raise SystemExit(1)
 
-file_size = PCAP_FILE.stat().st_size
-print("PCAP created successfully.")
-print(f"File size: {file_size} bytes")
-
-print("")
-print("Sending PCAP to NetShield AI backend...")
-print(f"Backend: {BACKEND_URL}")
-print("")
-
-try:
-    with open(PCAP_FILE, "rb") as pcap_file:
-        response = requests.post(
-            f"{BACKEND_URL}/api/agent/analyze",
-            headers={"X-User-ID": USER_ID},
-            files={
-                "file": (
-                    PCAP_FILE.name,
-                    pcap_file,
-                    "application/octet-stream"
-                )
-            },
-            timeout=120
+@router.post("/analyze")
+async def analyze_agent_pcap(
+    file: UploadFile = File(...),
+    x_user_id: str | None = Header(default=None)
+):
+    if not x_user_id:
+        raise HTTPException(
+            status_code=401,
+            detail="User ID is required."
         )
 
-    print(f"Backend HTTP Status: {response.status_code}")
-    response.raise_for_status()
+    if not file.filename:
+        raise HTTPException(
+            status_code=400,
+            detail="No PCAP file provided."
+        )
 
-    result = response.json()
+    filename = Path(file.filename).name
 
-    print("")
-    print("======================================")
-    print("       NETSHIELD AI RESULT")
-    print("======================================")
-    print(f"Total Flows       : {result.get('total_flows', 0)}")
-    print(f"Total Threats     : {result.get('total_threats', 0)}")
-    print(f"Total Benign      : {result.get('total_benign', 0)}")
-    print(f"Threat Percentage : {result.get('threat_percentage', 0)}%")
-    print(f"AI Confidence     : {result.get('average_confidence', 0)}%")
-    print(f"Main Threat       : {result.get('main_threat')}")
-    print(f"Severity          : {result.get('severity')}")
-    print(f"Alert Created     : {result.get('alert_created')}")
-    print(f"User ID           : {result.get('user_id')}")
-    print("======================================")
+    if not filename.lower().endswith((".pcap", ".pcapng")):
+        raise HTTPException(
+            status_code=400,
+            detail="Only PCAP or PCAPNG files are allowed."
+        )
 
-except requests.RequestException as error:
-    print("")
-    print("Backend connection failed.")
-    print(f"Error: {error}")
+    user_dir = AGENT_UPLOAD_DIR / x_user_id
+    user_dir.mkdir(
+        parents=True,
+        exist_ok=True
+    )
 
-except Exception as error:
-    print("")
-    print("Unexpected error.")
-    print(f"Error: {error}")
+    file_path = user_dir / filename
 
-try:
-    if PCAP_FILE.exists():
-        PCAP_FILE.unlink()
-        print("")
-        print("Temporary PCAP deleted.")
-except Exception as cleanup_error:
-    print(f"PCAP cleanup warning: {cleanup_error}")
+    try:
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        result = predict_pcap_threats(str(file_path))
+
+        result["user_id"] = x_user_id
+
+        return result
+
+    except Exception as e:
+        print("Agent PCAP analysis error:", str(e))
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+    finally:
+        try:
+            if file_path.exists():
+                file_path.unlink()
+        except Exception as cleanup_error:
+            print(
+                "Agent PCAP cleanup error:",
+                str(cleanup_error)
+            )
