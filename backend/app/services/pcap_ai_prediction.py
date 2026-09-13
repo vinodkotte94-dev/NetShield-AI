@@ -5,7 +5,7 @@ import joblib
 import pandas as pd
 
 from app.services.pcap_flow_features import extract_cic_flows
-from app.services.alert_service import create_security_alert
+from app.services.alert_service import create_alert
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -214,7 +214,7 @@ def predict_pcap_threats(file_path):
     # Create an alert only when an actual threat is detected.
     if total_threats > 0:
 
-        alert = create_security_alert(
+        alert = create_alert(
             alert_type="PCAP AI Threat Detection",
             severity=severity,
             title="Threats detected in PCAP analysis",

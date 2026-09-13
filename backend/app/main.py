@@ -10,6 +10,7 @@ from app.routers.dashboard import router as dashboard_router
 from app.routers import pcap
 from app.routers import reports
 from app.routers import report_export
+from app.routers import live
 
 
 app = FastAPI(
@@ -45,6 +46,7 @@ app.include_router(alerts_router)
 app.include_router(pcap.router)
 app.include_router(reports.router)
 app.include_router(report_export.router)
+app.include_router(live.router)
 
 
 @app.get("/")
