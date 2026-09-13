@@ -79,11 +79,8 @@ def login(user: UserLogin):
         )
 
     password_ok = bcrypt.checkpw(
-
         user.password.encode("utf-8"),
-
         db_user["password"]
-
     )
 
     if not password_ok:
@@ -97,6 +94,8 @@ def login(user: UserLogin):
 
         "message": "Login Successful",
 
+        "id": str(db_user["_id"]),
+
         "name": db_user["name"],
 
         "email": db_user["email"],
@@ -104,7 +103,6 @@ def login(user: UserLogin):
         "role": db_user["role"]
 
     }
-
 
 # ==========================================
 # GET ALL USERS
