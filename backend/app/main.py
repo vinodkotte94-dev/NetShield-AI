@@ -11,6 +11,7 @@ from app.routers import pcap
 from app.routers import reports
 from app.routers import report_export
 from app.routers import live
+from app.routers import agent
 
 
 app = FastAPI(
@@ -47,7 +48,7 @@ app.include_router(pcap.router)
 app.include_router(reports.router)
 app.include_router(report_export.router)
 app.include_router(live.router)
-
+app.include_router(agent.router)
 
 @app.get("/")
 def root():
