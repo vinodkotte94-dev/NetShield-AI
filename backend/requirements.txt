@@ -11,3 +11,4 @@ bcrypt
 scapy
 reportlab
 email-validator
+requests
