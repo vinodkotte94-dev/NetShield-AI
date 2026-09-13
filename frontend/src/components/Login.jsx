@@ -4,7 +4,6 @@ import axios from "axios";
 import "../styles/Login.css";
 
 function Login() {
-
   const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
@@ -20,7 +19,6 @@ function Login() {
   };
 
   const handleLogin = async (e) => {
-
     e.preventDefault();
 
     if (!loginData.email || !loginData.password) {
@@ -29,7 +27,6 @@ function Login() {
     }
 
     try {
-
       const response = await axios.post(
         "https://netshield-ai-nq52.onrender.com/auth/login",
         {
@@ -41,49 +38,33 @@ function Login() {
       console.log(response.data);
 
       // Save user details
+      localStorage.setItem("userId", response.data.id);
       localStorage.setItem("userName", response.data.name);
       localStorage.setItem("userRole", response.data.role);
 
       const role = response.data.role;
 
       if (role === "Administrator") {
-
         navigate("/admin");
-
       } else if (role === "Security Analyst") {
-
         navigate("/security");
-
       } else {
-
         alert("Unknown Role");
-
       }
-
     } catch (error) {
-
       console.error(error);
 
       if (error.response) {
-
         alert(error.response.data.detail);
-
       } else {
-
         alert("Server Error");
-
       }
-
     }
-
   };
 
   return (
-
     <div className="login-page">
-
       <div className="left-panel">
-
         <h1>🛡️ NetShield AI</h1>
 
         <p>
@@ -96,11 +77,9 @@ function Login() {
           src="https://cdn-icons-png.flaticon.com/512/2092/2092757.png"
           alt="Cyber Security"
         />
-
       </div>
 
       <div className="login-card">
-
         <h2>Welcome Back</h2>
 
         <p>Please login to continue</p>
@@ -129,13 +108,9 @@ function Login() {
           New User?
           <Link to="/register"> Register Here</Link>
         </p>
-
       </div>
-
     </div>
-
   );
-
 }
 
 export default Login;

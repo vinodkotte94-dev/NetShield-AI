@@ -15,8 +15,10 @@ CIC_MODEL_PATH = MODEL_DIR / "model_cic.pkl"
 CIC_ENCODER_PATH = MODEL_DIR / "label_encoder.pkl"
 
 
-# Lazy loading:
-# The large CIC model is loaded only when PCAP prediction is actually used.
+# ============================================================
+# LAZY MODEL LOADING
+# ============================================================
+
 cic_model = None
 cic_encoder = None
 
@@ -32,6 +34,10 @@ def get_cic_model():
     return cic_model, cic_encoder
 
 
+# ============================================================
+# FEATURE NAME ALIASES
+# ============================================================
+
 FEATURE_ALIASES = {
     "Total Length of Fwd Packets": "Total Length of FwdPackets",
     "Packet Length Variance": "Packet LengthVariance",
@@ -41,10 +47,17 @@ FEATURE_ALIASES = {
 }
 
 
+# ============================================================
+# ALIGN FEATURES WITH CIC MODEL
+# ============================================================
+
 def align_features(df, model):
+
     df = df.copy()
 
-    df = df.rename(columns=FEATURE_ALIASES)
+    df = df.rename(
+        columns=FEATURE_ALIASES
+    )
 
     expected_features = getattr(
         model,
@@ -53,58 +66,108 @@ def align_features(df, model):
     )
 
     if expected_features is None:
+
         raise ValueError(
             "CIC model does not contain feature_names_in_."
         )
 
-    expected_features = list(expected_features)
+    expected_features = list(
+        expected_features
+    )
 
+    # Add missing model features.
     for column in expected_features:
+
         if column not in df.columns:
+
             df[column] = 0
 
+    # Keep only the features expected by the model.
     df = df[expected_features]
 
+    # Convert everything to numeric.
     df = df.apply(
         pd.to_numeric,
         errors="coerce"
     )
 
+    # Remove infinite values.
     df = df.replace(
-        [float("inf"), float("-inf")],
+        [
+            float("inf"),
+            float("-inf")
+        ],
         0
     )
 
+    # Replace missing values.
     df = df.fillna(0)
 
     return df
 
 
-def calculate_severity(threat_count, confidence):
+# ============================================================
+# SEVERITY CALCULATION
+# ============================================================
+
+def calculate_severity(
+    threat_count,
+    confidence
+):
+
     # No threats means no severity.
     if threat_count <= 0:
+
         return None
 
-    if threat_count >= 100 or confidence >= 95:
+    if (
+        threat_count >= 100
+        or confidence >= 95
+    ):
+
         return "Critical"
 
-    if threat_count >= 50 or confidence >= 85:
+    if (
+        threat_count >= 50
+        or confidence >= 85
+    ):
+
         return "High"
 
-    if threat_count >= 10 or confidence >= 70:
+    if (
+        threat_count >= 10
+        or confidence >= 70
+    ):
+
         return "Medium"
 
     return "Low"
 
 
+# ============================================================
+# PCAP AI THREAT PREDICTION
+# ============================================================
+
 def predict_pcap_threats(file_path):
+
     print("==========================================")
     print("PCAP AI THREAT PREDICTION")
     print("==========================================")
 
-    flow_df = extract_cic_flows(file_path)
+    # --------------------------------------------------------
+    # EXTRACT NETWORK FLOWS
+    # --------------------------------------------------------
+
+    flow_df = extract_cic_flows(
+        file_path
+    )
+
+    # --------------------------------------------------------
+    # EMPTY PCAP / NO FLOWS
+    # --------------------------------------------------------
 
     if flow_df.empty:
+
         print("No flows detected.")
 
         return {
@@ -124,29 +187,62 @@ def predict_pcap_threats(file_path):
             "alert_id": None
         }
 
-    # Load the CIC model only when a PCAP prediction is actually requested.
+    # --------------------------------------------------------
+    # LOAD CIC MODEL
+    # --------------------------------------------------------
+
     model, encoder = get_cic_model()
 
-    X = align_features(flow_df, model)
+    # --------------------------------------------------------
+    # ALIGN FEATURES
+    # --------------------------------------------------------
 
-    print(f"Flows sent to AI model: {len(X)}")
+    X = align_features(
+        flow_df,
+        model
+    )
+
+    print(
+        f"Flows sent to AI model: {len(X)}"
+    )
+
+    # --------------------------------------------------------
+    # AI PREDICTION
+    # --------------------------------------------------------
 
     predictions = model.predict(X)
 
     probabilities = model.predict_proba(X)
 
+    # --------------------------------------------------------
+    # CONVERT MODEL LABELS
+    # --------------------------------------------------------
+
     try:
+
         predicted_labels = encoder.inverse_transform(
             predictions
         )
+
     except Exception:
+
         predicted_labels = predictions
 
-    confidence_values = probabilities.max(axis=1)
+    # --------------------------------------------------------
+    # CONFIDENCE
+    # --------------------------------------------------------
+
+    confidence_values = probabilities.max(
+        axis=1
+    )
 
     average_confidence = (
         confidence_values.mean() * 100
     )
+
+    # --------------------------------------------------------
+    # COUNT CLASSIFICATIONS
+    # --------------------------------------------------------
 
     label_counts = Counter(
         str(label)
@@ -165,131 +261,224 @@ def predict_pcap_threats(file_path):
     threat_counts = {}
 
     for label, count in label_counts.items():
-        if label not in benign_labels:
-            threat_counts[label] = int(count)
 
-    total_flows = len(predicted_labels)
+        if label not in benign_labels:
+
+            threat_counts[label] = int(
+                count
+            )
+
+    # --------------------------------------------------------
+    # TOTALS
+    # --------------------------------------------------------
+
+    total_flows = len(
+        predicted_labels
+    )
 
     total_threats = sum(
         threat_counts.values()
     )
 
     total_benign = (
-        total_flows - total_threats
+        total_flows
+        - total_threats
     )
 
+    # --------------------------------------------------------
+    # PERCENTAGES
+    # --------------------------------------------------------
+
     threat_percentage = (
-        (total_threats / total_flows) * 100
+
+        (total_threats / total_flows)
+        * 100
+
         if total_flows > 0
+
         else 0
     )
 
     benign_percentage = (
-        (total_benign / total_flows) * 100
+
+        (total_benign / total_flows)
+        * 100
+
         if total_flows > 0
+
         else 0
     )
+
+    # --------------------------------------------------------
+    # MAIN THREAT
+    # --------------------------------------------------------
 
     main_threat = None
     main_threat_count = 0
 
     if threat_counts:
+
         main_threat = max(
             threat_counts,
             key=threat_counts.get
         )
 
         main_threat_count = (
-            threat_counts[main_threat]
+            threat_counts[
+                main_threat
+            ]
         )
+
+    # --------------------------------------------------------
+    # SEVERITY
+    # --------------------------------------------------------
 
     severity = calculate_severity(
         total_threats,
         average_confidence
     )
 
+    # --------------------------------------------------------
+    # ALERT INFORMATION
+    # --------------------------------------------------------
+
     alert_created = False
     alert_id = None
 
-    # Create an alert only when an actual threat is detected.
+    # Create an alert only when a real
+    # threat has been detected.
     if total_threats > 0:
 
         alert = create_alert(
-            alert_type="PCAP AI Threat Detection",
-            severity=severity,
-            title="Threats detected in PCAP analysis",
-            description=(
-                f"AI analysis detected "
-                f"{total_threats} threat flows "
-                f"out of {total_flows} total flows. "
-                f"Primary threat: {main_threat}. "
-                f"Average confidence: "
-                f"{average_confidence:.2f}%."
-            ),
-            threat_count=total_threats,
-            confidence=average_confidence,
-            source="PCAP AI Prediction Engine"
+            dataset="CICIDS2017",
+            attack_type=main_threat,
+            detected_count=total_threats,
+            confidence=average_confidence
         )
 
-        alert_created = True
-
         if alert:
+
+            alert_created = True
+
             alert_id = str(
                 alert.get("_id")
                 or alert.get("alert_id")
                 or ""
             )
 
-        print("Security alert created.")
+            print(
+                "Security alert created."
+            )
 
     else:
-        print("No threats detected. No alert created.")
+
+        print(
+            "No threats detected. "
+            "No alert created."
+        )
+
+    # --------------------------------------------------------
+    # PRINT RESULT
+    # --------------------------------------------------------
 
     print("------------------------------------------")
-    print(f"Total Flows       : {total_flows}")
-    print(f"Total Threats     : {total_threats}")
-    print(f"Total Benign      : {total_benign}")
+
+    print(
+        f"Total Flows       : "
+        f"{total_flows}"
+    )
+
+    print(
+        f"Total Threats     : "
+        f"{total_threats}"
+    )
+
+    print(
+        f"Total Benign      : "
+        f"{total_benign}"
+    )
+
     print(
         f"Threat Percentage : "
         f"{threat_percentage:.2f}%"
     )
+
     print(
         f"Average Confidence: "
         f"{average_confidence:.2f}%"
     )
-    print(f"Severity          : {severity}")
+
+    print(
+        f"Severity          : "
+        f"{severity}"
+    )
+
     print("------------------------------------------")
 
+    # --------------------------------------------------------
+    # RETURN RESULT
+    # --------------------------------------------------------
+
     return {
+
         "success": True,
-        "total_flows": int(total_flows),
-        "total_threats": int(total_threats),
-        "total_benign": int(total_benign),
+
+        "total_flows": int(
+            total_flows
+        ),
+
+        "total_threats": int(
+            total_threats
+        ),
+
+        "total_benign": int(
+            total_benign
+        ),
+
         "threat_percentage": round(
             threat_percentage,
             2
         ),
+
         "benign_percentage": round(
             benign_percentage,
             2
         ),
+
         "average_confidence": round(
-            float(average_confidence),
+            float(
+                average_confidence
+            ),
             2
         ),
+
         "main_threat": main_threat,
+
         "main_threat_count": int(
             main_threat_count
         ),
+
         "attack_distribution": {
+
             str(key): int(value)
-            for key, value in label_counts.items()
+
+            for key, value
+            in label_counts.items()
+
         },
+
         "threat_distribution": {
+
             str(key): int(value)
-            for key, value in threat_counts.items()
+
+            for key, value
+            in threat_counts.items()
+
         },
+
         "severity": severity,
+
         "alert_created": alert_created,
+
         "alert_id": alert_id
     }
