@@ -69,6 +69,56 @@ def serialize_document(document):
 
     return document
 
+def calculate_risk_score(
+    threat_type: str,
+    threat_count: int,
+    confidence: float,
+    severity: str
+):
+    """
+    Calculate an explainable 0-100 security risk score.
+
+    Factors:
+    - AI confidence: 50%
+    - Threat count: 30%
+    - Severity: 20%
+    """
+
+    confidence_score = max(
+        0,
+        min(float(confidence), 100)
+    )
+
+    # Threat count contribution.
+    # 100+ malicious records reaches the maximum.
+    threat_count_score = min(
+        int(threat_count),
+        100
+    )
+
+    severity_scores = {
+        "Critical": 100,
+        "High": 80,
+        "Medium": 60,
+        "Low": 30
+    }
+
+    severity_score = severity_scores.get(
+        severity,
+        0
+    )
+
+    risk_score = (
+        confidence_score * 0.50
+        + threat_count_score * 0.30
+        + severity_score * 0.20
+    )
+
+    return round(
+        max(0, min(risk_score, 100)),
+        2
+    )
+
 
 # ============================================================
 # SEVERITY CALCULATION
@@ -215,6 +265,13 @@ def create_alert(
         threat_count,
         confidence
     )
+    
+    risk_score = calculate_risk_score(
+    threat_type=threat_type,
+    threat_count=threat_count,
+    confidence=confidence,
+    severity=severity
+)
 
     now = datetime.now(timezone.utc)
 
@@ -231,6 +288,7 @@ def create_alert(
         "threat_count": int(threat_count),
 
         "severity": severity,
+        "risk_score": risk_score,
 
         "confidence": float(confidence),
 
@@ -665,6 +723,7 @@ def create_incident_from_alert(
             "severity",
             "Low"
         ),
+        "risk_score": alert.get("risk_score", 0),
 
         # New incident
         "status": "Open",
