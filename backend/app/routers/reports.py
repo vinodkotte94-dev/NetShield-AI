@@ -23,7 +23,7 @@ def serialize_datetime(value):
 
 
 def serialize_document(document):
-    """Convert MongoDB document into JSON-safe dictionary."""
+    """Convert MongoDB document into a JSON-safe dictionary."""
     if not document:
         return None
 
@@ -40,11 +40,24 @@ def serialize_document(document):
         elif isinstance(value, datetime):
             result[key] = value.isoformat()
 
+        elif isinstance(value, dict):
+            result[key] = serialize_document(value)
+
+        elif isinstance(value, list):
+            result[key] = [
+                serialize_document(item) if isinstance(item, dict)
+                else str(item) if type(item).__name__ == "ObjectId"
+                else item
+                for item in value
+            ]
+
+        elif type(value).__name__ == "ObjectId":
+            result[key] = str(value)
+
         else:
             result[key] = value
 
     return result
-
 
 @router.get("/threat-intelligence")
 def generate_threat_intelligence_report():
