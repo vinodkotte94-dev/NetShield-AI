@@ -3,7 +3,9 @@ from collections import defaultdict
 from pathlib import Path
 
 import pandas as pd
-from scapy.all import rdpcap, IP, TCP, UDP
+from scapy.all import IP, TCP, UDP
+from scapy.utils import PcapReader
+
 
 # ============================================================
 # CICIDS2017 MODEL FEATURES
@@ -160,94 +162,16 @@ def safe_rate(
 
 
 # ============================================================
-# PACKET INFORMATION
-# ============================================================
-
-def get_packet_info(packet):
-    """
-    Extract basic information from an IP packet.
-    """
-
-    if IP not in packet:
-        return None
-
-    src_ip = packet[IP].src
-    dst_ip = packet[IP].dst
-
-    protocol = 0
-    src_port = 0
-    dst_port = 0
-
-    if TCP in packet:
-
-        protocol = 6
-
-        src_port = int(
-            packet[TCP].sport
-        )
-
-        dst_port = int(
-            packet[TCP].dport
-        )
-
-    elif UDP in packet:
-
-        protocol = 17
-
-        src_port = int(
-            packet[UDP].sport
-        )
-
-        dst_port = int(
-            packet[UDP].dport
-        )
-
-    else:
-
-        protocol = int(
-            packet[IP].proto
-        )
-
-    return {
-
-        "src_ip":
-            src_ip,
-
-        "dst_ip":
-            dst_ip,
-
-        "src_port":
-            src_port,
-
-        "dst_port":
-            dst_port,
-
-        "protocol":
-            protocol,
-
-        "timestamp":
-            float(packet.time),
-
-        "length":
-            int(len(packet)),
-
-        "ip_length":
-            int(len(packet[IP])),
-
-    }
-
-
-# ============================================================
-# TCP FLAGS
+# TCP FLAG EXTRACTION
 # ============================================================
 
 def get_tcp_flags(packet):
     """
-    Return TCP flag information.
+    Extract TCP flags without storing the complete
+    Scapy packet object.
     """
 
     flags = {
-
         "FIN": 0,
         "SYN": 0,
         "RST": 0,
@@ -256,7 +180,6 @@ def get_tcp_flags(packet):
         "URG": 0,
         "CWE": 0,
         "ECE": 0,
-
     }
 
     if TCP not in packet:
@@ -302,6 +225,147 @@ def get_tcp_flags(packet):
 
 
 # ============================================================
+# PACKET INFORMATION
+# ============================================================
+
+def get_packet_info(packet):
+    """
+    Extract only the information required for feature
+    calculation.
+
+    The complete Scapy packet is NOT stored.
+    """
+
+    if IP not in packet:
+        return None
+
+    src_ip = packet[IP].src
+    dst_ip = packet[IP].dst
+
+    protocol = int(
+        packet[IP].proto
+    )
+
+    src_port = 0
+    dst_port = 0
+
+    payload_length = 0
+
+    if TCP in packet:
+
+        protocol = 6
+
+        src_port = int(
+            packet[TCP].sport
+        )
+
+        dst_port = int(
+            packet[TCP].dport
+        )
+
+        payload_length = len(
+            bytes(
+                packet[TCP].payload
+            )
+        )
+
+    elif UDP in packet:
+
+        protocol = 17
+
+        src_port = int(
+            packet[UDP].sport
+        )
+
+        dst_port = int(
+            packet[UDP].dport
+        )
+
+        payload_length = len(
+            bytes(
+                packet[UDP].payload
+            )
+        )
+
+    # --------------------------------------------------------
+    # IP HEADER LENGTH
+    # --------------------------------------------------------
+
+    ip_header_length = int(
+        packet[IP].ihl * 4
+        if packet[IP].ihl
+        else 20
+    )
+
+    # --------------------------------------------------------
+    # TRANSPORT HEADER LENGTH
+    # --------------------------------------------------------
+
+    transport_header_length = 0
+
+    if TCP in packet:
+
+        dataofs = packet[TCP].dataofs
+
+        if dataofs:
+            transport_header_length = int(
+                dataofs * 4
+            )
+        else:
+            transport_header_length = 20
+
+    elif UDP in packet:
+
+        transport_header_length = 8
+
+    header_length = (
+        ip_header_length
+        + transport_header_length
+    )
+
+    # --------------------------------------------------------
+    # TCP WINDOW
+    # --------------------------------------------------------
+
+    tcp_window = 0
+
+    if TCP in packet:
+
+        tcp_window = int(
+            packet[TCP].window
+        )
+
+    # --------------------------------------------------------
+    # TCP SEGMENT SIZE
+    # --------------------------------------------------------
+
+    tcp_segment_length = 0
+
+    if TCP in packet:
+
+        tcp_segment_length = int(
+            len(packet[TCP])
+        )
+
+    return {
+        "src_ip": src_ip,
+        "dst_ip": dst_ip,
+        "src_port": src_port,
+        "dst_port": dst_port,
+        "protocol": protocol,
+        "timestamp": float(packet.time),
+        "length": int(len(packet)),
+        "payload_length": int(payload_length),
+        "header_length": int(header_length),
+        "tcp_window": int(tcp_window),
+        "tcp_segment_length": int(
+            tcp_segment_length
+        ),
+        "flags": get_tcp_flags(packet),
+    }
+
+
+# ============================================================
 # FLOW KEY
 # ============================================================
 
@@ -309,7 +373,8 @@ def make_flow_key(info):
     """
     Create a bidirectional flow key.
 
-    Forward and reverse packets belong to the same flow.
+    Forward and reverse packets belong to the
+    same flow.
     """
 
     endpoint_a = (
@@ -333,15 +398,11 @@ def make_flow_key(info):
         second = endpoint_a
 
     return (
-
         first[0],
         first[1],
-
         second[0],
         second[1],
-
         info["protocol"],
-
     )
 
 
@@ -351,27 +412,26 @@ def make_flow_key(info):
 
 def calculate_flow_features(flow):
     """
-    Convert one packet flow into CICIDS2017-style
+    Convert one compact packet flow into CICIDS2017-style
     numeric features.
     """
 
-    packets = sorted(
-        flow["packets"],
-        key=lambda p: p["timestamp"]
-    )
+    packets = flow["packets"]
 
     if not packets:
         return None
 
-    first_packet = packets[0]
+    # --------------------------------------------------------
+    # FLOW DIRECTION
+    # --------------------------------------------------------
 
-    forward_ip = (
-        flow["forward_src_ip"]
-    )
+    forward_ip = flow[
+        "forward_src_ip"
+    ]
 
-    forward_port = (
-        flow["forward_src_port"]
-    )
+    forward_port = flow[
+        "forward_src_port"
+    ]
 
     forward_packets = []
     backward_packets = []
@@ -393,6 +453,10 @@ def calculate_flow_features(flow):
                 packet
             )
 
+    # --------------------------------------------------------
+    # LENGTHS
+    # --------------------------------------------------------
+
     all_lengths = [
         packet["length"]
         for packet in packets
@@ -407,6 +471,10 @@ def calculate_flow_features(flow):
         packet["length"]
         for packet in backward_packets
     ]
+
+    # --------------------------------------------------------
+    # TIMESTAMPS
+    # --------------------------------------------------------
 
     timestamps = [
         packet["timestamp"]
@@ -431,12 +499,13 @@ def calculate_flow_features(flow):
         timestamps
     )
 
-    duration_microseconds = (
-        last_time - first_time
-    ) * 1_000_000
-
     duration_seconds = (
         last_time - first_time
+    )
+
+    duration_microseconds = (
+        duration_seconds
+        * 1_000_000
     )
 
     # --------------------------------------------------------
@@ -444,168 +513,79 @@ def calculate_flow_features(flow):
     # --------------------------------------------------------
 
     flow_iats = [
-
         timestamps[i]
         - timestamps[i - 1]
-
         for i in range(
             1,
             len(timestamps)
         )
-
     ]
 
     fwd_iats = [
-
         fwd_timestamps[i]
         - fwd_timestamps[i - 1]
-
         for i in range(
             1,
             len(fwd_timestamps)
         )
-
     ]
 
     bwd_iats = [
-
         bwd_timestamps[i]
         - bwd_timestamps[i - 1]
-
         for i in range(
             1,
             len(bwd_timestamps)
         )
-
     ]
 
     flow_iats_us = [
-
         value * 1_000_000
-
         for value in flow_iats
-
     ]
 
     fwd_iats_us = [
-
         value * 1_000_000
-
         for value in fwd_iats
-
     ]
 
     bwd_iats_us = [
-
         value * 1_000_000
-
         for value in bwd_iats
-
     ]
 
     # --------------------------------------------------------
-    # TCP FLAGS
+    # FLAGS
     # --------------------------------------------------------
 
     fwd_flags = [
-
-        get_tcp_flags(packet["original"])
-
+        packet["flags"]
         for packet in forward_packets
-
     ]
 
     bwd_flags = [
-
-        get_tcp_flags(packet["original"])
-
+        packet["flags"]
         for packet in backward_packets
-
     ]
 
     all_flags = [
-
-        get_tcp_flags(packet["original"])
-
+        packet["flags"]
         for packet in packets
-
     ]
 
     # --------------------------------------------------------
     # HEADER LENGTHS
     # --------------------------------------------------------
 
-    fwd_header_lengths = []
+    fwd_header_lengths = [
+        packet["header_length"]
+        for packet in forward_packets
+    ]
 
-    bwd_header_lengths = []
-
-    for packet in forward_packets:
-
-        original = packet["original"]
-
-        if TCP in original:
-
-            header_length = int(
-
-                original[IP].ihl * 4
-                + original[TCP].dataofs * 4
-
-            )
-
-        elif UDP in original:
-
-            header_length = int(
-
-                original[IP].ihl * 4
-                + 8
-
-            )
-
-        else:
-
-            header_length = int(
-
-                original[IP].ihl * 4
-
-            )
-
-        fwd_header_lengths.append(
-            header_length
-        )
-
-    for packet in backward_packets:
-
-        original = packet["original"]
-
-        if TCP in original:
-
-            header_length = int(
-
-                original[IP].ihl * 4
-                + original[TCP].dataofs * 4
-
-            )
-
-        elif UDP in original:
-
-            header_length = int(
-
-                original[IP].ihl * 4
-                + 8
-
-            )
-
-        else:
-
-            header_length = int(
-
-                original[IP].ihl * 4
-
-            )
-
-        bwd_header_lengths.append(
-            header_length
-        )
+    bwd_header_lengths = [
+        packet["header_length"]
+        for packet in backward_packets
+    ]
 
     # --------------------------------------------------------
     # ACTIVE / IDLE
@@ -622,10 +602,8 @@ def calculate_flow_features(flow):
         ):
 
             gap = (
-
                 timestamps[i]
                 - timestamps[i - 1]
-
             ) * 1_000_000
 
             if gap > 1_000_000:
@@ -665,10 +643,8 @@ def calculate_flow_features(flow):
     )
 
     total_bytes = (
-
         total_fwd_bytes
         + total_bwd_bytes
-
     )
 
     # --------------------------------------------------------
@@ -676,39 +652,23 @@ def calculate_flow_features(flow):
     # --------------------------------------------------------
 
     destination_port = int(
-        first_packet["dst_port"]
+        packets[0]["dst_port"]
     )
 
     # --------------------------------------------------------
-    # MINIMUM TCP SEGMENT SIZE
+    # TCP SEGMENT SIZE
     # --------------------------------------------------------
 
-    tcp_segment_lengths = []
-
-    for packet in packets:
-
-        original = packet["original"]
-
-        if TCP in original:
-
-            tcp_segment_lengths.append(
-
-                int(
-                    len(
-                        original[TCP]
-                    )
-                )
-
-            )
+    tcp_segment_lengths = [
+        packet["tcp_segment_length"]
+        for packet in packets
+        if packet["tcp_segment_length"] > 0
+    ]
 
     min_seg_size_forward = (
-
         min(tcp_segment_lengths)
-
         if tcp_segment_lengths
-
         else 0
-
     )
 
     # --------------------------------------------------------
@@ -720,24 +680,20 @@ def calculate_flow_features(flow):
 
     for packet in forward_packets:
 
-        original = packet["original"]
-
-        if TCP in original:
+        if packet["tcp_window"] > 0:
 
             init_win_forward = int(
-                original[TCP].window
+                packet["tcp_window"]
             )
 
             break
 
     for packet in backward_packets:
 
-        original = packet["original"]
-
-        if TCP in original:
+        if packet["tcp_window"] > 0:
 
             init_win_backward = int(
-                original[TCP].window
+                packet["tcp_window"]
             )
 
             break
@@ -968,25 +924,19 @@ def calculate_flow_features(flow):
             ),
 
         "Down/Up Ratio":
-
             (
                 total_bwd_packets
                 / total_fwd_packets
             )
-
             if total_fwd_packets > 0
-
             else 0,
 
         "Average Packet Size":
-
             (
                 total_bytes
                 / total_packets
             )
-
             if total_packets > 0
-
             else 0,
 
         "Avg Fwd SegmentSize":
@@ -1065,7 +1015,6 @@ def calculate_flow_features(flow):
 
         "Idle Min":
             safe_min(idle_values),
-
     }
 
     return features
@@ -1077,8 +1026,11 @@ def calculate_flow_features(flow):
 
 def extract_cic_flows(file_path):
     """
-    Read a PCAP/PCAPNG file and convert packets
-    into CICIDS2017-style flow feature rows.
+    Stream a PCAP/PCAPNG file packet-by-packet and convert
+    packets into CICIDS2017-style flow feature rows.
+
+    This implementation avoids rdpcap() and avoids storing
+    complete Scapy packet objects.
     """
 
     path = Path(
@@ -1107,87 +1059,94 @@ def extract_cic_flows(file_path):
         f"Reading PCAP: {path}"
     )
 
-    packets = rdpcap(
+    flows = defaultdict(
+        lambda: {
+            "packets": [],
+            "forward_src_ip": None,
+            "forward_src_port": None,
+        }
+    )
+
+    packet_count = 0
+    ip_packet_count = 0
+
+    # --------------------------------------------------------
+    # STREAM PCAP
+    # --------------------------------------------------------
+
+    reader = PcapReader(
         str(path)
     )
 
-    print(
-        f"Packets loaded: {len(packets)}"
-    )
+    try:
 
-    flows = defaultdict(
+        for packet in reader:
 
-        lambda: {
+            packet_count += 1
 
-            "packets": [],
-
-            "forward_src_ip": None,
-
-            "forward_src_port": None,
-
-        }
-
-    )
-
-    for packet in packets:
-
-        info = get_packet_info(
-            packet
-        )
-
-        if info is None:
-            continue
-
-        payload_length = 0
-
-        if TCP in packet:
-
-            payload_length = len(
-                bytes(
-                    packet[TCP].payload
-                )
+            info = get_packet_info(
+                packet
             )
 
-        elif UDP in packet:
+            if info is None:
+                continue
 
-            payload_length = len(
-                bytes(
-                    packet[UDP].payload
-                )
+            ip_packet_count += 1
+
+            flow_key = make_flow_key(
+                info
             )
 
-        info["payload_length"] = (
-            payload_length
-        )
-
-        info["original"] = packet
-
-        flow_key = make_flow_key(
-            info
-        )
-
-        if (
-            flows[flow_key][
-                "forward_src_ip"
+            flow = flows[
+                flow_key
             ]
-            is None
-        ):
 
-            flows[flow_key][
-                "forward_src_ip"
-            ] = info["src_ip"]
+            # ------------------------------------------------
+            # FIRST PACKET DEFINES FORWARD DIRECTION
+            # ------------------------------------------------
 
-            flows[flow_key][
-                "forward_src_port"
-            ] = info["src_port"]
+            if (
+                flow["forward_src_ip"]
+                is None
+            ):
 
-        flows[flow_key][
-            "packets"
-        ].append(info)
+                flow[
+                    "forward_src_ip"
+                ] = info["src_ip"]
+
+                flow[
+                    "forward_src_port"
+                ] = info["src_port"]
+
+            # ------------------------------------------------
+            # STORE ONLY COMPACT INFORMATION
+            # ------------------------------------------------
+
+            flow[
+                "packets"
+            ].append(info)
+
+    finally:
+
+        reader.close()
 
     print(
-        f"Flows detected: {len(flows)}"
+        f"Packets loaded: {packet_count}"
     )
+
+    print(
+        f"IP packets processed: "
+        f"{ip_packet_count}"
+    )
+
+    print(
+        f"Flows detected: "
+        f"{len(flows)}"
+    )
+
+    # --------------------------------------------------------
+    # BUILD FEATURE ROWS
+    # --------------------------------------------------------
 
     feature_rows = []
 
@@ -1205,12 +1164,22 @@ def extract_cic_flows(file_path):
                 features
             )
 
+    # --------------------------------------------------------
+    # RELEASE FLOW MEMORY
+    # --------------------------------------------------------
+
+    flows.clear()
+
+    # --------------------------------------------------------
+    # CREATE DATAFRAME
+    # --------------------------------------------------------
+
     df = pd.DataFrame(
         feature_rows
     )
 
     # --------------------------------------------------------
-    # Ensure exact CIC feature columns
+    # ENSURE EXACT CIC FEATURE COLUMNS
     # --------------------------------------------------------
 
     for column in CIC_FEATURES:
@@ -1224,28 +1193,27 @@ def extract_cic_flows(file_path):
     ]
 
     # --------------------------------------------------------
-    # Clean invalid values
+    # CLEAN INVALID VALUES
     # --------------------------------------------------------
 
     df = df.replace(
-
         [
             float("inf"),
             float("-inf")
         ],
-
         0
-
     )
 
     df = df.fillna(0)
 
     print(
-        f"Feature rows created: {len(df)}"
+        f"Feature rows created: "
+        f"{len(df)}"
     )
 
     print(
-        f"Feature columns created: {len(df.columns)}"
+        f"Feature columns created: "
+        f"{len(df.columns)}"
     )
 
-    return df
+    return df, packet_count
