@@ -16,4 +16,5 @@ audit_collection = db["audit_logs"]
 
 incidents_collection = db["incidents"]
 alerts_collection = db["alerts"]
+notifications_collection = db["notifications"]
 pcap_analysis_collection = db["pcap_analysis"]
