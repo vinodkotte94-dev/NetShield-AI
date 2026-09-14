@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from app.database.mongodb import pcap_analysis_collection
-from app.services.pcap_analysis import analyze_pcap
+from app.services.pcap_processor import analyze_pcap
 from app.services.pcap_ai_prediction import predict_pcap_threats
 
 import os
