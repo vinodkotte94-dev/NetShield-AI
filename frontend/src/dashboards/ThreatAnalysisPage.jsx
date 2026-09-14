@@ -47,7 +47,7 @@ function ThreatAnalysisPage() {
   if (loading) {
     return (
       <div className="section">
-        <h2>ðŸš¨ Loading Threat Analysis...</h2>
+        <h2>Loading Threat Analysis...</h2>
 
         <p>
           Connecting to NetShield AI backend.
@@ -63,14 +63,14 @@ function ThreatAnalysisPage() {
   if (error) {
     return (
       <div className="section">
-        <h2>âŒ Threat Analysis Error</h2>
+        <h2>Threat Analysis Error</h2>
 
         <p>{error}</p>
 
         <br />
 
         <button onClick={loadThreatAnalysis}>
-          ðŸ”„ Retry
+          Retry
         </button>
       </div>
     );
@@ -155,16 +155,14 @@ function ThreatAnalysisPage() {
 
   const threatDistribution =
     Object.entries(attackDistribution)
-      .filter(
-        ([attack]) => {
-          const label = String(attack).toUpperCase();
+      .filter(([attack]) => {
+        const label = String(attack).toUpperCase();
 
-          return (
-            label !== "BENIGN" &&
-            label !== "NORMAL"
-          );
-        }
-      )
+        return (
+          label !== "BENIGN" &&
+          label !== "NORMAL"
+        );
+      })
       .map(([attack, count]) => {
         const detected = Number(count || 0);
 
@@ -208,8 +206,8 @@ function ThreatAnalysisPage() {
 
   const networkStatus =
     threatPackets > 0
-      ? "âš  Threats Detected"
-      : "ðŸŸ¢ Normal";
+      ? "Threats Detected"
+      : "Normal";
 
   // ==================================================
   // PAGE
@@ -221,7 +219,7 @@ function ThreatAnalysisPage() {
 
       <div className="topbar">
         <div>
-          <h1>ðŸš¨ Threat Analysis</h1>
+          <h1>Threat Analysis</h1>
 
           <p>
             AI-powered network threat detection,
@@ -230,7 +228,7 @@ function ThreatAnalysisPage() {
         </div>
 
         <div>
-          <h3>ðŸ›¡ Security Analyst</h3>
+          <h3>Security Analyst</h3>
         </div>
       </div>
 
@@ -238,60 +236,99 @@ function ThreatAnalysisPage() {
 
       <div className="cards">
         <div className="card">
-          <h2>{totalPredictions}</h2>
-          <p>Total AI Analyses</p>
+          <h2>
+            {totalPredictions}
+          </h2>
+
+          <p>
+            Total AI Analyses
+          </p>
         </div>
 
         <div className="card">
           <h2>
             {totalRecords.toLocaleString()}
           </h2>
-          <p>Packets Analyzed</p>
+
+          <p>
+            Packets Analyzed
+          </p>
         </div>
 
         <div className="card">
           <h2>
             {threatPackets.toLocaleString()}
           </h2>
-          <p>Threat Packets</p>
+
+          <p>
+            Threat Packets
+          </p>
         </div>
 
         <div className="card">
-          <h2>{threatCategories}</h2>
-          <p>Threat Categories</p>
+          <h2>
+            {threatCategories}
+          </h2>
+
+          <p>
+            Threat Categories
+          </p>
         </div>
 
         <div className="card">
           <h2>
             {averageConfidence.toFixed(2)}%
           </h2>
-          <p>AI Confidence</p>
+
+          <p>
+            AI Confidence
+          </p>
         </div>
 
         <div className="card">
-          <h2>{threatPercentage}%</h2>
-          <p>Threat Rate</p>
+          <h2>
+            {threatPercentage}%
+          </h2>
+
+          <p>
+            Threat Rate
+          </p>
         </div>
       </div>
 
       {/* NETWORK THREAT SUMMARY */}
 
       <div className="section">
-        <h2>ðŸ“Š Network Threat Summary</h2>
+        <h2>
+          Network Threat Summary
+        </h2>
 
         <table>
           <thead>
             <tr>
-              <th>Traffic Type</th>
-              <th>Packets</th>
-              <th>Percentage</th>
-              <th>Status</th>
+              <th>
+                Traffic Type
+              </th>
+
+              <th>
+                Packets
+              </th>
+
+              <th>
+                Percentage
+              </th>
+
+              <th>
+                Status
+              </th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
-              <td>ðŸŸ¢ Normal Traffic</td>
+              <td>
+                Normal Traffic
+              </td>
 
               <td>
                 {normalPackets.toLocaleString()}
@@ -307,7 +344,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <td>ðŸ”´ Threat Traffic</td>
+              <td>
+                Threat Traffic
+              </td>
 
               <td>
                 {threatPackets.toLocaleString()}
@@ -336,25 +375,36 @@ function ThreatAnalysisPage() {
       {/* AI MODEL SUMMARY */}
 
       <div className="section">
-        <h2>ðŸ¤– AI Threat Detection Engine</h2>
+        <h2>
+          AI Threat Detection Engine
+        </h2>
 
         <table>
           <tbody>
             <tr>
-              <th>AI Model</th>
-              <td>Random Forest</td>
-            </tr>
+              <th>
+                AI Model
+              </th>
 
-            <tr>
-              <th>Detection Engine</th>
-
-              <td className="status-green">
-                ðŸŸ¢ Active
+              <td>
+                Random Forest
               </td>
             </tr>
 
             <tr>
-              <th>Average Confidence</th>
+              <th>
+                Detection Engine
+              </th>
+
+              <td className="status-green">
+                Active
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                Average Confidence
+              </th>
 
               <td>
                 {averageConfidence.toFixed(2)}%
@@ -362,7 +412,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Total AI Analyses</th>
+              <th>
+                Total AI Analyses
+              </th>
 
               <td>
                 {totalPredictions}
@@ -370,7 +422,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Packets Analyzed</th>
+              <th>
+                Packets Analyzed
+              </th>
 
               <td>
                 {totalRecords.toLocaleString()}
@@ -378,7 +432,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Threat Categories</th>
+              <th>
+                Threat Categories
+              </th>
 
               <td>
                 {threatCategories}
@@ -386,7 +442,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Most Frequent Attack</th>
+              <th>
+                Most Frequent Attack
+              </th>
 
               <td>
                 {mostFrequentAttack}
@@ -399,19 +457,29 @@ function ThreatAnalysisPage() {
       {/* THREAT DISTRIBUTION */}
 
       <div className="section">
-        <h2>ðŸš¨ Threat Distribution</h2>
+        <h2>
+          Threat Distribution
+        </h2>
 
         {threatDistribution.length === 0 ? (
           <p>
-            ðŸŸ¢ No threat data available.
+            No threat data available.
           </p>
         ) : (
           <table>
             <thead>
               <tr>
-                <th>Attack Type</th>
-                <th>Detected Packets</th>
-                <th>Risk Level</th>
+                <th>
+                  Attack Type
+                </th>
+
+                <th>
+                  Detected Packets
+                </th>
+
+                <th>
+                  Risk Level
+                </th>
               </tr>
             </thead>
 
@@ -419,7 +487,9 @@ function ThreatAnalysisPage() {
               {threatDistribution.map(
                 (item) => (
                   <tr key={item.attack}>
-                    <td>{item.attack}</td>
+                    <td>
+                      {item.attack}
+                    </td>
 
                     <td>
                       {item.detected.toLocaleString()}
@@ -434,11 +504,7 @@ function ThreatAnalysisPage() {
                           : "status-green"
                       }
                     >
-                      {item.risk === "High"
-                        ? "ðŸ”´ High"
-                        : item.risk === "Medium"
-                        ? "ðŸŸ¡ Medium"
-                        : "ðŸŸ¢ Low"}
+                      {item.risk}
                     </td>
                   </tr>
                 )
@@ -451,7 +517,9 @@ function ThreatAnalysisPage() {
       {/* DATASET DISTRIBUTION */}
 
       <div className="section">
-        <h2>ðŸ—‚ Dataset Analysis</h2>
+        <h2>
+          Dataset Analysis
+        </h2>
 
         {datasets.length === 0 ? (
           <p>
@@ -461,8 +529,13 @@ function ThreatAnalysisPage() {
           <table>
             <thead>
               <tr>
-                <th>Dataset</th>
-                <th>Analyses</th>
+                <th>
+                  Dataset
+                </th>
+
+                <th>
+                  Analyses
+                </th>
               </tr>
             </thead>
 
@@ -470,7 +543,9 @@ function ThreatAnalysisPage() {
               {datasets.map(
                 ([dataset, count]) => (
                   <tr key={dataset}>
-                    <td>{dataset}</td>
+                    <td>
+                      {dataset}
+                    </td>
 
                     <td>
                       {Number(
@@ -488,12 +563,16 @@ function ThreatAnalysisPage() {
       {/* SECURITY ASSESSMENT */}
 
       <div className="section">
-        <h2>ðŸ›¡ Security Assessment</h2>
+        <h2>
+          Security Assessment
+        </h2>
 
         <table>
           <tbody>
             <tr>
-              <th>Network Status</th>
+              <th>
+                Network Status
+              </th>
 
               <td
                 className={
@@ -507,7 +586,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Normal Traffic</th>
+              <th>
+                Normal Traffic
+              </th>
 
               <td>
                 {normalPackets.toLocaleString()}{" "}
@@ -516,7 +597,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Threat Traffic</th>
+              <th>
+                Threat Traffic
+              </th>
 
               <td>
                 {threatPackets.toLocaleString()}{" "}
@@ -525,7 +608,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Threat Rate</th>
+              <th>
+                Threat Rate
+              </th>
 
               <td>
                 {threatPercentage}%
@@ -533,7 +618,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>AI Confidence</th>
+              <th>
+                AI Confidence
+              </th>
 
               <td>
                 {averageConfidence.toFixed(2)}%
@@ -541,7 +628,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Most Frequent Attack</th>
+              <th>
+                Most Frequent Attack
+              </th>
 
               <td>
                 {mostFrequentAttack}
@@ -549,7 +638,9 @@ function ThreatAnalysisPage() {
             </tr>
 
             <tr>
-              <th>Recommended Action</th>
+              <th>
+                Recommended Action
+              </th>
 
               <td>
                 {threatPackets > 0
@@ -564,46 +655,61 @@ function ThreatAnalysisPage() {
       {/* SYSTEM STATUS */}
 
       <div className="section">
-        <h2>âš™ï¸ Detection System Status</h2>
+        <h2>
+          Detection System Status
+        </h2>
 
         <table>
           <thead>
             <tr>
-              <th>Component</th>
-              <th>Status</th>
+              <th>
+                Component
+              </th>
+
+              <th>
+                Status
+              </th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
-              <td>Random Forest AI Engine</td>
+              <td>
+                Random Forest AI Engine
+              </td>
 
               <td className="status-green">
-                ðŸŸ¢ Active
+                Active
               </td>
             </tr>
 
             <tr>
-              <td>Network Threat Detection</td>
+              <td>
+                Network Threat Detection
+              </td>
 
               <td className="status-green">
-                ðŸŸ¢ Active
+                Active
               </td>
             </tr>
 
             <tr>
-              <td>Security Analytics</td>
+              <td>
+                Security Analytics
+              </td>
 
               <td className="status-green">
-                ðŸŸ¢ Active
+                Active
               </td>
             </tr>
 
             <tr>
-              <td>Threat Classification</td>
+              <td>
+                Threat Classification
+              </td>
 
               <td className="status-green">
-                ðŸŸ¢ Active
+                Active
               </td>
             </tr>
           </tbody>
@@ -614,7 +720,7 @@ function ThreatAnalysisPage() {
 
       <div className="section">
         <button onClick={loadThreatAnalysis}>
-          ðŸ”„ Refresh Threat Analysis
+          Refresh Threat Analysis
         </button>
       </div>
     </>

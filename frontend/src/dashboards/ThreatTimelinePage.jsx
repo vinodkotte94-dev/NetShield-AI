@@ -9,6 +9,10 @@ function ThreatTimelinePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // ==========================================
+  // LOAD TIMELINE DATA
+  // ==========================================
+
   const loadTimeline = async () => {
     try {
       setLoading(true);
@@ -26,6 +30,10 @@ function ThreatTimelinePage() {
       setLoading(false);
     }
   };
+
+  // ==========================================
+  // INITIAL LOAD + AUTO REFRESH
+  // ==========================================
 
   useEffect(() => {
     loadTimeline();
@@ -133,6 +141,7 @@ function ThreatTimelinePage() {
     return (
       <div className="section">
         <h2>Loading Threat Timeline...</h2>
+
         <p>
           Fetching the latest AI security analytics.
         </p>
@@ -147,7 +156,7 @@ function ThreatTimelinePage() {
   if (error && !data) {
     return (
       <div className="section">
-        <h2>âš ï¸ Threat Timeline Error</h2>
+        <h2>Threat Timeline Error</h2>
 
         <p>{error}</p>
 
@@ -237,13 +246,11 @@ function ThreatTimelinePage() {
 
   return (
     <>
-      {/* ==========================================
-          HEADER
-      ========================================== */}
+      {/* HEADER */}
 
       <div className="topbar">
         <div>
-          <h1>ðŸ“ˆ Threat Timeline</h1>
+          <h1>Threat Timeline</h1>
 
           <p>
             Security activity summary based on the
@@ -252,25 +259,18 @@ function ThreatTimelinePage() {
           </p>
         </div>
 
-        <h3>
-          ðŸŸ¢ Analytics Monitoring
-        </h3>
+        <h3>Analytics Monitoring</h3>
       </div>
 
-      {/* ==========================================
-          KPI CARDS
-      ========================================== */}
+      {/* KPI CARDS */}
 
       <div className="cards">
-
         <div className="card">
           <h2>
             {formatNumber(totalAnalyses)}
           </h2>
 
-          <p>
-            AI Analyses
-          </p>
+          <p>AI Analyses</p>
         </div>
 
         <div className="card">
@@ -278,9 +278,7 @@ function ThreatTimelinePage() {
             {formatNumber(totalThreats)}
           </h2>
 
-          <p>
-            Threat Records
-          </p>
+          <p>Threat Records</p>
         </div>
 
         <div className="card">
@@ -288,9 +286,7 @@ function ThreatTimelinePage() {
             {formatPercentage(confidence)}%
           </h2>
 
-          <p>
-            AI Confidence
-          </p>
+          <p>AI Confidence</p>
         </div>
 
         <div className="card">
@@ -298,30 +294,19 @@ function ThreatTimelinePage() {
             {threatCategories}
           </h2>
 
-          <p>
-            Threat Categories
-          </p>
+          <p>Threat Categories</p>
         </div>
-
       </div>
 
-      {/* ==========================================
-          TIMELINE SUMMARY
-      ========================================== */}
+      {/* TIMELINE SUMMARY */}
 
       <div className="section">
-
-        <h2>
-          ðŸ“Š Timeline Summary
-        </h2>
+        <h2>Timeline Summary</h2>
 
         <table>
           <tbody>
-
             <tr>
-              <th>
-                Total AI Analyses
-              </th>
+              <th>Total AI Analyses</th>
 
               <td>
                 {formatNumber(totalAnalyses)}
@@ -329,9 +314,7 @@ function ThreatTimelinePage() {
             </tr>
 
             <tr>
-              <th>
-                Total Records Processed
-              </th>
+              <th>Total Records Processed</th>
 
               <td>
                 {formatNumber(totalRecords)}
@@ -339,9 +322,7 @@ function ThreatTimelinePage() {
             </tr>
 
             <tr>
-              <th>
-                Normal Records
-              </th>
+              <th>Normal Records</th>
 
               <td>
                 {formatNumber(benignRecords)}
@@ -349,9 +330,7 @@ function ThreatTimelinePage() {
             </tr>
 
             <tr>
-              <th>
-                Threat Records
-              </th>
+              <th>Threat Records</th>
 
               <td>
                 {formatNumber(totalThreats)}
@@ -359,9 +338,7 @@ function ThreatTimelinePage() {
             </tr>
 
             <tr>
-              <th>
-                Average AI Confidence
-              </th>
+              <th>Average AI Confidence</th>
 
               <td>
                 {formatPercentage(confidence)}%
@@ -369,331 +346,237 @@ function ThreatTimelinePage() {
             </tr>
 
             <tr>
-              <th>
-                Threat Categories
-              </th>
+              <th>Threat Categories</th>
 
-              <td>
-                {threatCategories}
-              </td>
+              <td>{threatCategories}</td>
             </tr>
 
             <tr>
-              <th>
-                Most Frequent Threat
-              </th>
+              <th>Most Frequent Threat</th>
 
-              <td>
-                {mostFrequentAttack}
-              </td>
+              <td>{mostFrequentAttack}</td>
             </tr>
-
           </tbody>
         </table>
-
       </div>
 
-      {/* ==========================================
-          NETWORK THREAT TIMELINE
-      ========================================== */}
+      {/* NETWORK THREAT TIMELINE */}
 
       <div className="section">
-
-        <h2>
-          ðŸ•’ Network Threat Activity
-        </h2>
+        <h2>Network Threat Activity</h2>
 
         <p>
-          Showing the latest aggregated threat
-          activity returned by the AI analytics API.
-          The current backend does not provide
-          individual event timestamps, so timestamps
-          are not artificially generated.
+          Showing the latest aggregated threat activity
+          returned by the AI analytics API. The current
+          backend does not provide individual event
+          timestamps, so timestamps are not artificially
+          generated.
         </p>
 
         <br />
 
         {threatEntries.length === 0 ? (
-
           <p>
-            ðŸŸ¢ No threat activity available.
+            No threat activity available.
           </p>
-
         ) : (
+          <div style={{ overflowX: "auto" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Attack Type</th>
 
-          <table>
+                  <th>Detected Records</th>
 
-            <thead>
-              <tr>
-                <th>
-                  Attack Type
-                </th>
+                  <th>AI Confidence</th>
 
-                <th>
-                  Detected Records
-                </th>
+                  <th>Severity</th>
 
-                <th>
-                  AI Confidence
-                </th>
+                  <th>Status</th>
+                </tr>
+              </thead>
 
-                <th>
-                  Severity
-                </th>
+              <tbody>
+                {threatEntries.map(
+                  ([attack, count]) => {
+                    const numericCount =
+                      Number(count || 0);
 
-                <th>
-                  Status
-                </th>
-              </tr>
-            </thead>
+                    const severity =
+                      getSeverity(attack);
 
-            <tbody>
+                    return (
+                      <tr key={attack}>
+                        <td>{attack}</td>
 
-              {threatEntries.map(
-                ([attack, count]) => {
+                        <td>
+                          {formatNumber(
+                            numericCount
+                          )}
+                        </td>
 
-                  const numericCount =
-                    Number(count || 0);
+                        <td>
+                          {formatPercentage(
+                            confidence
+                          )}
+                          %
+                        </td>
 
-                  const severity =
-                    getSeverity(attack);
+                        <td
+                          className={getStatusClass(
+                            severity
+                          )}
+                        >
+                          {severity}
+                        </td>
 
-                  return (
-                    <tr key={attack}>
-
-                      <td>
-                        {attack}
-                      </td>
-
-                      <td>
-                        {formatNumber(
-                          numericCount
-                        )}
-                      </td>
-
-                      <td>
-                        {formatPercentage(
-                          confidence
-                        )}
-                        %
-                      </td>
-
-                      <td
-                        className={getStatusClass(
-                          severity
-                        )}
-                      >
-                        {severity}
-                      </td>
-
-                      <td
-                        className={
-                          getStatus(attack) ===
-                          "Normal"
-                            ? "status-green"
-                            : "status-red"
-                        }
-                      >
-                        {getStatus(attack)}
-                      </td>
-
-                    </tr>
-                  );
-                }
-              )}
-
-            </tbody>
-
-          </table>
+                        <td
+                          className={
+                            getStatus(attack) ===
+                            "Normal"
+                              ? "status-green"
+                              : "status-red"
+                          }
+                        >
+                          {getStatus(attack)}
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
-
       </div>
 
-      {/* ==========================================
-          ATTACK DISTRIBUTION
-      ========================================== */}
+      {/* ATTACK DISTRIBUTION */}
 
       <div className="section">
-
-        <h2>
-          ðŸ“‰ Attack Distribution
-        </h2>
+        <h2>Attack Distribution</h2>
 
         {threatEntries.length === 0 ? (
-
-          <p>
-            ðŸŸ¢ No threats detected.
-          </p>
-
+          <p>No threats detected.</p>
         ) : (
+          <div style={{ overflowX: "auto" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Attack Type</th>
 
-          <table>
+                  <th>Detected Records</th>
 
-            <thead>
-              <tr>
-                <th>
-                  Attack Type
-                </th>
+                  <th>Threat Share</th>
 
-                <th>
-                  Detected Records
-                </th>
+                  <th>Severity</th>
+                </tr>
+              </thead>
 
-                <th>
-                  Threat Share
-                </th>
+              <tbody>
+                {threatEntries.map(
+                  ([attack, count]) => {
+                    const numericCount =
+                      Number(count || 0);
 
-                <th>
-                  Severity
-                </th>
-              </tr>
-            </thead>
+                    const percentage =
+                      totalThreats > 0
+                        ? (numericCount /
+                            totalThreats) *
+                          100
+                        : 0;
 
-            <tbody>
+                    const severity =
+                      getSeverity(attack);
 
-              {threatEntries.map(
-                ([attack, count]) => {
+                    return (
+                      <tr key={attack}>
+                        <td>{attack}</td>
 
-                  const numericCount =
-                    Number(count || 0);
+                        <td>
+                          {formatNumber(
+                            numericCount
+                          )}
+                        </td>
 
-                  const percentage =
-                    totalThreats > 0
-                      ? (numericCount /
-                          totalThreats) *
-                        100
-                      : 0;
+                        <td>
+                          {formatPercentage(
+                            percentage
+                          )}
+                          %
+                        </td>
 
-                  const severity =
-                    getSeverity(attack);
-
-                  return (
-                    <tr key={attack}>
-
-                      <td>
-                        {attack}
-                      </td>
-
-                      <td>
-                        {formatNumber(
-                          numericCount
-                        )}
-                      </td>
-
-                      <td>
-                        {formatPercentage(
-                          percentage
-                        )}
-                        %
-                      </td>
-
-                      <td
-                        className={getStatusClass(
-                          severity
-                        )}
-                      >
-                        {severity}
-                      </td>
-
-                    </tr>
-                  );
-                }
-              )}
-
-            </tbody>
-
-          </table>
+                        <td
+                          className={getStatusClass(
+                            severity
+                          )}
+                        >
+                          {severity}
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
-
       </div>
 
-      {/* ==========================================
-          DATASET ACTIVITY
-      ========================================== */}
+      {/* DATASET ACTIVITY */}
 
       <div className="section">
-
-        <h2>
-          ðŸ—‚ Dataset Activity
-        </h2>
+        <h2>Dataset Activity</h2>
 
         {datasetEntries.length === 0 ? (
-
           <p>
             No dataset activity available.
           </p>
-
         ) : (
+          <div style={{ overflowX: "auto" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Dataset</th>
 
-          <table>
+                  <th>AI Analyses</th>
+                </tr>
+              </thead>
 
-            <thead>
-              <tr>
-                <th>
-                  Dataset
-                </th>
+              <tbody>
+                {datasetEntries.map(
+                  ([dataset, count]) => (
+                    <tr key={dataset}>
+                      <td>
+                        {getDatasetName(dataset)}
+                      </td>
 
-                <th>
-                  AI Analyses
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              {datasetEntries.map(
-                ([dataset, count]) => (
-
-                  <tr key={dataset}>
-
-                    <td>
-                      {getDatasetName(dataset)}
-                    </td>
-
-                    <td>
-                      {formatNumber(count)}
-                    </td>
-
-                  </tr>
-
-                )
-              )}
-
-            </tbody>
-
-          </table>
+                      <td>
+                        {formatNumber(count)}
+                      </td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
-
       </div>
 
-      {/* ==========================================
-          AI INSIGHTS
-      ========================================== */}
+      {/* AI INSIGHTS */}
 
       <div className="section">
-
-        <h2>
-          ðŸ¤– AI Timeline Insights
-        </h2>
+        <h2>AI Timeline Insights</h2>
 
         <table>
-
           <tbody>
-
             <tr>
-              <th>
-                Most Frequent Threat
-              </th>
+              <th>Most Frequent Threat</th>
 
-              <td>
-                {mostFrequentAttack}
-              </td>
+              <td>{mostFrequentAttack}</td>
             </tr>
 
             <tr>
-              <th>
-                Highest Detected Count
-              </th>
+              <th>Highest Detected Count</th>
 
               <td>
                 {formatNumber(highestCount)}
@@ -701,19 +584,13 @@ function ThreatTimelinePage() {
             </tr>
 
             <tr>
-              <th>
-                Total Threat Categories
-              </th>
+              <th>Total Threat Categories</th>
 
-              <td>
-                {threatCategories}
-              </td>
+              <td>{threatCategories}</td>
             </tr>
 
             <tr>
-              <th>
-                Total Normal Records
-              </th>
+              <th>Total Normal Records</th>
 
               <td>
                 {formatNumber(benignRecords)}
@@ -721,43 +598,28 @@ function ThreatTimelinePage() {
             </tr>
 
             <tr>
-              <th>
-                AI Model
-              </th>
+              <th>AI Model</th>
 
-              <td>
-                Random Forest
-              </td>
+              <td>Random Forest</td>
             </tr>
 
             <tr>
-              <th>
-                Analytics Refresh
-              </th>
+              <th>Analytics Refresh</th>
 
               <td className="status-green">
-                ðŸŸ¢ Every 10 seconds
+                Every 10 seconds
               </td>
             </tr>
-
           </tbody>
-
         </table>
-
       </div>
 
-      {/* ==========================================
-          SECURITY ASSESSMENT
-      ========================================== */}
+      {/* SECURITY ASSESSMENT */}
 
       <div className="section">
-
-        <h2>
-          ðŸ›¡ Security Assessment
-        </h2>
+        <h2>Security Assessment</h2>
 
         {totalThreats === 0 ? (
-
           <div
             style={{
               borderLeft: "4px solid #16a34a",
@@ -766,20 +628,14 @@ function ThreatTimelinePage() {
               borderRadius: "8px",
             }}
           >
-
-            <h3>
-              ðŸŸ¢ Network Appears Normal
-            </h3>
+            <h3>Network Appears Normal</h3>
 
             <p>
               The AI analytics data currently contains
               no detected threat records.
             </p>
-
           </div>
-
         ) : (
-
           <div
             style={{
               borderLeft: "4px solid #dc2626",
@@ -788,10 +644,7 @@ function ThreatTimelinePage() {
               borderRadius: "8px",
             }}
           >
-
-            <h3>
-              ðŸš¨ Threat Activity Detected
-            </h3>
+            <h3>Threat Activity Detected</h3>
 
             <p>
               The AI engine detected{" "}
@@ -811,87 +664,63 @@ function ThreatTimelinePage() {
                 {mostFrequentAttack}
               </strong>
             </p>
-
           </div>
         )}
-
       </div>
 
-      {/* ==========================================
-          MONITORING STATUS
-      ========================================== */}
+      {/* MONITORING STATUS */}
 
       <div className="section">
-
-        <h2>
-          ðŸ›¡ Monitoring Status
-        </h2>
+        <h2>Monitoring Status</h2>
 
         <table>
-
           <tbody>
-
             <tr>
-              <th>
-                AI Engine
-              </th>
+              <th>AI Engine</th>
 
               <td className="status-green">
-                Random Forest â€” Active
+                Random Forest - Active
               </td>
             </tr>
 
             <tr>
-              <th>
-                Analytics API
-              </th>
+              <th>Analytics API</th>
 
               <td className="status-green">
-                ðŸŸ¢ Connected
+                Connected
               </td>
             </tr>
 
             <tr>
-              <th>
-                Analytics Refresh
-              </th>
+              <th>Analytics Refresh</th>
 
               <td className="status-green">
-                ðŸŸ¢ Every 10 seconds
+                Every 10 seconds
               </td>
             </tr>
 
             <tr>
-              <th>
-                Threat Analysis
-              </th>
+              <th>Threat Analysis</th>
 
               <td className="status-green">
-                ðŸŸ¢ Available
+                Available
               </td>
             </tr>
-
           </tbody>
-
         </table>
-
       </div>
 
-      {/* ==========================================
-          REFRESH
-      ========================================== */}
+      {/* REFRESH */}
 
       <div className="section">
-
         <button
           onClick={loadTimeline}
           disabled={loading}
         >
           {loading
             ? "Refreshing..."
-            : "ðŸ”„ Refresh Timeline"}
+            : "Refresh Timeline"}
         </button>
-
       </div>
     </>
   );

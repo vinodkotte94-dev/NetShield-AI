@@ -81,18 +81,14 @@ function SecurityReportsPage() {
       );
 
       if (!response.ok) {
-        throw new Error(
-          "Failed to download PDF"
-        );
+        throw new Error("Failed to download PDF");
       }
 
       const blob = await response.blob();
 
-      const url =
-        window.URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(blob);
 
-      const link =
-        document.createElement("a");
+      const link = document.createElement("a");
 
       link.href = url;
 
@@ -126,7 +122,7 @@ function SecurityReportsPage() {
     return (
       <div className="section">
         <h2>
-          â³ Loading NetShield AI Threat Intelligence...
+          Loading NetShield AI Threat Intelligence...
         </h2>
 
         <p>
@@ -144,13 +140,9 @@ function SecurityReportsPage() {
   if (error && !report) {
     return (
       <div className="section">
-        <h2>
-          âŒ Failed to Load Report
-        </h2>
+        <h2>Failed to Load Report</h2>
 
-        <p>
-          {error}
-        </p>
+        <p>{error}</p>
 
         <br />
 
@@ -165,8 +157,7 @@ function SecurityReportsPage() {
   // REAL REPORT DATA
   // ==========================================
 
-  const summary =
-    report?.summary || {};
+  const summary = report?.summary || {};
 
   const threatIntelligence =
     report?.threat_intelligence || {};
@@ -210,17 +201,11 @@ function SecurityReportsPage() {
 
   return (
     <>
-      {/* ======================================
-          HEADER
-      ====================================== */}
+      {/* HEADER */}
 
       <div className="topbar">
-
         <div>
-
-          <h1>
-            ðŸ“„ Security Reports
-          </h1>
+          <h1>Security Reports</h1>
 
           <p>
             Threat intelligence generated from
@@ -236,7 +221,6 @@ function SecurityReportsPage() {
                 ).toLocaleString()
               : "Not available"}
           </p>
-
         </div>
 
         <button
@@ -251,17 +235,13 @@ function SecurityReportsPage() {
             height: "45px",
           }}
         >
-          â¬‡ Download Report
+          Download Report
         </button>
-
       </div>
 
-      {/* ======================================
-          KPI CARDS
-      ====================================== */}
+      {/* KPI CARDS */}
 
       <div className="cards">
-
         <div className="card">
           <h2>
             {formatNumber(
@@ -269,9 +249,7 @@ function SecurityReportsPage() {
             )}
           </h2>
 
-          <p>
-            Total Records
-          </p>
+          <p>Total Records</p>
         </div>
 
         <div className="card">
@@ -281,9 +259,7 @@ function SecurityReportsPage() {
             )}
           </h2>
 
-          <p>
-            Total Threats
-          </p>
+          <p>Total Threats</p>
         </div>
 
         <div className="card">
@@ -293,9 +269,7 @@ function SecurityReportsPage() {
             )}
           </h2>
 
-          <p>
-            Total Alerts
-          </p>
+          <p>Total Alerts</p>
         </div>
 
         <div className="card">
@@ -305,9 +279,7 @@ function SecurityReportsPage() {
             )}
           </h2>
 
-          <p>
-            Total Incidents
-          </p>
+          <p>Total Incidents</p>
         </div>
 
         <div className="card">
@@ -318,9 +290,7 @@ function SecurityReportsPage() {
             %
           </h2>
 
-          <p>
-            AI Confidence
-          </p>
+          <p>AI Confidence</p>
         </div>
 
         <div className="card">
@@ -330,31 +300,19 @@ function SecurityReportsPage() {
             )}
           </h2>
 
-          <p>
-            PCAP Analyses
-          </p>
+          <p>PCAP Analyses</p>
         </div>
-
       </div>
 
-      {/* ======================================
-          THREAT SUMMARY
-      ====================================== */}
+      {/* THREAT SUMMARY */}
 
       <div className="section">
-
-        <h2>
-          ðŸš¨ Threat Intelligence Summary
-        </h2>
+        <h2>Threat Intelligence Summary</h2>
 
         <table>
-
           <tbody>
-
             <tr>
-              <th>
-                Total Records Analyzed
-              </th>
+              <th>Total Records Analyzed</th>
 
               <td>
                 {formatNumber(
@@ -364,9 +322,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                Detected Threats
-              </th>
+              <th>Detected Threats</th>
 
               <td>
                 {formatNumber(
@@ -376,9 +332,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                Benign Records
-              </th>
+              <th>Benign Records</th>
 
               <td>
                 {formatNumber(
@@ -388,9 +342,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                Threat Percentage
-              </th>
+              <th>Threat Percentage</th>
 
               <td>
                 {formatPercentage(
@@ -401,9 +353,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                Benign Percentage
-              </th>
+              <th>Benign Percentage</th>
 
               <td>
                 {formatPercentage(
@@ -414,9 +364,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                Average AI Confidence
-              </th>
+              <th>Average AI Confidence</th>
 
               <td>
                 {formatPercentage(
@@ -425,163 +373,103 @@ function SecurityReportsPage() {
                 %
               </td>
             </tr>
-
           </tbody>
-
         </table>
-
       </div>
 
-      {/* ======================================
-          ATTACK DISTRIBUTION
-      ====================================== */}
+      {/* ATTACK DISTRIBUTION */}
 
       <div className="section">
+        <h2>Attack Distribution</h2>
 
-        <h2>
-          âš” Attack Distribution
-        </h2>
+        <div style={{ overflowX: "auto" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Attack Type</th>
 
-        <table>
+                <th>Count</th>
+              </tr>
+            </thead>
 
-          <thead>
-
-            <tr>
-              <th>
-                Attack Type
-              </th>
-
-              <th>
-                Count
-              </th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {Object.keys(
-              attackDistribution
-            ).length > 0 ? (
-
-              Object.entries(
-                attackDistribution
-              ).map(
-                ([attack, count]) => (
+            <tbody>
+              {Object.keys(attackDistribution).length >
+              0 ? (
+                Object.entries(
+                  attackDistribution
+                ).map(([attack, count]) => (
                   <tr key={attack}>
-
-                    <td>
-                      {attack}
-                    </td>
+                    <td>{attack}</td>
 
                     <td>
                       {formatNumber(count)}
                     </td>
-
                   </tr>
-                )
-              )
-
-            ) : (
-
-              <tr>
-                <td colSpan="2">
-                  No attack distribution data available.
-                </td>
-              </tr>
-
-            )}
-
-          </tbody>
-
-        </table>
-
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2">
+                    No attack distribution data
+                    available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* ======================================
-          DATASET DISTRIBUTION
-      ====================================== */}
+      {/* DATASET DISTRIBUTION */}
 
       <div className="section">
+        <h2>AI Dataset Distribution</h2>
 
-        <h2>
-          ðŸ§  AI Dataset Distribution
-        </h2>
+        <div style={{ overflowX: "auto" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Dataset</th>
 
-        <table>
+                <th>Prediction Records</th>
+              </tr>
+            </thead>
 
-          <thead>
-
-            <tr>
-              <th>
-                Dataset
-              </th>
-
-              <th>
-                Prediction Records
-              </th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {Object.keys(
-              datasetDistribution
-            ).length > 0 ? (
-
-              Object.entries(
-                datasetDistribution
-              ).map(
-                ([dataset, count]) => (
+            <tbody>
+              {Object.keys(datasetDistribution).length >
+              0 ? (
+                Object.entries(
+                  datasetDistribution
+                ).map(([dataset, count]) => (
                   <tr key={dataset}>
-
-                    <td>
-                      {dataset}
-                    </td>
+                    <td>{dataset}</td>
 
                     <td>
                       {formatNumber(count)}
                     </td>
-
                   </tr>
-                )
-              )
-
-            ) : (
-
-              <tr>
-                <td colSpan="2">
-                  No dataset information available.
-                </td>
-              </tr>
-
-            )}
-
-          </tbody>
-
-        </table>
-
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2">
+                    No dataset information
+                    available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* ======================================
-          ALERT INTELLIGENCE
-      ====================================== */}
+      {/* ALERT INTELLIGENCE */}
 
       <div className="section">
-
-        <h2>
-          ðŸ”” Alert Intelligence
-        </h2>
+        <h2>Alert Intelligence</h2>
 
         <table>
-
           <tbody>
-
             <tr>
-              <th>
-                Total Alerts
-              </th>
+              <th>Total Alerts</th>
 
               <td>
                 {formatNumber(
@@ -592,112 +480,72 @@ function SecurityReportsPage() {
 
             {Object.entries(
               severityDistribution
-            ).map(
-              ([severity, count]) => (
-                <tr key={severity}>
+            ).map(([severity, count]) => (
+              <tr key={severity}>
+                <th>
+                  {severity} Severity
+                </th>
 
-                  <th>
-                    {severity} Severity
-                  </th>
-
-                  <td>
-                    {formatNumber(count)}
-                  </td>
-
-                </tr>
-              )
-            )}
-
+                <td>
+                  {formatNumber(count)}
+                </td>
+              </tr>
+            ))}
           </tbody>
-
         </table>
-
       </div>
 
-      {/* ======================================
-          INCIDENT INTELLIGENCE
-      ====================================== */}
+      {/* INCIDENT INTELLIGENCE */}
 
       <div className="section">
+        <h2>Incident Intelligence</h2>
 
-        <h2>
-          ðŸ” Incident Intelligence
-        </h2>
+        <div style={{ overflowX: "auto" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Incident Status</th>
 
-        <table>
+                <th>Count</th>
+              </tr>
+            </thead>
 
-          <thead>
-
-            <tr>
-              <th>
-                Incident Status
-              </th>
-
-              <th>
-                Count
-              </th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {Object.keys(
-              incidentStatusDistribution
-            ).length > 0 ? (
-
-              Object.entries(
+            <tbody>
+              {Object.keys(
                 incidentStatusDistribution
-              ).map(
-                ([status, count]) => (
+              ).length > 0 ? (
+                Object.entries(
+                  incidentStatusDistribution
+                ).map(([status, count]) => (
                   <tr key={status}>
-
-                    <td>
-                      {status}
-                    </td>
+                    <td>{status}</td>
 
                     <td>
                       {formatNumber(count)}
                     </td>
-
                   </tr>
-                )
-              )
-
-            ) : (
-
-              <tr>
-                <td colSpan="2">
-                  No incidents available.
-                </td>
-              </tr>
-
-            )}
-
-          </tbody>
-
-        </table>
-
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2">
+                    No incidents available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* ======================================
-          WIRESHARK / PCAP NETWORK INTELLIGENCE
-      ====================================== */}
+      {/* WIRESHARK / PCAP NETWORK INTELLIGENCE */}
 
       <div className="section">
-
-        <h2>
-          ðŸŒ Wireshark Network Intelligence
-        </h2>
+        <h2>Wireshark Network Intelligence</h2>
 
         <table>
-
           <tbody>
-
             <tr>
-              <th>
-                PCAP Analyses
-              </th>
+              <th>PCAP Analyses</th>
 
               <td>
                 {formatNumber(
@@ -707,9 +555,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                Total Packets
-              </th>
+              <th>Total Packets</th>
 
               <td>
                 {formatNumber(
@@ -719,9 +565,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                Total Bytes
-              </th>
+              <th>Total Bytes</th>
 
               <td>
                 {formatNumber(
@@ -731,9 +575,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                TCP Packets
-              </th>
+              <th>TCP Packets</th>
 
               <td>
                 {formatNumber(
@@ -743,9 +585,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                UDP Packets
-              </th>
+              <th>UDP Packets</th>
 
               <td>
                 {formatNumber(
@@ -755,9 +595,7 @@ function SecurityReportsPage() {
             </tr>
 
             <tr>
-              <th>
-                ICMP Packets
-              </th>
+              <th>ICMP Packets</th>
 
               <td>
                 {formatNumber(
@@ -765,225 +603,142 @@ function SecurityReportsPage() {
                 )}
               </td>
             </tr>
-
           </tbody>
-
         </table>
-
       </div>
 
-      {/* ======================================
-          PROTOCOL DISTRIBUTION
-      ====================================== */}
+      {/* PROTOCOL DISTRIBUTION */}
 
       <div className="section">
+        <h2>Network Protocol Distribution</h2>
 
-        <h2>
-          ðŸ“¡ Network Protocol Distribution
-        </h2>
+        <div style={{ overflowX: "auto" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Protocol</th>
 
-        <table>
+                <th>Packets</th>
+              </tr>
+            </thead>
 
-          <thead>
-
-            <tr>
-              <th>
-                Protocol
-              </th>
-
-              <th>
-                Packets
-              </th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {Object.keys(
-              protocolDistribution
-            ).length > 0 ? (
-
-              Object.entries(
+            <tbody>
+              {Object.keys(
                 protocolDistribution
-              ).map(
-                ([protocol, count]) => (
+              ).length > 0 ? (
+                Object.entries(
+                  protocolDistribution
+                ).map(([protocol, count]) => (
                   <tr key={protocol}>
-
-                    <td>
-                      {protocol}
-                    </td>
+                    <td>{protocol}</td>
 
                     <td>
                       {formatNumber(count)}
                     </td>
-
                   </tr>
-                )
-              )
-
-            ) : (
-
-              <tr>
-                <td colSpan="2">
-                  No protocol data available.
-                </td>
-              </tr>
-
-            )}
-
-          </tbody>
-
-        </table>
-
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2">
+                    No protocol data available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* ======================================
-          TOP SOURCE IPS
-      ====================================== */}
+      {/* TOP SOURCE IPS */}
 
       <div className="section">
+        <h2>Top Source IP Addresses</h2>
 
-        <h2>
-          ðŸ”¼ Top Source IP Addresses
-        </h2>
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>
-                Source IP
-              </th>
-
-              <th>
-                Packets
-              </th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {Object.keys(
-              topSourceIps
-            ).length > 0 ? (
-
-              Object.entries(
-                topSourceIps
-              ).map(
-                ([ip, count]) => (
-                  <tr key={ip}>
-
-                    <td>
-                      {ip}
-                    </td>
-
-                    <td>
-                      {formatNumber(count)}
-                    </td>
-
-                  </tr>
-                )
-              )
-
-            ) : (
-
+        <div style={{ overflowX: "auto" }}>
+          <table>
+            <thead>
               <tr>
-                <td colSpan="2">
-                  No source IP data available.
-                </td>
+                <th>Source IP</th>
+
+                <th>Packets</th>
               </tr>
+            </thead>
 
-            )}
+            <tbody>
+              {Object.keys(topSourceIps).length > 0 ? (
+                Object.entries(topSourceIps).map(
+                  ([ip, count]) => (
+                    <tr key={ip}>
+                      <td>{ip}</td>
 
-          </tbody>
-
-        </table>
-
+                      <td>
+                        {formatNumber(count)}
+                      </td>
+                    </tr>
+                  )
+                )
+              ) : (
+                <tr>
+                  <td colSpan="2">
+                    No source IP data available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* ======================================
-          TOP DESTINATION IPS
-      ====================================== */}
+      {/* TOP DESTINATION IPS */}
 
       <div className="section">
+        <h2>Top Destination IP Addresses</h2>
 
-        <h2>
-          ðŸ”½ Top Destination IP Addresses
-        </h2>
+        <div style={{ overflowX: "auto" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Destination IP</th>
 
-        <table>
+                <th>Packets</th>
+              </tr>
+            </thead>
 
-          <thead>
-
-            <tr>
-              <th>
-                Destination IP
-              </th>
-
-              <th>
-                Packets
-              </th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {Object.keys(
-              topDestinationIps
-            ).length > 0 ? (
-
-              Object.entries(
+            <tbody>
+              {Object.keys(
                 topDestinationIps
-              ).map(
-                ([ip, count]) => (
+              ).length > 0 ? (
+                Object.entries(
+                  topDestinationIps
+                ).map(([ip, count]) => (
                   <tr key={ip}>
-
-                    <td>
-                      {ip}
-                    </td>
+                    <td>{ip}</td>
 
                     <td>
                       {formatNumber(count)}
                     </td>
-
                   </tr>
-                )
-              )
-
-            ) : (
-
-              <tr>
-                <td colSpan="2">
-                  No destination IP data available.
-                </td>
-              </tr>
-
-            )}
-
-          </tbody>
-
-        </table>
-
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="2">
+                    No destination IP data
+                    available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* ======================================
-          SECURITY RECOMMENDATIONS
-      ====================================== */}
+      {/* SECURITY RECOMMENDATIONS */}
 
       <div className="section">
-
-        <h2>
-          ðŸ’¡ Security Recommendations
-        </h2>
+        <h2>Security Recommendations</h2>
 
         <ol>
-
           {recommendations.length > 0 ? (
-
             recommendations.map(
               (recommendation, index) => (
                 <li
@@ -997,22 +752,15 @@ function SecurityReportsPage() {
                 </li>
               )
             )
-
           ) : (
-
             <li>
               No recommendations available.
             </li>
-
           )}
-
         </ol>
-
       </div>
 
-      {/* ======================================
-          REFRESH BUTTON
-      ====================================== */}
+      {/* REFRESH BUTTON */}
 
       <div
         style={{
@@ -1020,7 +768,6 @@ function SecurityReportsPage() {
           marginBottom: "30px",
         }}
       >
-
         <button
           onClick={loadReport}
           disabled={loading}
@@ -1038,9 +785,8 @@ function SecurityReportsPage() {
         >
           {loading
             ? "Refreshing..."
-            : "ðŸ”„ Refresh Live Report"}
+            : "Refresh Live Report"}
         </button>
-
       </div>
     </>
   );

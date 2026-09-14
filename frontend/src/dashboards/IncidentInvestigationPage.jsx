@@ -24,14 +24,9 @@ function IncidentInvestigationPage() {
 
       setIncidents(response.data.incidents || []);
     } catch (error) {
-      console.error(
-        "Failed to load incidents:",
-        error
-      );
+      console.error("Failed to load incidents:", error);
 
-      setError(
-        "Unable to load security incidents."
-      );
+      setError("Unable to load security incidents.");
     } finally {
       setLoading(false);
     }
@@ -44,10 +39,7 @@ function IncidentInvestigationPage() {
   useEffect(() => {
     loadIncidents();
 
-    const interval = setInterval(
-      loadIncidents,
-      10000
-    );
+    const interval = setInterval(loadIncidents, 10000);
 
     return () => clearInterval(interval);
   }, []);
@@ -56,10 +48,7 @@ function IncidentInvestigationPage() {
   // UPDATE INCIDENT STATUS
   // ============================================================
 
-  const updateStatus = async (
-    incident,
-    newStatus
-  ) => {
+  const updateStatus = async (incident, newStatus) => {
     if (!incident._id) {
       alert("Incident ID is not available.");
       return;
@@ -81,14 +70,9 @@ function IncidentInvestigationPage() {
 
       await loadIncidents();
     } catch (error) {
-      console.error(
-        "Failed to update incident:",
-        error
-      );
+      console.error("Failed to update incident:", error);
 
-      alert(
-        "Failed to update incident status."
-      );
+      alert("Failed to update incident status.");
     } finally {
       setUpdating(null);
     }
@@ -104,24 +88,19 @@ function IncidentInvestigationPage() {
     (item) => item.status === "Open"
   ).length;
 
-  const acknowledgedIncidents =
-    incidents.filter(
-      (item) =>
-        item.status === "Acknowledged"
-    ).length;
+  const acknowledgedIncidents = incidents.filter(
+    (item) => item.status === "Acknowledged"
+  ).length;
 
-  const investigatingIncidents =
-    incidents.filter(
-      (item) =>
-        item.status === "Investigating"
-    ).length;
+  const investigatingIncidents = incidents.filter(
+    (item) => item.status === "Investigating"
+  ).length;
 
-  const resolvedIncidents =
-    incidents.filter(
-      (item) =>
-        item.status === "Resolved" ||
-        item.status === "Closed"
-    ).length;
+  const resolvedIncidents = incidents.filter(
+    (item) =>
+      item.status === "Resolved" ||
+      item.status === "Closed"
+  ).length;
 
   // ============================================================
   // SEVERITY COUNT
@@ -150,13 +129,10 @@ function IncidentInvestigationPage() {
   if (loading) {
     return (
       <div className="section">
-        <h2>
-          ðŸ” Loading Incident Investigation...
-        </h2>
+        <h2>Loading Incident Investigation...</h2>
 
         <p>
-          Fetching real security incidents
-          from MongoDB.
+          Fetching real security incidents from MongoDB.
         </p>
       </div>
     );
@@ -172,33 +148,29 @@ function IncidentInvestigationPage() {
 
       <div className="topbar">
         <div>
-          <h1>
-            ðŸ” Incident Investigation
-          </h1>
+          <h1>Incident Investigation</h1>
 
           <p>
-            Investigate and manage AI-detected
-            network security incidents.
+            Investigate and manage AI-detected network
+            security incidents.
           </p>
         </div>
 
         <div>
-          <h3>ðŸŸ¢ Live Monitoring</h3>
+          <h3>Live Monitoring</h3>
 
-          <p>
-            Auto refresh: 10 seconds
-          </p>
+          <p>Auto refresh: 10 seconds</p>
         </div>
       </div>
 
+      {/* ERROR */}
+
       {error && (
         <div className="section">
-          <p className="status-red">
-            {error}
-          </p>
+          <p className="status-red">{error}</p>
 
           <button onClick={loadIncidents}>
-            ðŸ”„ Retry
+            Retry
           </button>
         </div>
       )}
@@ -219,9 +191,7 @@ function IncidentInvestigationPage() {
         </div>
 
         <div className="card">
-          <h2>
-            {investigatingIncidents}
-          </h2>
+          <h2>{investigatingIncidents}</h2>
 
           <p>Investigating</p>
         </div>
@@ -233,12 +203,47 @@ function IncidentInvestigationPage() {
         </div>
       </div>
 
+      {/* ADDITIONAL STATUS */}
+
+      <div className="section">
+        <h2>Incident Status Summary</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Incidents</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Open</td>
+              <td>{openIncidents}</td>
+            </tr>
+
+            <tr>
+              <td>Acknowledged</td>
+              <td>{acknowledgedIncidents}</td>
+            </tr>
+
+            <tr>
+              <td>Investigating</td>
+              <td>{investigatingIncidents}</td>
+            </tr>
+
+            <tr>
+              <td>Resolved</td>
+              <td>{resolvedIncidents}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       {/* SEVERITY SUMMARY */}
 
       <div className="section">
-        <h2>
-          ðŸš¨ Incident Severity Summary
-        </h2>
+        <h2>Incident Severity Summary</h2>
 
         <table>
           <thead>
@@ -256,7 +261,7 @@ function IncidentInvestigationPage() {
               <td>{criticalCount}</td>
 
               <td className="status-red">
-                ðŸ”´ Critical
+                Critical
               </td>
             </tr>
 
@@ -266,7 +271,7 @@ function IncidentInvestigationPage() {
               <td>{highCount}</td>
 
               <td className="status-red">
-                ðŸŸ  High
+                High
               </td>
             </tr>
 
@@ -276,7 +281,7 @@ function IncidentInvestigationPage() {
               <td>{mediumCount}</td>
 
               <td className="status-yellow">
-                ðŸŸ¡ Medium
+                Medium
               </td>
             </tr>
 
@@ -286,7 +291,7 @@ function IncidentInvestigationPage() {
               <td>{lowCount}</td>
 
               <td className="status-green">
-                ðŸŸ¢ Low
+                Low
               </td>
             </tr>
           </tbody>
@@ -296,78 +301,65 @@ function IncidentInvestigationPage() {
       {/* INCIDENT LIST */}
 
       <div className="section">
-        <h2>
-          ðŸ›¡ Active Security Incidents
-        </h2>
+        <h2>Active Security Incidents</h2>
 
         {incidents.length === 0 ? (
           <p>
-            ðŸŸ¢ No security incidents have
-            been detected yet.
+            No security incidents have been detected yet.
           </p>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Dataset</th>
-                <th>Attack Type</th>
-                <th>Packets</th>
-                <th>Confidence</th>
-                <th>Risk Score</th>
-                <th>Severity</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+          <div style={{ overflowX: "auto" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Dataset</th>
+                  <th>Attack Type</th>
+                  <th>Packets</th>
+                  <th>Confidence</th>
+                  <th>Risk Score</th>
+                  <th>Severity</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {incidents.map(
-                (incident, index) => (
+              <tbody>
+                {incidents.map((incident, index) => (
                   <tr
-                    key={
-                      incident._id ||
-                      index
-                    }
+                    key={incident._id || index}
                   >
                     <td>
-                      {incident.dataset ||
-                        "Unknown"}
+                      {incident.dataset || "Unknown"}
                     </td>
 
                     <td>
-                      {incident.attack_type ||
-                        "Unknown"}
+                      {incident.attack_type || "Unknown"}
                     </td>
 
                     <td>
                       {Number(
-                        incident.detected_packets ||
-                          0
+                        incident.detected_packets || 0
                       ).toLocaleString()}
                     </td>
 
                     <td>
                       {Number(
-                        incident.confidence ||
-                          0
+                        incident.confidence || 0
                       ).toFixed(2)}
                       %
                     </td>
 
                     <td>
-                      {incident.risk_score ??
-                        "N/A"}
+                      {incident.risk_score ?? "N/A"}
                     </td>
 
                     <td>
-                      {incident.severity ||
-                        "Low"}
+                      {incident.severity || "Low"}
                     </td>
 
                     <td>
-                      {incident.status ||
-                        "Open"}
+                      {incident.status || "Open"}
                     </td>
 
                     <td>
@@ -381,12 +373,10 @@ function IncidentInvestigationPage() {
                     <td>
                       <select
                         value={
-                          incident.status ||
-                          "Open"
+                          incident.status || "Open"
                         }
                         disabled={
-                          updating ===
-                          incident._id
+                          updating === incident._id
                         }
                         onChange={(e) =>
                           updateStatus(
@@ -417,19 +407,17 @@ function IncidentInvestigationPage() {
                       </select>
                     </td>
                   </tr>
-                )
-              )}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
       {/* INCIDENT RESPONSE WORKFLOW */}
 
       <div className="section">
-        <h2>
-          ðŸ”„ Incident Response Workflow
-        </h2>
+        <h2>Incident Response Workflow</h2>
 
         <table>
           <thead>
@@ -445,8 +433,8 @@ function IncidentInvestigationPage() {
               <td>1. Detection</td>
 
               <td>
-                Random Forest detects
-                suspicious network traffic.
+                Random Forest detects suspicious network
+                traffic.
               </td>
 
               <td>AI Engine</td>
@@ -456,9 +444,8 @@ function IncidentInvestigationPage() {
               <td>2. Risk Scoring</td>
 
               <td>
-                Threat confidence and
-                packet frequency are used
-                to calculate risk.
+                Threat confidence and packet frequency
+                are used to calculate risk.
               </td>
 
               <td>Risk Engine</td>
@@ -468,9 +455,8 @@ function IncidentInvestigationPage() {
               <td>3. Alert Creation</td>
 
               <td>
-                A security alert can be
-                generated from detected
-                threats.
+                A security alert can be generated from
+                detected threats.
               </td>
 
               <td>FastAPI</td>
@@ -480,8 +466,8 @@ function IncidentInvestigationPage() {
               <td>4. Investigation</td>
 
               <td>
-                Security analyst reviews
-                the detected incident.
+                Security analyst reviews the detected
+                incident.
               </td>
 
               <td>Analyst Dashboard</td>
@@ -491,8 +477,8 @@ function IncidentInvestigationPage() {
               <td>5. Resolution</td>
 
               <td>
-                Analyst changes the incident
-                status after investigation.
+                Analyst changes the incident status after
+                investigation.
               </td>
 
               <td>MongoDB</td>

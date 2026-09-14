@@ -377,3 +377,82 @@ table{
 }
 
 }
+/* ===========================
+   LOGO
+=========================== */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo h2 {
+  margin: 0;
+}
+
+.logo p {
+  margin: 3px 0 0;
+}
+
+
+/* ===========================
+   NAVIGATION
+=========================== */
+
+.security-sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+/* ===========================
+   NAVIGATION ICON
+=========================== */
+
+.nav-icon {
+  width: 30px;
+  height: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 7px;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* ===========================
+   LOGOUT
+=========================== */
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

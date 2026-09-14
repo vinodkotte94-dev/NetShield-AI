@@ -24,8 +24,11 @@ function SecurityDashboard() {
       <aside className="security-sidebar">
 
         <div className="logo">
-          <h2>🛡 NetShield AI</h2>
-          <p>Security Analyst Panel</p>
+          <div className="logo-icon">NS</div>
+          <div>
+            <h2>NetShield AI</h2>
+            <p>Security Analyst Panel</p>
+          </div>
         </div>
 
         <nav>
@@ -37,7 +40,8 @@ function SecurityDashboard() {
               isActive ? "active-link" : ""
             }
           >
-            📊 Dashboard
+            <span className="nav-icon">DB</span>
+            <span>Dashboard</span>
           </NavLink>
 
           {/* Live Network */}
@@ -47,7 +51,8 @@ function SecurityDashboard() {
               isActive ? "active-link" : ""
             }
           >
-            🌐 Live Network
+            <span className="nav-icon">NW</span>
+            <span>Live Network</span>
           </NavLink>
 
           {/* Threat Analysis */}
@@ -57,7 +62,8 @@ function SecurityDashboard() {
               isActive ? "active-link" : ""
             }
           >
-            🚨 Threat Analysis
+            <span className="nav-icon">TA</span>
+            <span>Threat Analysis</span>
           </NavLink>
 
           {/* Incident Investigation */}
@@ -67,7 +73,8 @@ function SecurityDashboard() {
               isActive ? "active-link" : ""
             }
           >
-            🔍 Incident Investigation
+            <span className="nav-icon">IN</span>
+            <span>Incident Investigation</span>
           </NavLink>
 
           {/* AI Predictions */}
@@ -77,7 +84,8 @@ function SecurityDashboard() {
               isActive ? "active-link" : ""
             }
           >
-            🤖 AI Predictions
+            <span className="nav-icon">AI</span>
+            <span>AI Predictions</span>
           </NavLink>
 
           {/* Threat Timeline */}
@@ -87,7 +95,8 @@ function SecurityDashboard() {
               isActive ? "active-link" : ""
             }
           >
-            📈 Threat Timeline
+            <span className="nav-icon">TL</span>
+            <span>Threat Timeline</span>
           </NavLink>
 
           {/* Reports */}
@@ -97,7 +106,8 @@ function SecurityDashboard() {
               isActive ? "active-link" : ""
             }
           >
-            📄 Reports
+            <span className="nav-icon">RP</span>
+            <span>Reports</span>
           </NavLink>
 
           {/* PCAP Analytics */}
@@ -107,7 +117,8 @@ function SecurityDashboard() {
               isActive ? "active-link" : ""
             }
           >
-            🧪 PCAP Analytics
+            <span className="nav-icon">PC</span>
+            <span>PCAP Analytics</span>
           </NavLink>
 
         </nav>
@@ -121,7 +132,8 @@ function SecurityDashboard() {
             className="logout-btn"
             onClick={handleLogout}
           >
-            🚪 Logout
+            <span className="nav-icon">LO</span>
+            <span>Logout</span>
           </button>
         </div>
 
