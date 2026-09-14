@@ -460,44 +460,35 @@ def live_network():
 def get_incidents():
 
     incidents = list(
-
-        incidents_collection.find({})
-
-        .sort(
-            "created_at",
-            -1
-        )
-
+        incidents_collection
+        .find({})
+        .sort("created_at", -1)
         .limit(100)
-
     )
 
+    serialized_incidents = []
 
     for incident in incidents:
 
-        incident["_id"] = str(
-            incident["_id"]
-        )
+        incident = dict(incident)
 
+        # Convert every MongoDB ObjectId
+        # into a string so FastAPI can return JSON.
+        for key, value in incident.items():
 
-        if "prediction_id" in incident:
+            if isinstance(value, ObjectId):
+                incident[key] = str(value)
 
-            incident["prediction_id"] = str(
-                incident["prediction_id"]
-            )
+            elif isinstance(value, datetime):
+                incident[key] = value.isoformat()
 
+        serialized_incidents.append(incident)
 
     return {
-
-        "total":
-            len(incidents),
-
-        "incidents":
-            incidents
-
+        "success": True,
+        "total": len(serialized_incidents),
+        "incidents": serialized_incidents
     }
-
-
 # ======================================================
 # UPDATE INCIDENT STATUS
 # ======================================================
