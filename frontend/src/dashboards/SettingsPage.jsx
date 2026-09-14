@@ -14,10 +14,6 @@ function SettingsPage() {
 
   const [saved, setSaved] = useState(false);
 
-  // ==========================================
-  // HANDLE SETTINGS CHANGE
-  // ==========================================
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -32,10 +28,6 @@ function SettingsPage() {
     setSaved(false);
   };
 
-  // ==========================================
-  // SAVE SETTINGS
-  // ==========================================
-
   const saveSettings = () => {
     localStorage.setItem(
       "netshield_settings",
@@ -48,10 +40,6 @@ function SettingsPage() {
       setSaved(false);
     }, 3000);
   };
-
-  // ==========================================
-  // RESET SETTINGS
-  // ==========================================
 
   const resetSettings = () => {
     const defaultSettings = {
@@ -74,35 +62,27 @@ function SettingsPage() {
     setSaved(false);
   };
 
-  // ==========================================
-  // RENDER
-  // ==========================================
-
   return (
-    <>
-      {/* ==========================================
-          TOP BAR
-      ========================================== */}
+    <div className="page">
 
       <div className="topbar">
+
         <div>
-          <h1>⚙ System Settings</h1>
+          <h1>System Settings</h1>
 
           <p>
-            Configure NetShield AI platform settings
+            Configure NetShield AI platform settings.
           </p>
         </div>
 
         <h3 className="status-green">
-          🟢 System Active
+          System Active
         </h3>
+
       </div>
 
-      {/* ==========================================
-          SUMMARY
-      ========================================== */}
-
       <div className="cards">
+
         <div className="card">
           <h2>6</h2>
           <p>Configurations</p>
@@ -122,332 +102,414 @@ function SettingsPage() {
           <h2>{settings.backup}</h2>
           <p>Backup Schedule</p>
         </div>
+
       </div>
 
-      {/* ==========================================
-          ORGANIZATION SETTINGS
-      ========================================== */}
-
       <div className="section">
-        <h2>🏢 Organization Settings</h2>
 
-        <table>
-          <tbody>
-            <tr>
-              <th>Company Name</th>
+        <h2>
+          Organization Settings
+        </h2>
 
-              <td>
-                <input
-                  type="text"
-                  name="company"
-                  value={settings.company}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
+        <div className="table-wrapper">
+          <table>
 
-            <tr>
-              <th>Administrator Email</th>
+            <tbody>
 
-              <td>
-                <input
-                  type="email"
-                  name="email"
-                  value={settings.email}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <tr>
+                <th>
+                  Company Name
+                </th>
+
+                <td>
+                  <input
+                    type="text"
+                    name="company"
+                    value={settings.company}
+                    onChange={handleChange}
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <th>
+                  Administrator Email
+                </th>
+
+                <td>
+                  <input
+                    type="email"
+                    name="email"
+                    value={settings.email}
+                    onChange={handleChange}
+                  />
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
       </div>
 
-      {/* ==========================================
-          AI CONFIGURATION
-      ========================================== */}
-
       <div className="section">
-        <h2>🤖 AI Configuration</h2>
 
-        <table>
-          <tbody>
-            <tr>
-              <th>AI Model</th>
+        <h2>
+          AI Configuration
+        </h2>
 
-              <td>
-                <select
-                  name="aiModel"
-                  value={settings.aiModel}
-                  onChange={handleChange}
-                >
-                  <option value="Random Forest">
-                    Random Forest
-                  </option>
+        <div className="table-wrapper">
+          <table>
 
-                  <option value="XGBoost">
-                    XGBoost
-                  </option>
+            <tbody>
 
-                  <option value="Decision Tree">
-                    Decision Tree
-                  </option>
+              <tr>
+                <th>
+                  AI Model
+                </th>
 
-                  <option value="Neural Network">
-                    Neural Network
-                  </option>
-                </select>
-              </td>
-            </tr>
+                <td>
+                  <select
+                    name="aiModel"
+                    value={settings.aiModel}
+                    onChange={handleChange}
+                  >
+                    <option value="Random Forest">
+                      Random Forest
+                    </option>
 
-            <tr>
-              <th>Detection Threshold</th>
+                    <option value="XGBoost">
+                      XGBoost
+                    </option>
 
-              <td>
-                <input
-                  type="range"
-                  name="threshold"
-                  min="50"
-                  max="100"
-                  value={settings.threshold}
-                  onChange={handleChange}
-                />
+                    <option value="Decision Tree">
+                      Decision Tree
+                    </option>
 
-                <strong style={{ marginLeft: "12px" }}>
-                  {settings.threshold}%
-                </strong>
-              </td>
-            </tr>
+                    <option value="Neural Network">
+                      Neural Network
+                    </option>
+                  </select>
+                </td>
+              </tr>
 
-            <tr>
-              <th>Model Status</th>
+              <tr>
+                <th>
+                  Detection Threshold
+                </th>
 
-              <td className="status-green">
-                🟢 Active
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td>
+
+                  <input
+                    type="range"
+                    name="threshold"
+                    min="50"
+                    max="100"
+                    value={settings.threshold}
+                    onChange={handleChange}
+                  />
+
+                  <strong
+                    style={{
+                      marginLeft: "12px",
+                    }}
+                  >
+                    {settings.threshold}%
+                  </strong>
+
+                </td>
+              </tr>
+
+              <tr>
+                <th>
+                  Model Status
+                </th>
+
+                <td className="status-green">
+                  Active
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
       </div>
 
-      {/* ==========================================
-          DATABASE SETTINGS
-      ========================================== */}
-
       <div className="section">
-        <h2>🗄 Database Settings</h2>
 
-        <table>
-          <tbody>
-            <tr>
-              <th>Database</th>
+        <h2>
+          Database Settings
+        </h2>
 
-              <td>
-                <select
-                  name="database"
-                  value={settings.database}
-                  onChange={handleChange}
-                >
-                  <option value="MongoDB">
-                    MongoDB
-                  </option>
+        <div className="table-wrapper">
+          <table>
 
-                  <option value="PostgreSQL">
-                    PostgreSQL
-                  </option>
-                </select>
-              </td>
-            </tr>
+            <tbody>
 
-            <tr>
-              <th>Connection</th>
+              <tr>
+                <th>
+                  Database
+                </th>
 
-              <td className="status-green">
-                🟢 Connected
-              </td>
-            </tr>
+                <td>
+                  <select
+                    name="database"
+                    value={settings.database}
+                    onChange={handleChange}
+                  >
+                    <option value="MongoDB">
+                      MongoDB
+                    </option>
 
-            <tr>
-              <th>Database Type</th>
+                    <option value="PostgreSQL">
+                      PostgreSQL
+                    </option>
+                  </select>
+                </td>
+              </tr>
 
-              <td>
-                Document Database
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <tr>
+                <th>
+                  Connection
+                </th>
+
+                <td className="status-green">
+                  Connected
+                </td>
+              </tr>
+
+              <tr>
+                <th>
+                  Database Type
+                </th>
+
+                <td>
+                  Document Database
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
       </div>
 
-      {/* ==========================================
-          BACKUP SETTINGS
-      ========================================== */}
-
       <div className="section">
-        <h2>💾 Backup Settings</h2>
 
-        <table>
-          <tbody>
-            <tr>
-              <th>Automatic Backup</th>
+        <h2>
+          Backup Settings
+        </h2>
 
-              <td>
-                <select
-                  name="backup"
-                  value={settings.backup}
-                  onChange={handleChange}
-                >
-                  <option value="Daily">
-                    Daily
-                  </option>
+        <div className="table-wrapper">
+          <table>
 
-                  <option value="Weekly">
-                    Weekly
-                  </option>
+            <tbody>
 
-                  <option value="Monthly">
-                    Monthly
-                  </option>
-                </select>
-              </td>
-            </tr>
+              <tr>
+                <th>
+                  Automatic Backup
+                </th>
 
-            <tr>
-              <th>Backup Status</th>
+                <td>
+                  <select
+                    name="backup"
+                    value={settings.backup}
+                    onChange={handleChange}
+                  >
+                    <option value="Daily">
+                      Daily
+                    </option>
 
-              <td className="status-green">
-                🟢 Scheduled
-              </td>
-            </tr>
+                    <option value="Weekly">
+                      Weekly
+                    </option>
 
-            <tr>
-              <th>Last Backup</th>
+                    <option value="Monthly">
+                      Monthly
+                    </option>
+                  </select>
+                </td>
+              </tr>
 
-              <td>
-                System-managed
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <tr>
+                <th>
+                  Backup Status
+                </th>
+
+                <td className="status-green">
+                  Scheduled
+                </td>
+              </tr>
+
+              <tr>
+                <th>
+                  Last Backup
+                </th>
+
+                <td>
+                  System-managed
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
       </div>
 
-      {/* ==========================================
-          APPEARANCE
-      ========================================== */}
-
       <div className="section">
-        <h2>🎨 Appearance</h2>
 
-        <table>
-          <tbody>
-            <tr>
-              <th>Theme</th>
+        <h2>
+          Appearance
+        </h2>
 
-              <td>
-                <select
-                  name="theme"
-                  value={settings.theme}
-                  onChange={handleChange}
-                >
-                  <option value="Light">
-                    Light
-                  </option>
+        <div className="table-wrapper">
+          <table>
 
-                  <option value="Dark">
-                    Dark
-                  </option>
-                </select>
-              </td>
-            </tr>
+            <tbody>
 
-            <tr>
-              <th>Interface</th>
+              <tr>
+                <th>
+                  Theme
+                </th>
 
-              <td>
-                Administrator Dashboard
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td>
+                  <select
+                    name="theme"
+                    value={settings.theme}
+                    onChange={handleChange}
+                  >
+                    <option value="Light">
+                      Light
+                    </option>
+
+                    <option value="Dark">
+                      Dark
+                    </option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <th>
+                  Interface
+                </th>
+
+                <td>
+                  Administrator Dashboard
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
       </div>
 
-      {/* ==========================================
-          SYSTEM STATUS
-      ========================================== */}
-
       <div className="section">
-        <h2>🛡 Platform Status</h2>
 
-        <table>
-          <tbody>
-            <tr>
-              <th>NetShield AI</th>
+        <h2>
+          Platform Status
+        </h2>
 
-              <td className="status-green">
-                🟢 Operational
-              </td>
-            </tr>
+        <div className="table-wrapper">
+          <table>
 
-            <tr>
-              <th>AI Detection Engine</th>
+            <tbody>
 
-              <td className="status-green">
-                🟢 Active
-              </td>
-            </tr>
+              <tr>
+                <th>
+                  NetShield AI
+                </th>
 
-            <tr>
-              <th>MongoDB</th>
+                <td className="status-green">
+                  Operational
+                </td>
+              </tr>
 
-              <td className="status-green">
-                🟢 Connected
-              </td>
-            </tr>
+              <tr>
+                <th>
+                  AI Detection Engine
+                </th>
 
-            <tr>
-              <th>Threat Intelligence</th>
+                <td className="status-green">
+                  Active
+                </td>
+              </tr>
 
-              <td className="status-green">
-                🟢 Available
-              </td>
-            </tr>
+              <tr>
+                <th>
+                  MongoDB
+                </th>
 
-            <tr>
-              <th>PDF Reporting</th>
+                <td className="status-green">
+                  Connected
+                </td>
+              </tr>
 
-              <td className="status-green">
-                🟢 Available
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <tr>
+                <th>
+                  Threat Intelligence
+                </th>
+
+                <td className="status-green">
+                  Available
+                </td>
+              </tr>
+
+              <tr>
+                <th>
+                  PDF Reporting
+                </th>
+
+                <td className="status-green">
+                  Available
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
       </div>
 
-      {/* ==========================================
-          SAVE SETTINGS
-      ========================================== */}
-
       <div className="section">
+
         {saved && (
           <div className="success-message">
-            ✅ Settings saved successfully.
+            Settings saved successfully.
           </div>
         )}
 
         <button
+          type="button"
           className="action-btn"
           onClick={saveSettings}
         >
-          💾 Save Settings
+          Save Settings
         </button>
 
         <button
+          type="button"
           className="action-btn"
           onClick={resetSettings}
-          style={{ marginLeft: "10px" }}
+          style={{
+            marginLeft: "10px",
+          }}
         >
-          🔄 Reset
+          Reset
         </button>
+
       </div>
-    </>
+
+    </div>
   );
 }
 

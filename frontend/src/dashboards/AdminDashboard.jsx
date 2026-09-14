@@ -17,44 +17,47 @@ function AdminDashboard() {
   const navItems = [
     {
       path: "/admin/dashboard",
-      label: "📊 Dashboard",
+      label: "Dashboard",
     },
     {
       path: "/admin/users",
-      label: "👥 User Management",
+      label: "User Management",
     },
     {
       path: "/admin/roles",
-      label: "🛡 Role Management",
+      label: "Role Management",
     },
     {
       path: "/admin/organization",
-      label: "🏢 Organization",
+      label: "Organization",
     },
     {
       path: "/admin/alerts",
-      label: "🚨 Threat Alerts",
+      label: "Threat Alerts",
     },
     {
       path: "/admin/audit",
-      label: "📜 Audit Logs",
+      label: "Audit Logs",
     },
     {
       path: "/admin/reports",
-      label: "📄 Reports",
+      label: "Reports",
     },
     {
       path: "/admin/settings",
-      label: "⚙️ Settings",
+      label: "Settings",
     },
   ];
 
   return (
     <div className="admin-container">
+
       {/* Sidebar */}
+
       <aside className="sidebar">
+
         <div className="logo">
-          <h2>🛡 NetShield AI</h2>
+          <h2>NetShield AI</h2>
           <p>Administrator Panel</p>
         </div>
 
@@ -73,19 +76,23 @@ function AdminDashboard() {
         </nav>
 
         {/* Logout */}
+
         <button
           type="button"
           className="logout-btn"
           onClick={handleLogout}
         >
-          🚪 Logout
+          Logout
         </button>
+
       </aside>
 
       {/* Page Content */}
+
       <main className="main-content">
         <Outlet />
       </main>
+
     </div>
   );
 }

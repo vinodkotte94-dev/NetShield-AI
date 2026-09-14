@@ -9,10 +9,6 @@ function AuditLogsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ==========================================
-  // LOAD AUDIT LOGS
-  // ==========================================
-
   const loadAuditLogs = async () => {
     try {
       setLoading(true);
@@ -27,7 +23,6 @@ function AuditLogsPage() {
           ? response.data
           : []
       );
-
     } catch (err) {
       console.error(
         "Failed to load audit logs:",
@@ -40,23 +35,14 @@ function AuditLogsPage() {
       );
 
       setLogs([]);
-
     } finally {
       setLoading(false);
     }
   };
 
-  // ==========================================
-  // LOAD ON PAGE OPEN
-  // ==========================================
-
   useEffect(() => {
     loadAuditLogs();
   }, []);
-
-  // ==========================================
-  // FORMAT STATUS
-  // ==========================================
 
   const getStatusClass = (status) => {
     const value = String(
@@ -88,10 +74,6 @@ function AuditLogsPage() {
 
     return "status-blue";
   };
-
-  // ==========================================
-  // SUMMARY
-  // ==========================================
 
   const successfulLogs = logs.filter(
     (log) => {
@@ -130,14 +112,10 @@ function AuditLogsPage() {
   return (
     <div className="page">
 
-      {/* ==========================================
-          HEADER
-      =========================================== */}
-
       <div className="topbar">
 
         <div>
-          <h1>ðŸ“œ Audit Logs</h1>
+          <h1>Audit Logs</h1>
 
           <p>
             Monitor user and system activities
@@ -153,56 +131,66 @@ function AuditLogsPage() {
         >
           {loading
             ? "Loading..."
-            : "ðŸ”„ Refresh"}
+            : "Refresh"}
         </button>
 
       </div>
 
-      {/* ==========================================
-          ERROR MESSAGE
-      =========================================== */}
-
       {error && (
         <div className="error-message">
-          âš ï¸ {error}
+          {error}
         </div>
       )}
-
-      {/* ==========================================
-          SUMMARY CARDS
-      =========================================== */}
 
       <div className="cards">
 
         <div className="card">
-          <h2>{logs.length}</h2>
-          <p>Total Audit Events</p>
+          <h2>
+            {logs.length}
+          </h2>
+
+          <p>
+            Total Audit Events
+          </p>
         </div>
 
         <div className="card">
-          <h2>{successfulLogs}</h2>
-          <p>Successful Events</p>
+          <h2>
+            {successfulLogs}
+          </h2>
+
+          <p>
+            Successful Events
+          </p>
         </div>
 
         <div className="card">
-          <h2>{failedLogs}</h2>
-          <p>Failed Events</p>
+          <h2>
+            {failedLogs}
+          </h2>
+
+          <p>
+            Failed Events
+          </p>
         </div>
 
         <div className="card">
-          <h2>{uniqueUsers}</h2>
-          <p>Users Involved</p>
+          <h2>
+            {uniqueUsers}
+          </h2>
+
+          <p>
+            Users Involved
+          </p>
         </div>
 
       </div>
 
-      {/* ==========================================
-          AUDIT LOG TABLE
-      =========================================== */}
-
       <div className="section">
 
-        <h2>ðŸ” System Activity</h2>
+        <h2>
+          System Activity
+        </h2>
 
         <p>
           Audit events retrieved directly from
@@ -212,111 +200,112 @@ function AuditLogsPage() {
         {loading ? (
 
           <div className="warning-message">
-            â³ Loading audit logs...
+            Loading audit logs...
           </div>
 
         ) : error ? (
 
           <div className="error-message">
-            âš ï¸ {error}
+            {error}
           </div>
 
         ) : logs.length === 0 ? (
 
           <div className="warning-message">
-            â„¹ï¸ No audit logs found.
+            No audit logs found.
           </div>
 
         ) : (
 
-          <table>
+          <div className="table-wrapper">
+            <table>
 
-            <thead>
+              <thead>
 
-              <tr>
-                <th>ID</th>
-                <th>User</th>
-                <th>Action</th>
-                <th>Module</th>
-                <th>Time</th>
-                <th>Status</th>
-              </tr>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Action</th>
+                  <th>Module</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                </tr>
 
-            </thead>
+              </thead>
 
-            <tbody>
+              <tbody>
 
-              {logs.map(
-                (log, index) => {
+                {logs.map(
+                  (log, index) => {
 
-                  const status =
-                    log.status ||
-                    "Success";
+                    const status =
+                      log.status ||
+                      "Success";
 
-                  return (
-                    <tr
-                      key={
-                        log.id ||
-                        index
-                      }
-                    >
-
-                      <td>
-                        {log.id ||
-                          `LOG-${index + 1}`}
-                      </td>
-
-                      <td>
-                        {log.user ||
-                          "System"}
-                      </td>
-
-                      <td>
-                        <strong>
-                          {log.action ||
-                            "Unknown Action"}
-                        </strong>
-                      </td>
-
-                      <td>
-                        {log.module ||
-                          "System"}
-                      </td>
-
-                      <td>
-                        {log.time ||
-                          "Unknown"}
-                      </td>
-
-                      <td
-                        className={getStatusClass(
-                          status
-                        )}
+                    return (
+                      <tr
+                        key={
+                          log.id ||
+                          log._id ||
+                          index
+                        }
                       >
-                        {status}
-                      </td>
 
-                    </tr>
-                  );
-                }
-              )}
+                        <td>
+                          {log.id ||
+                            log._id ||
+                            `LOG-${index + 1}`}
+                        </td>
 
-            </tbody>
+                        <td>
+                          {log.user ||
+                            "System"}
+                        </td>
 
-          </table>
+                        <td>
+                          <strong>
+                            {log.action ||
+                              "Unknown Action"}
+                          </strong>
+                        </td>
+
+                        <td>
+                          {log.module ||
+                            "System"}
+                        </td>
+
+                        <td>
+                          {log.time ||
+                            log.created_at ||
+                            "Unknown"}
+                        </td>
+
+                        <td
+                          className={getStatusClass(
+                            status
+                          )}
+                        >
+                          {status}
+                        </td>
+
+                      </tr>
+                    );
+                  }
+                )}
+
+              </tbody>
+
+            </table>
+          </div>
 
         )}
 
       </div>
 
-      {/* ==========================================
-          SECURITY SUMMARY
-      =========================================== */}
-
       <div className="section">
 
         <h2>
-          ðŸ›¡ Audit Security Summary
+          Audit Security Summary
         </h2>
 
         <div className="report-info">

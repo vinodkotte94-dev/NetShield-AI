@@ -41,10 +41,6 @@ function ThreatAlertsPage() {
     loadAlerts();
   }, []);
 
-  /* ===========================
-     HELPERS
-  ============================ */
-
   const getSeverity = (alert) => {
     return (
       alert.severity ||
@@ -173,10 +169,6 @@ function ThreatAlertsPage() {
     return "status-blue";
   };
 
-  /* ===========================
-     REAL SEVERITY COUNTS
-  ============================ */
-
   const critical = alerts.filter(
     (alert) =>
       String(getSeverity(alert)).toLowerCase() ===
@@ -210,18 +202,13 @@ function ThreatAlertsPage() {
   return (
     <div className="page">
 
-      {/* ===========================
-          HEADER
-      ============================ */}
-
       <div className="topbar">
-
         <div>
-          <h1>ðŸš¨ Threat Alerts</h1>
+          <h1>Threat Alerts</h1>
 
           <p>
-            AI-generated security alerts from
-            the NetShield AI monitoring system.
+            AI-generated security alerts from the
+            NetShield AI monitoring system.
           </p>
         </div>
 
@@ -231,26 +218,15 @@ function ThreatAlertsPage() {
           onClick={loadAlerts}
           disabled={loading}
         >
-          {loading
-            ? "Loading..."
-            : "ðŸ”„ Refresh"}
+          {loading ? "Loading..." : "Refresh"}
         </button>
-
       </div>
-
-      {/* ===========================
-          ERROR
-      ============================ */}
 
       {error && (
         <div className="error-message">
-          âš ï¸ {error}
+          {error}
         </div>
       )}
-
-      {/* ===========================
-          SUMMARY CARDS
-      ============================ */}
 
       <div className="cards">
 
@@ -276,176 +252,151 @@ function ThreatAlertsPage() {
 
       </div>
 
-      {/* ===========================
-          SEVERITY DISTRIBUTION
-      ============================ */}
-
       <div className="section">
 
-        <h2>âš ï¸ Threat Severity</h2>
+        <h2>Threat Severity</h2>
 
         {loading ? (
-
           <div className="warning-message">
-            â³ Loading severity information...
+            Loading severity information...
           </div>
-
         ) : (
+          <div className="table-wrapper">
+            <table>
 
-          <table>
+              <thead>
+                <tr>
+                  <th>Severity</th>
+                  <th>Count</th>
+                  <th>Percentage</th>
+                </tr>
+              </thead>
 
-            <thead>
-              <tr>
-                <th>Severity</th>
-                <th>Count</th>
-                <th>Percentage</th>
-              </tr>
-            </thead>
+              <tbody>
 
-            <tbody>
+                <tr>
+                  <td className="status-red">
+                    Critical
+                  </td>
 
-              <tr>
-                <td className="status-red">
-                  ðŸ”´ Critical
-                </td>
+                  <td>{critical}</td>
 
-                <td>{critical}</td>
+                  <td>
+                    {alerts.length
+                      ? (
+                          (critical /
+                            alerts.length) *
+                          100
+                        ).toFixed(2)
+                      : "0.00"}
+                    %
+                  </td>
+                </tr>
 
-                <td>
-                  {alerts.length
-                    ? (
-                        (critical /
-                          alerts.length) *
-                        100
-                      ).toFixed(2)
-                    : "0.00"}
-                  %
-                </td>
-              </tr>
+                <tr>
+                  <td className="status-orange">
+                    High
+                  </td>
 
-              <tr>
-                <td className="status-orange">
-                  ðŸŸ  High
-                </td>
+                  <td>{high}</td>
 
-                <td>{high}</td>
+                  <td>
+                    {alerts.length
+                      ? (
+                          (high /
+                            alerts.length) *
+                          100
+                        ).toFixed(2)
+                      : "0.00"}
+                    %
+                  </td>
+                </tr>
 
-                <td>
-                  {alerts.length
-                    ? (
-                        (high /
-                          alerts.length) *
-                        100
-                      ).toFixed(2)
-                    : "0.00"}
-                  %
-                </td>
-              </tr>
+                <tr>
+                  <td className="status-yellow">
+                    Medium
+                  </td>
 
-              <tr>
-                <td className="status-yellow">
-                  ðŸŸ¡ Medium
-                </td>
+                  <td>{medium}</td>
 
-                <td>{medium}</td>
+                  <td>
+                    {alerts.length
+                      ? (
+                          (medium /
+                            alerts.length) *
+                          100
+                        ).toFixed(2)
+                      : "0.00"}
+                    %
+                  </td>
+                </tr>
 
-                <td>
-                  {alerts.length
-                    ? (
-                        (medium /
-                          alerts.length) *
-                        100
-                      ).toFixed(2)
-                    : "0.00"}
-                  %
-                </td>
-              </tr>
+                <tr>
+                  <td className="status-green">
+                    Low
+                  </td>
 
-              <tr>
-                <td className="status-green">
-                  ðŸŸ¢ Low
-                </td>
+                  <td>{low}</td>
 
-                <td>{low}</td>
+                  <td>
+                    {alerts.length
+                      ? (
+                          (low /
+                            alerts.length) *
+                          100
+                        ).toFixed(2)
+                      : "0.00"}
+                    %
+                  </td>
+                </tr>
 
-                <td>
-                  {alerts.length
-                    ? (
-                        (low /
-                          alerts.length) *
-                        100
-                      ).toFixed(2)
-                    : "0.00"}
-                  %
-                </td>
-              </tr>
+              </tbody>
 
-            </tbody>
-
-          </table>
-
+            </table>
+          </div>
         )}
 
       </div>
 
-      {/* ===========================
-          RECENT ALERTS
-      ============================ */}
-
       <div className="section">
 
-        <h2>ðŸ“‹ Recent Threat Alerts</h2>
+        <h2>Recent Threat Alerts</h2>
 
         {loading ? (
-
           <div className="warning-message">
-            â³ Loading threat alerts from MongoDB...
+            Loading threat alerts from MongoDB...
           </div>
-
         ) : error ? (
-
           <div className="error-message">
-            âš ï¸ {error}
+            {error}
           </div>
-
         ) : alerts.length === 0 ? (
-
           <div className="warning-message">
-            â„¹ï¸ No threat alerts found.
+            No threat alerts found.
           </div>
-
         ) : (
+          <div className="table-wrapper">
+            <table>
 
-          <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Dataset</th>
+                  <th>Threat</th>
+                  <th>Threat Count</th>
+                  <th>Severity</th>
+                  <th>Confidence</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
 
-            <thead>
+              <tbody>
 
-              <tr>
-                <th>ID</th>
-                <th>Dataset</th>
-                <th>Threat</th>
-                <th>Threat Count</th>
-                <th>Severity</th>
-                <th>Confidence</th>
-                <th>Status</th>
-                <th>Time</th>
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {alerts.map(
-                (alert, index) => {
-
-                  const severity =
-                    getSeverity(alert);
-
-                  const confidence =
-                    getConfidence(alert);
-
-                  const status =
-                    getStatus(alert);
+                {alerts.map((alert, index) => {
+                  const severity = getSeverity(alert);
+                  const confidence = getConfidence(alert);
+                  const status = getStatus(alert);
 
                   return (
                     <tr
@@ -473,9 +424,7 @@ function ThreatAlertsPage() {
                       </td>
 
                       <td>
-                        {getThreatCount(
-                          alert
-                        )}
+                        {getThreatCount(alert)}
                       </td>
 
                       <td
@@ -488,9 +437,7 @@ function ThreatAlertsPage() {
 
                       <td>
                         {confidence !== null
-                          ? `${confidence.toFixed(
-                              2
-                            )}%`
+                          ? `${confidence.toFixed(2)}%`
                           : "N/A"}
                       </td>
 
@@ -512,24 +459,19 @@ function ThreatAlertsPage() {
 
                     </tr>
                   );
-                }
-              )}
+                })}
 
-            </tbody>
+              </tbody>
 
-          </table>
-
+            </table>
+          </div>
         )}
 
       </div>
 
-      {/* ===========================
-          SECURITY SUMMARY
-      ============================ */}
-
       <div className="section">
 
-        <h2>ðŸ›¡ Security Alert Summary</h2>
+        <h2>Security Alert Summary</h2>
 
         <div className="report-info">
 

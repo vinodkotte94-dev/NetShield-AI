@@ -39,10 +39,6 @@ function RoleManagementPage() {
     loadRoles();
   }, []);
 
-  // ==================================================
-  // REAL VALUES
-  // ==================================================
-
   const totalUsers = roles.reduce(
     (sum, role) => sum + Number(role.users || 0),
     0
@@ -53,20 +49,38 @@ function RoleManagementPage() {
       String(role.status || "").toLowerCase() === "active"
   ).length;
 
+  const getStatusClass = (status) => {
+    const value = String(status).toLowerCase();
+
+    if (
+      value === "active" ||
+      value === "enabled" ||
+      value === "online"
+    ) {
+      return "status-green";
+    }
+
+    if (
+      value === "inactive" ||
+      value === "disabled"
+    ) {
+      return "status-red";
+    }
+
+    return "status-yellow";
+  };
+
   return (
     <div className="page">
 
-      {/* ===========================
-          HEADER
-      ============================ */}
+      {/* HEADER */}
 
       <div className="topbar">
-
         <div>
-          <h1>ðŸ›¡ Role Management</h1>
+          <h1>Role Management</h1>
 
           <p>
-            System Role Overview & Permissions
+            System Role Overview and Permissions
           </p>
         </div>
 
@@ -76,24 +90,19 @@ function RoleManagementPage() {
           onClick={loadRoles}
           disabled={loading}
         >
-          {loading ? "Loading..." : "ðŸ”„ Refresh"}
+          {loading ? "Loading..." : "Refresh"}
         </button>
-
       </div>
 
-      {/* ===========================
-          ERROR
-      ============================ */}
+      {/* ERROR */}
 
       {error && (
         <div className="error-message">
-          âš ï¸ {error}
+          {error}
         </div>
       )}
 
-      {/* ===========================
-          RBAC SUMMARY
-      ============================ */}
+      {/* RBAC SUMMARY */}
 
       <div className="cards">
 
@@ -119,13 +128,11 @@ function RoleManagementPage() {
 
       </div>
 
-      {/* ===========================
-          ROLE TABLE
-      ============================ */}
+      {/* SYSTEM ROLES */}
 
       <div className="section">
 
-        <h2>ðŸ‘¥ System Roles</h2>
+        <h2>System Roles</h2>
 
         <p>
           NetShield AI uses two fixed system roles:
@@ -135,192 +142,178 @@ function RoleManagementPage() {
         {loading ? (
 
           <div className="warning-message">
-            â³ Loading role information...
+            Loading role information...
           </div>
 
         ) : roles.length === 0 ? (
 
           <div className="warning-message">
-            â„¹ï¸ No role information was returned by the backend.
+            No role information was returned by the backend.
           </div>
 
         ) : (
 
-          <table>
+          <div className="table-wrapper">
 
-            <thead>
-              <tr>
-                <th>Role</th>
-                <th>Users</th>
-                <th>Permissions</th>
-                <th>Status</th>
-              </tr>
-            </thead>
+            <table>
 
-            <tbody>
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>Users</th>
+                  <th>Permissions</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
 
-              {roles.map((role, index) => {
+              <tbody>
 
-                const status =
-                  role.status || "Active";
+                {roles.map((role, index) => {
 
-                const statusValue =
-                  String(status).toLowerCase();
+                  const roleName =
+                    role.role ||
+                    role.name ||
+                    "Unknown Role";
 
-                let statusClass =
-                  "status-yellow";
+                  const status =
+                    role.status || "Active";
 
-                if (
-                  statusValue === "active" ||
-                  statusValue === "enabled"
-                ) {
-                  statusClass =
-                    "status-green";
-                }
+                  return (
+                    <tr
+                      key={
+                        roleName ||
+                        index
+                      }
+                    >
 
-                if (
-                  statusValue === "inactive" ||
-                  statusValue === "disabled"
-                ) {
-                  statusClass =
-                    "status-red";
-                }
+                      <td>
+                        <strong>
+                          {roleName}
+                        </strong>
+                      </td>
 
-                return (
-                  <tr
-                    key={
-                      role.role ||
-                      role.name ||
-                      index
-                    }
-                  >
+                      <td>
+                        {Number(role.users || 0)}
+                      </td>
 
-                    <td>
-                      <strong>
-                        {role.role ||
-                          role.name ||
-                          "Unknown Role"}
-                      </strong>
-                    </td>
+                      <td>
+                        {role.permissions ||
+                          "Defined by system policy"}
+                      </td>
 
-                    <td>
-                      {Number(role.users || 0)}
-                    </td>
+                      <td
+                        className={getStatusClass(
+                          status
+                        )}
+                      >
+                        {status}
+                      </td>
 
-                    <td>
-                      {role.permissions ||
-                        "Defined by system policy"}
-                    </td>
+                    </tr>
+                  );
+                })}
 
-                    <td className={statusClass}>
-                      {status}
-                    </td>
+              </tbody>
 
-                  </tr>
-                );
-              })}
+            </table>
 
-            </tbody>
-
-          </table>
-
+          </div>
         )}
 
       </div>
 
-      {/* ===========================
-          PERMISSION MATRIX
-      ============================ */}
+      {/* PERMISSION MATRIX */}
 
       <div className="section">
 
-        <h2>ðŸ”‘ Permission Matrix</h2>
+        <h2>Permission Matrix</h2>
 
         <p>
           Access permissions are fixed according to the
           NetShield AI RBAC design.
         </p>
 
-        <table>
+        <div className="table-wrapper">
 
-          <thead>
+          <table>
 
-            <tr>
-              <th>Permission</th>
-              <th>Administrator</th>
-              <th>Security Analyst</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Permission</th>
+                <th>Administrator</th>
+                <th>Security Analyst</th>
+              </tr>
+            </thead>
 
-          </thead>
+            <tbody>
 
-          <tbody>
+              <tr>
+                <td>User Management</td>
+                <td>Full Access</td>
+                <td>No Access</td>
+              </tr>
 
-            <tr>
-              <td>User Management</td>
-              <td>âœ… Full Access</td>
-              <td>âŒ No Access</td>
-            </tr>
+              <tr>
+                <td>Threat Analysis</td>
+                <td>Full Access</td>
+                <td>Full Access</td>
+              </tr>
 
-            <tr>
-              <td>Threat Analysis</td>
-              <td>âœ… Full Access</td>
-              <td>âœ… Full Access</td>
-            </tr>
+              <tr>
+                <td>Live Monitoring</td>
+                <td>View</td>
+                <td>View</td>
+              </tr>
 
-            <tr>
-              <td>Live Monitoring</td>
-              <td>ðŸ‘ View</td>
-              <td>ðŸ‘ View</td>
-            </tr>
+              <tr>
+                <td>AI Prediction</td>
+                <td>Full Access</td>
+                <td>Full Access</td>
+              </tr>
 
-            <tr>
-              <td>AI Prediction</td>
-              <td>âœ… Full Access</td>
-              <td>âœ… Full Access</td>
-            </tr>
+              <tr>
+                <td>Incident Management</td>
+                <td>Full Access</td>
+                <td>Full Access</td>
+              </tr>
 
-            <tr>
-              <td>Incident Management</td>
-              <td>âœ… Full Access</td>
-              <td>âœ… Full Access</td>
-            </tr>
+              <tr>
+                <td>Threat Alerts</td>
+                <td>Full Access</td>
+                <td>Full Access</td>
+              </tr>
 
-            <tr>
-              <td>Threat Alerts</td>
-              <td>âœ… Full Access</td>
-              <td>âœ… Full Access</td>
-            </tr>
+              <tr>
+                <td>Reports</td>
+                <td>Full Access</td>
+                <td>Full Access</td>
+              </tr>
 
-            <tr>
-              <td>Reports</td>
-              <td>âœ… Full Access</td>
-              <td>âœ… Full Access</td>
-            </tr>
+              <tr>
+                <td>Settings</td>
+                <td>Full Access</td>
+                <td>No Access</td>
+              </tr>
 
-            <tr>
-              <td>Settings</td>
-              <td>âœ… Full Access</td>
-              <td>âŒ No Access</td>
-            </tr>
+            </tbody>
 
-          </tbody>
+          </table>
 
-        </table>
+        </div>
 
       </div>
 
-      {/* ===========================
-          RBAC INFORMATION
-      ============================ */}
+      {/* RBAC CONFIGURATION */}
 
       <div className="section">
 
-        <h2>ðŸ›¡ RBAC Configuration</h2>
+        <h2>RBAC Configuration</h2>
 
         <div className="report-info">
 
           <div className="report-info-box">
             <h3>2</h3>
+
             <p>
               Fixed system roles
             </p>
@@ -328,18 +321,22 @@ function RoleManagementPage() {
 
           <div className="report-info-box">
             <h3>RBAC</h3>
+
             <p>
               Role-Based Access Control
             </p>
           </div>
 
           <div className="report-info-box">
+
             <h3 className="status-green">
               Enabled
             </h3>
+
             <p>
               Access control is active
             </p>
+
           </div>
 
         </div>
@@ -351,3 +348,4 @@ function RoleManagementPage() {
 }
 
 export default RoleManagementPage;
+

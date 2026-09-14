@@ -58,31 +58,31 @@ function AIPredictionsPage() {
   const threatDistribution =
     result?.summary?.threat_distribution || {};
 
-  const attackTypes = Object.entries(attackDistribution);
-  const threatTypes = Object.entries(threatDistribution);
+  const attackTypes = Object.entries(
+    attackDistribution
+  );
 
-  const totalTrainingRecords = 2016638 + 206138;
+  const threatTypes = Object.entries(
+    threatDistribution
+  );
+
+  const totalTrainingRecords =
+    2016638 + 206138;
 
   return (
-    <>
-      {/* =====================================================
-          HEADER
-      ====================================================== */}
+    <div className="page">
 
       <div className="topbar">
         <div>
-          <h1>🤖 AI Threat Prediction</h1>
+          <h1>AI Threat Prediction</h1>
 
           <p>
-            Upload a network traffic CSV and detect cyber attacks
-            using trained Machine Learning models.
+            Upload a network traffic CSV and detect
+            cyber attacks using trained Machine
+            Learning models.
           </p>
         </div>
       </div>
-
-      {/* =====================================================
-          MODEL KPI CARDS
-      ====================================================== */}
 
       <div className="cards">
 
@@ -97,7 +97,10 @@ function AIPredictionsPage() {
         </div>
 
         <div className="card">
-          <h2>{(totalTrainingRecords / 1000000).toFixed(2)}M+</h2>
+          <h2>
+            {(totalTrainingRecords / 1000000).toFixed(2)}M+
+          </h2>
+
           <p>Total Training Records</p>
         </div>
 
@@ -108,13 +111,9 @@ function AIPredictionsPage() {
 
       </div>
 
-      {/* =====================================================
-          CSV UPLOAD SECTION
-      ====================================================== */}
-
       <div className="section">
 
-        <h2>📂 Upload CSV Dataset</h2>
+        <h2>Upload CSV Dataset</h2>
 
         <br />
 
@@ -156,7 +155,10 @@ function AIPredictionsPage() {
           type="file"
           accept=".csv"
           onChange={(e) => {
-            setFile(e.target.files?.[0] || null);
+            setFile(
+              e.target.files?.[0] || null
+            );
+
             setResult(null);
           }}
         />
@@ -176,28 +178,28 @@ function AIPredictionsPage() {
         <br />
 
         <button
+          type="button"
           onClick={uploadCSV}
           disabled={loading}
         >
           {loading
-            ? "🤖 Predicting..."
-            : "🚀 Upload & Predict"}
+            ? "Predicting..."
+            : "Upload and Predict"}
         </button>
 
       </div>
 
-      {/* =====================================================
-          LOADING MESSAGE
-      ====================================================== */}
-
       {loading && (
         <div className="section">
 
-          <h2>⏳ AI Prediction in Progress</h2>
+          <h2>
+            AI Prediction in Progress
+          </h2>
 
           <p>
-            The selected CSV file is being processed by the
-            trained Random Forest model.
+            The selected CSV file is being
+            processed by the trained Random
+            Forest model.
           </p>
 
           <p>
@@ -207,15 +209,8 @@ function AIPredictionsPage() {
         </div>
       )}
 
-      {/* =====================================================
-          PREDICTION RESULT
-      ====================================================== */}
-
       {result && (
         <>
-          {/* =================================================
-              RESULT KPI CARDS
-          ================================================== */}
 
           <div className="cards">
 
@@ -268,174 +263,183 @@ function AIPredictionsPage() {
 
           </div>
 
-          {/* =================================================
-              PREDICTION SUMMARY
-          ================================================== */}
-
           <div className="section">
 
             <h2>
-              📊 Prediction Summary
+              Prediction Summary
             </h2>
 
             <br />
 
-            <table>
+            <div className="table-wrapper">
+              <table>
 
-              <tbody>
+                <tbody>
 
-                <tr>
-                  <th>
-                    Dataset
-                  </th>
+                  <tr>
+                    <th>
+                      Dataset
+                    </th>
 
-                  <td>
-                    {result.dataset === "CIC"
-                      ? "CICIDS2017"
-                      : result.dataset === "UNSW"
-                      ? "UNSW-NB15"
-                      : result.dataset || dataset}
-                  </td>
-                </tr>
+                    <td>
+                      {result.dataset === "CIC"
+                        ? "CICIDS2017"
+                        : result.dataset === "UNSW"
+                        ? "UNSW-NB15"
+                        : result.dataset ||
+                          dataset}
+                    </td>
+                  </tr>
 
-                <tr>
-                  <th>
-                    Original Records
-                  </th>
+                  <tr>
+                    <th>
+                      Original Records
+                    </th>
 
-                  <td>
-                    {Number(
-                      result.original_records || 0
-                    ).toLocaleString()}
-                  </td>
-                </tr>
+                    <td>
+                      {Number(
+                        result.original_records || 0
+                      ).toLocaleString()}
+                    </td>
+                  </tr>
 
-                <tr>
-                  <th>
-                    Processed Records
-                  </th>
+                  <tr>
+                    <th>
+                      Processed Records
+                    </th>
 
-                  <td>
-                    {Number(
-                      result.processed_records || 0
-                    ).toLocaleString()}
-                  </td>
-                </tr>
+                    <td>
+                      {Number(
+                        result.processed_records || 0
+                      ).toLocaleString()}
+                    </td>
+                  </tr>
 
-                <tr>
-                  <th>
-                    Average Confidence
-                  </th>
+                  <tr>
+                    <th>
+                      Average Confidence
+                    </th>
 
-                  <td>
-                    {Number(
-                      result.average_confidence || 0
-                    ).toFixed(2)}
-                    %
-                  </td>
-                </tr>
+                    <td>
+                      {Number(
+                        result.average_confidence || 0
+                      ).toFixed(2)}
+                      %
+                    </td>
+                  </tr>
 
-                <tr>
-                  <th>
-                    Main Threat
-                  </th>
+                  <tr>
+                    <th>
+                      Main Threat
+                    </th>
 
-                  <td>
-                    {result.summary?.main_threat ||
-                      "None"}
-                  </td>
-                </tr>
+                    <td>
+                      {result.summary?.main_threat ||
+                        "None"}
+                    </td>
+                  </tr>
 
-                <tr>
-                  <th>
-                    Severity
-                  </th>
+                  <tr>
+                    <th>
+                      Severity
+                    </th>
 
-                  <td>
-                    {result.summary?.severity ||
-                      "Low"}
-                  </td>
-                </tr>
+                    <td>
+                      {result.summary?.severity ||
+                        "Low"}
+                    </td>
+                  </tr>
 
-              </tbody>
+                </tbody>
 
-            </table>
+              </table>
+            </div>
 
           </div>
-
-          {/* =================================================
-              ATTACK DISTRIBUTION
-          ================================================== */}
 
           <div className="section">
 
             <h2>
-              🚨 Attack Distribution
+              Attack Distribution
             </h2>
 
             <br />
 
             {attackTypes.length > 0 ? (
 
-              <table>
+              <div className="table-wrapper">
+                <table>
 
-                <thead>
+                  <thead>
 
-                  <tr>
-                    <th>
-                      Attack Type
-                    </th>
+                    <tr>
+                      <th>
+                        Attack Type
+                      </th>
 
-                    <th>
-                      Detected Count
-                    </th>
+                      <th>
+                        Detected Count
+                      </th>
 
-                    <th>
-                      Classification
-                    </th>
-                  </tr>
+                      <th>
+                        Classification
+                      </th>
+                    </tr>
 
-                </thead>
+                  </thead>
 
-                <tbody>
+                  <tbody>
 
-                  {attackTypes.map(
-                    ([attack, count]) => {
+                    {attackTypes.map(
+                      ([attack, count]) => {
 
-                      const normalizedAttack =
-                        String(attack).toUpperCase();
+                        const normalizedAttack =
+                          String(
+                            attack
+                          ).toUpperCase();
 
-                      const isBenign =
-                        normalizedAttack === "BENIGN" ||
-                        normalizedAttack === "NORMAL";
+                        const isBenign =
+                          normalizedAttack ===
+                            "BENIGN" ||
+                          normalizedAttack ===
+                            "NORMAL";
 
-                      return (
-                        <tr key={attack}>
+                        return (
+                          <tr key={attack}>
 
-                          <td>
-                            {attack}
-                          </td>
+                            <td>
+                              <strong>
+                                {attack}
+                              </strong>
+                            </td>
 
-                          <td>
-                            {Number(
-                              count || 0
-                            ).toLocaleString()}
-                          </td>
+                            <td>
+                              {Number(
+                                count || 0
+                              ).toLocaleString()}
+                            </td>
 
-                          <td>
-                            {isBenign
-                              ? "Normal Traffic"
-                              : "⚠️ Threat"}
-                          </td>
+                            <td
+                              className={
+                                isBenign
+                                  ? "status-green"
+                                  : "status-red"
+                              }
+                            >
+                              {isBenign
+                                ? "Normal Traffic"
+                                : "Threat"}
+                            </td>
 
-                        </tr>
-                      );
-                    }
-                  )}
+                          </tr>
+                        );
+                      }
+                    )}
 
-                </tbody>
+                  </tbody>
 
-              </table>
+                </table>
+              </div>
 
             ) : (
 
@@ -448,61 +452,61 @@ function AIPredictionsPage() {
 
           </div>
 
-          {/* =================================================
-              THREAT DISTRIBUTION
-          ================================================== */}
-
           <div className="section">
 
             <h2>
-              🛡️ Threat Records
+              Threat Records
             </h2>
 
             <br />
 
             {threatTypes.length > 0 ? (
 
-              <table>
+              <div className="table-wrapper">
+                <table>
 
-                <thead>
+                  <thead>
 
-                  <tr>
-                    <th>
-                      Threat Type
-                    </th>
+                    <tr>
+                      <th>
+                        Threat Type
+                      </th>
 
-                    <th>
-                      Count
-                    </th>
-                  </tr>
+                      <th>
+                        Count
+                      </th>
+                    </tr>
 
-                </thead>
+                  </thead>
 
-                <tbody>
+                  <tbody>
 
-                  {threatTypes.map(
-                    ([attack, count]) => (
+                    {threatTypes.map(
+                      ([attack, count]) => (
 
-                      <tr key={attack}>
+                        <tr key={attack}>
 
-                        <td>
-                          {attack}
-                        </td>
+                          <td>
+                            <strong>
+                              {attack}
+                            </strong>
+                          </td>
 
-                        <td>
-                          {Number(
-                            count || 0
-                          ).toLocaleString()}
-                        </td>
+                          <td>
+                            {Number(
+                              count || 0
+                            ).toLocaleString()}
+                          </td>
 
-                      </tr>
+                        </tr>
 
-                    )
-                  )}
+                      )
+                    )}
 
-                </tbody>
+                  </tbody>
 
-              </table>
+                </table>
+              </div>
 
             ) : (
 
@@ -514,291 +518,291 @@ function AIPredictionsPage() {
             )}
 
           </div>
+
         </>
       )}
 
-      {/* =====================================================
-          TRAINED AI MODELS
-      ====================================================== */}
-
       <div className="section">
 
         <h2>
-          🧠 Trained AI Models
+          Trained AI Models
         </h2>
 
         <br />
 
-        <table>
+        <div className="table-wrapper">
+          <table>
 
-          <thead>
+            <thead>
 
-            <tr>
-              <th>
-                Dataset
-              </th>
+              <tr>
+                <th>
+                  Dataset
+                </th>
 
-              <th>
-                Algorithm
-              </th>
+                <th>
+                  Algorithm
+                </th>
 
-              <th>
-                Test Accuracy
-              </th>
+                <th>
+                  Test Accuracy
+                </th>
 
-              <th>
-                Training Records
-              </th>
-            </tr>
+                <th>
+                  Training Records
+                </th>
+              </tr>
 
-          </thead>
+            </thead>
 
-          <tbody>
+            <tbody>
 
-            <tr>
-              <td>
-                CICIDS2017
-              </td>
+              <tr>
 
-              <td>
-                Random Forest
-              </td>
+                <td>
+                  CICIDS2017
+                </td>
 
-              <td>
-                99.82%
-              </td>
+                <td>
+                  Random Forest
+                </td>
 
-              <td>
-                2,016,638
-              </td>
-            </tr>
+                <td>
+                  99.82%
+                </td>
 
-            <tr>
-              <td>
-                UNSW-NB15
-              </td>
+                <td>
+                  2,016,638
+                </td>
 
-              <td>
-                Random Forest
-              </td>
+              </tr>
 
-              <td>
-                82.60%
-              </td>
+              <tr>
 
-              <td>
-                206,138
-              </td>
-            </tr>
+                <td>
+                  UNSW-NB15
+                </td>
 
-          </tbody>
+                <td>
+                  Random Forest
+                </td>
 
-        </table>
+                <td>
+                  82.60%
+                </td>
+
+                <td>
+                  206,138
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
 
       </div>
-
-      {/* =====================================================
-          MODEL PERFORMANCE
-      ====================================================== */}
 
       <div className="section">
 
         <h2>
-          📈 Model Performance
+          Model Performance
         </h2>
 
         <br />
 
-        <table>
+        <div className="table-wrapper">
+          <table>
 
-          <thead>
+            <thead>
 
-            <tr>
-              <th>
-                Metric
-              </th>
+              <tr>
+                <th>
+                  Metric
+                </th>
 
-              <th>
-                CICIDS2017
-              </th>
+                <th>
+                  CICIDS2017
+                </th>
 
-              <th>
-                UNSW-NB15
-              </th>
-            </tr>
+                <th>
+                  UNSW-NB15
+                </th>
+              </tr>
 
-          </thead>
+            </thead>
 
-          <tbody>
+            <tbody>
 
-            <tr>
-              <td>
-                Test Accuracy
-              </td>
+              <tr>
+                <td>
+                  Test Accuracy
+                </td>
 
-              <td>
-                99.82%
-              </td>
+                <td>
+                  99.82%
+                </td>
 
-              <td>
-                82.60%
-              </td>
-            </tr>
+                <td>
+                  82.60%
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                Test Precision
-              </td>
+              <tr>
+                <td>
+                  Test Precision
+                </td>
 
-              <td>
-                99.82%
-              </td>
+                <td>
+                  99.82%
+                </td>
 
-              <td>
-                82.13%
-              </td>
-            </tr>
+                <td>
+                  82.13%
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                Test Recall
-              </td>
+              <tr>
+                <td>
+                  Test Recall
+                </td>
 
-              <td>
-                99.82%
-              </td>
+                <td>
+                  99.82%
+                </td>
 
-              <td>
-                82.60%
-              </td>
-            </tr>
+                <td>
+                  82.60%
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                Test F1 Score
-              </td>
+              <tr>
+                <td>
+                  Test F1 Score
+                </td>
 
-              <td>
-                99.82%
-              </td>
+                <td>
+                  99.82%
+                </td>
 
-              <td>
-                80.35%
-              </td>
-            </tr>
+                <td>
+                  80.35%
+                </td>
+              </tr>
 
-          </tbody>
+            </tbody>
 
-        </table>
+          </table>
+        </div>
 
       </div>
-
-      {/* =====================================================
-          NETSHIELD AI FEATURES
-      ====================================================== */}
 
       <div className="section">
 
         <h2>
-          🚀 NetShield AI Features
+          NetShield AI Features
         </h2>
 
         <br />
 
-        <table>
+        <div className="table-wrapper">
+          <table>
 
-          <thead>
+            <thead>
 
-            <tr>
-              <th>
-                Capability
-              </th>
+              <tr>
+                <th>
+                  Capability
+                </th>
 
-              <th>
-                Status
-              </th>
-            </tr>
+                <th>
+                  Status
+                </th>
+              </tr>
 
-          </thead>
+            </thead>
 
-          <tbody>
+            <tbody>
 
-            <tr>
-              <td>
-                CICIDS2017 Threat Detection
-              </td>
+              <tr>
+                <td>
+                  CICIDS2017 Threat Detection
+                </td>
 
-              <td>
-                ✅ Enabled
-              </td>
-            </tr>
+                <td className="status-green">
+                  Enabled
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                UNSW-NB15 Threat Detection
-              </td>
+              <tr>
+                <td>
+                  UNSW-NB15 Threat Detection
+                </td>
 
-              <td>
-                ✅ Enabled
-              </td>
-            </tr>
+                <td className="status-green">
+                  Enabled
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                CSV Upload Prediction
-              </td>
+              <tr>
+                <td>
+                  CSV Upload Prediction
+                </td>
 
-              <td>
-                ✅ Enabled
-              </td>
-            </tr>
+                <td className="status-green">
+                  Enabled
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                Machine Learning Classification
-              </td>
+              <tr>
+                <td>
+                  Machine Learning Classification
+                </td>
 
-              <td>
-                ✅ Enabled
-              </td>
-            </tr>
+                <td className="status-green">
+                  Enabled
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                Attack Summary Report
-              </td>
+              <tr>
+                <td>
+                  Attack Summary Report
+                </td>
 
-              <td>
-                ✅ Enabled
-              </td>
-            </tr>
+                <td className="status-green">
+                  Enabled
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                Automatic Security Alert Generation
-              </td>
+              <tr>
+                <td>
+                  Automatic Security Alert Generation
+                </td>
 
-              <td>
-                ✅ Enabled
-              </td>
-            </tr>
+                <td className="status-green">
+                  Enabled
+                </td>
+              </tr>
 
-            <tr>
-              <td>
-                Role-Based Security Notifications
-              </td>
+              <tr>
+                <td>
+                  Role-Based Security Notifications
+                </td>
 
-              <td>
-                ✅ Enabled
-              </td>
-            </tr>
+                <td className="status-green">
+                  Enabled
+                </td>
+              </tr>
 
-          </tbody>
+            </tbody>
 
-        </table>
+          </table>
+        </div>
 
       </div>
-    </>
+
+    </div>
   );
 }
 

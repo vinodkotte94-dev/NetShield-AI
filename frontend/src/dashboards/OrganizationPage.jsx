@@ -20,10 +20,7 @@ function OrganizationPage() {
 
       setOrganization(response.data);
     } catch (err) {
-      console.error(
-        "Failed to load organization:",
-        err
-      );
+      console.error("Failed to load organization:", err);
 
       setError(
         err.response?.data?.detail ||
@@ -38,29 +35,21 @@ function OrganizationPage() {
     loadOrganization();
   }, []);
 
-  // ==================================================
-  // LOADING
-  // ==================================================
-
   if (loading) {
     return (
       <div className="page">
         <div className="warning-message">
-          â³ Loading organization information...
+          Loading organization information...
         </div>
       </div>
     );
   }
 
-  // ==================================================
-  // ERROR
-  // ==================================================
-
   if (error) {
     return (
       <div className="page">
         <div className="error-message">
-          âš ï¸ {error}
+          {error}
         </div>
 
         <button
@@ -68,29 +57,21 @@ function OrganizationPage() {
           className="action-btn"
           onClick={loadOrganization}
         >
-          ðŸ”„ Try Again
+          Try Again
         </button>
       </div>
     );
   }
 
-  // ==================================================
-  // EMPTY DATA
-  // ==================================================
-
   if (!organization) {
     return (
       <div className="page">
         <div className="warning-message">
-          â„¹ï¸ No organization information available.
+          No organization information available.
         </div>
       </div>
     );
   }
-
-  // ==================================================
-  // SAFE DATA HANDLING
-  // ==================================================
 
   const departments = Array.isArray(
     organization.departments
@@ -104,28 +85,39 @@ function OrganizationPage() {
 
   const activeDepartments = departments.filter(
     (dept) =>
-      String(dept.status || "")
-        .toLowerCase() === "active"
+      String(dept.status || "").toLowerCase() === "active"
   ).length;
 
-  // ==================================================
-  // PAGE
-  // ==================================================
+  const getStatusClass = (status) => {
+    const value = String(status).toLowerCase();
+
+    if (
+      value === "active" ||
+      value === "enabled" ||
+      value === "online"
+    ) {
+      return "status-green";
+    }
+
+    if (
+      value === "inactive" ||
+      value === "disabled"
+    ) {
+      return "status-red";
+    }
+
+    return "status-yellow";
+  };
 
   return (
     <div className="page">
 
-      {/* ===========================
-          HEADER
-      ============================ */}
-
       <div className="topbar">
-
         <div>
-          <h1>ðŸ¢ Organization Management</h1>
+          <h1>Organization Management</h1>
 
           <p>
-            Organization Overview & Department Information
+            Organization Overview and Department Information
           </p>
         </div>
 
@@ -133,16 +125,10 @@ function OrganizationPage() {
           type="button"
           className="action-btn"
           onClick={loadOrganization}
-          disabled={loading}
         >
-          ðŸ”„ Refresh
+          Refresh
         </button>
-
       </div>
-
-      {/* ===========================
-          ORGANIZATION SUMMARY
-      ============================ */}
 
       <div className="cards">
 
@@ -168,120 +154,85 @@ function OrganizationPage() {
 
       </div>
 
-      {/* ===========================
-          COMPANY INFORMATION
-      ============================ */}
-
       <div className="section">
 
-        <h2>ðŸ¢ Company Information</h2>
+        <h2>Company Information</h2>
 
-        <table>
-
-          <tbody>
-
-            <tr>
-              <th>Organization</th>
-              <td>
-                {organization.organization ||
-                  "Not available"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>Head Office</th>
-              <td>
-                {organization.location ||
-                  "Not available"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>Industry</th>
-              <td>
-                {organization.industry ||
-                  "Not available"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>Established</th>
-              <td>
-                {organization.established ||
-                  "Not available"}
-              </td>
-            </tr>
-
-            <tr>
-              <th>Total Employees</th>
-              <td>{totalEmployees}</td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-      {/* ===========================
-          DEPARTMENTS
-      ============================ */}
-
-      <div className="section">
-
-        <h2>ðŸ¬ Departments</h2>
-
-        {departments.length === 0 ? (
-
-          <div className="warning-message">
-            â„¹ï¸ No departments are currently available.
-          </div>
-
-        ) : (
-
+        <div className="table-wrapper">
           <table>
-
-            <thead>
-
-              <tr>
-                <th>ID</th>
-                <th>Department</th>
-                <th>Manager</th>
-                <th>Employees</th>
-                <th>Status</th>
-              </tr>
-
-            </thead>
 
             <tbody>
 
-              {departments.map(
-                (dept, index) => {
+              <tr>
+                <th>Organization</th>
+                <td>
+                  {organization.organization ||
+                    "Not available"}
+                </td>
+              </tr>
 
-                  const status =
-                    dept.status || "Active";
+              <tr>
+                <th>Head Office</th>
+                <td>
+                  {organization.location ||
+                    "Not available"}
+                </td>
+              </tr>
 
-                  const statusValue =
-                    String(status).toLowerCase();
+              <tr>
+                <th>Industry</th>
+                <td>
+                  {organization.industry ||
+                    "Not available"}
+                </td>
+              </tr>
 
-                  let statusClass =
-                    "status-yellow";
+              <tr>
+                <th>Established</th>
+                <td>
+                  {organization.established ||
+                    "Not available"}
+                </td>
+              </tr>
 
-                  if (
-                    statusValue === "active" ||
-                    statusValue === "enabled"
-                  ) {
-                    statusClass =
-                      "status-green";
-                  }
+              <tr>
+                <th>Total Employees</th>
+                <td>{totalEmployees}</td>
+              </tr>
 
-                  if (
-                    statusValue === "inactive" ||
-                    statusValue === "disabled"
-                  ) {
-                    statusClass =
-                      "status-red";
-                  }
+            </tbody>
+
+          </table>
+        </div>
+
+      </div>
+
+      <div className="section">
+
+        <h2>Departments</h2>
+
+        {departments.length === 0 ? (
+          <div className="warning-message">
+            No departments are currently available.
+          </div>
+        ) : (
+          <div className="table-wrapper">
+            <table>
+
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Department</th>
+                  <th>Manager</th>
+                  <th>Employees</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                {departments.map((dept, index) => {
+                  const status = dept.status || "Active";
 
                   return (
                     <tr
@@ -317,82 +268,74 @@ function OrganizationPage() {
                       </td>
 
                       <td
-                        className={
-                          statusClass
-                        }
+                        className={getStatusClass(
+                          status
+                        )}
                       >
                         {status}
                       </td>
 
                     </tr>
                   );
-                }
-              )}
+                })}
 
-            </tbody>
+              </tbody>
 
-          </table>
-
+            </table>
+          </div>
         )}
 
       </div>
 
-      {/* ===========================
-          ORGANIZATION HIERARCHY
-      ============================ */}
-
       <div className="section">
 
-        <h2>ðŸ“‹ Organization Hierarchy</h2>
+        <h2>Organization Hierarchy</h2>
 
-        <table>
+        <div className="table-wrapper">
+          <table>
 
-          <thead>
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>Role</th>
+                <th>Access Type</th>
+              </tr>
+            </thead>
 
-            <tr>
-              <th>Level</th>
-              <th>Role</th>
-              <th>Access Type</th>
-            </tr>
+            <tbody>
 
-          </thead>
+              <tr>
+                <td>Level 1</td>
+                <td>Administrator</td>
+                <td className="status-green">
+                  Full Administrative Access
+                </td>
+              </tr>
 
-          <tbody>
+              <tr>
+                <td>Level 2</td>
+                <td>Security Analyst</td>
+                <td className="status-blue">
+                  Security Analysis Access
+                </td>
+              </tr>
 
-            <tr>
-              <td>Level 1</td>
-              <td>Administrator</td>
-              <td className="status-green">
-                Full Administrative Access
-              </td>
-            </tr>
+            </tbody>
 
-            <tr>
-              <td>Level 2</td>
-              <td>Security Analyst</td>
-              <td className="status-blue">
-                Security Analysis Access
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
+          </table>
+        </div>
 
       </div>
 
-      {/* ===========================
-          ORGANIZATION STATUS
-      ============================ */}
-
       <div className="section">
 
-        <h2>ðŸ›¡ Organization Status</h2>
+        <h2>Organization Status</h2>
 
         <div className="report-info">
 
           <div className="report-info-box">
             <h3>{departments.length}</h3>
+
             <p>
               Departments configured
             </p>
@@ -400,18 +343,22 @@ function OrganizationPage() {
 
           <div className="report-info-box">
             <h3>{totalEmployees}</h3>
+
             <p>
               Employees registered
             </p>
           </div>
 
           <div className="report-info-box">
+
             <h3 className="status-green">
               Active
             </h3>
+
             <p>
               NetShield AI organization status
             </p>
+
           </div>
 
         </div>

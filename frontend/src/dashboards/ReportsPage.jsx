@@ -10,10 +10,6 @@ function ReportsPage() {
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
 
-  // ==========================================
-  // LOAD REAL REPORT DATA
-  // ==========================================
-
   const loadReports = async () => {
     try {
       setLoading(true);
@@ -25,10 +21,7 @@ function ReportsPage() {
 
       setReportData(response.data);
     } catch (err) {
-      console.error(
-        "Report loading error:",
-        err
-      );
+      console.error("Report loading error:", err);
 
       setError(
         err.response?.data?.detail ||
@@ -45,10 +38,6 @@ function ReportsPage() {
     loadReports();
   }, []);
 
-  // ==========================================
-  // DOWNLOAD PDF REPORT
-  // ==========================================
-
   const downloadThreatReport = async () => {
     try {
       setGenerating(true);
@@ -61,21 +50,15 @@ function ReportsPage() {
         }
       );
 
-      const blob = new Blob(
-        [response.data],
-        {
-          type: "application/pdf",
-        }
-      );
+      const blob = new Blob([response.data], {
+        type: "application/pdf",
+      });
 
-      const url =
-        window.URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(blob);
 
-      const link =
-        document.createElement("a");
+      const link = document.createElement("a");
 
       link.href = url;
-
       link.download =
         "NetShield_AI_Threat_Intelligence_Report.pdf";
 
@@ -87,10 +70,7 @@ function ReportsPage() {
 
       window.URL.revokeObjectURL(url);
     } catch (err) {
-      console.error(
-        "PDF download error:",
-        err
-      );
+      console.error("PDF download error:", err);
 
       setError(
         "Unable to generate or download the PDF report."
@@ -100,14 +80,10 @@ function ReportsPage() {
     }
   };
 
-  // ==========================================
-  // LOADING
-  // ==========================================
-
   if (loading) {
     return (
       <div className="section">
-        <h2>ðŸ“„ Loading Reports...</h2>
+        <h2>Loading Reports...</h2>
 
         <p>
           Fetching the latest NetShield AI
@@ -116,10 +92,6 @@ function ReportsPage() {
       </div>
     );
   }
-
-  // ==========================================
-  // SAFE REAL VALUES
-  // ==========================================
 
   const data = reportData || {};
 
@@ -159,29 +131,16 @@ function ReportsPage() {
   const datasetDistribution =
     data.dataset_distribution || {};
 
-  // ==========================================
-  // REPORT DATA AVAILABLE
-  // ==========================================
-
   const hasReportData =
     totalPredictions > 0 ||
     totalRecords > 0;
 
-  // ==========================================
-  // RENDER
-  // ==========================================
-
   return (
     <div className="page">
 
-      {/* ==========================================
-          HEADER
-      =========================================== */}
-
       <div className="topbar">
-
         <div>
-          <h1>ðŸ“„ Reports Center</h1>
+          <h1>Reports Center</h1>
 
           <p>
             Generate, view and download NetShield AI
@@ -190,24 +149,15 @@ function ReportsPage() {
         </div>
 
         <h3 className="status-green">
-          ðŸŸ¢ Reporting System Active
+          Reporting System Active
         </h3>
-
       </div>
-
-      {/* ==========================================
-          ERROR
-      =========================================== */}
 
       {error && (
         <div className="error-message">
-          âš ï¸ {error}
+          {error}
         </div>
       )}
-
-      {/* ==========================================
-          SUMMARY CARDS
-      =========================================== */}
 
       <div className="cards">
 
@@ -253,104 +203,98 @@ function ReportsPage() {
 
       </div>
 
-      {/* ==========================================
-          SECURITY REPORT OVERVIEW
-      =========================================== */}
-
       <div className="section">
 
         <h2>
-          ðŸ“Š Security Report Overview
+          Security Report Overview
         </h2>
 
-        <table>
+        <div className="table-wrapper">
+          <table>
 
-          <tbody>
+            <tbody>
 
-            <tr>
-              <th>
-                Total AI Analyses
-              </th>
+              <tr>
+                <th>
+                  Total AI Analyses
+                </th>
 
-              <td>
-                {totalPredictions.toLocaleString()}
-              </td>
-            </tr>
+                <td>
+                  {totalPredictions.toLocaleString()}
+                </td>
+              </tr>
 
-            <tr>
-              <th>
-                Total Records Processed
-              </th>
+              <tr>
+                <th>
+                  Total Records Processed
+                </th>
 
-              <td>
-                {totalRecords.toLocaleString()}
-              </td>
-            </tr>
+                <td>
+                  {totalRecords.toLocaleString()}
+                </td>
+              </tr>
 
-            <tr>
-              <th>
-                Normal Records
-              </th>
+              <tr>
+                <th>
+                  Normal Records
+                </th>
 
-              <td>
-                {benignRecords.toLocaleString()}
-              </td>
-            </tr>
+                <td>
+                  {benignRecords.toLocaleString()}
+                </td>
+              </tr>
 
-            <tr>
-              <th>
-                Threat Records
-              </th>
+              <tr>
+                <th>
+                  Threat Records
+                </th>
 
-              <td>
-                {totalThreats.toLocaleString()}
-              </td>
-            </tr>
+                <td>
+                  {totalThreats.toLocaleString()}
+                </td>
+              </tr>
 
-            <tr>
-              <th>
-                Threat Percentage
-              </th>
+              <tr>
+                <th>
+                  Threat Percentage
+                </th>
 
-              <td>
-                {threatPercentage.toFixed(2)}%
-              </td>
-            </tr>
+                <td>
+                  {threatPercentage.toFixed(2)}%
+                </td>
+              </tr>
 
-            <tr>
-              <th>
-                Average AI Confidence
-              </th>
+              <tr>
+                <th>
+                  Average AI Confidence
+                </th>
 
-              <td>
-                {confidence.toFixed(2)}%
-              </td>
-            </tr>
+                <td>
+                  {confidence.toFixed(2)}%
+                </td>
+              </tr>
 
-            <tr>
-              <th>
-                Most Frequent Attack
-              </th>
+              <tr>
+                <th>
+                  Most Frequent Attack
+                </th>
 
-              <td>
-                {mostFrequentAttack}
-              </td>
-            </tr>
+                <td>
+                  {mostFrequentAttack}
+                </td>
+              </tr>
 
-          </tbody>
+            </tbody>
 
-        </table>
+          </table>
+        </div>
 
       </div>
 
-      {/* ==========================================
-          AVAILABLE REPORTS
-      =========================================== */}
-
       <div className="section">
 
         <h2>
-          ðŸ“ Available Reports
+          Available Reports
         </h2>
 
         {!hasReportData ? (
@@ -361,74 +305,73 @@ function ReportsPage() {
 
         ) : (
 
-          <table>
+          <div className="table-wrapper">
+            <table>
 
-            <thead>
+              <thead>
 
-              <tr>
-                <th>ID</th>
-                <th>Report Name</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Download</th>
-              </tr>
+                <tr>
+                  <th>ID</th>
+                  <th>Report Name</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Download</th>
+                </tr>
 
-            </thead>
+              </thead>
 
-            <tbody>
+              <tbody>
 
-              <tr>
+                <tr>
 
-                <td>
-                  1
-                </td>
+                  <td>
+                    1
+                  </td>
 
-                <td>
-                  Threat Intelligence Report
-                </td>
+                  <td>
+                    Threat Intelligence Report
+                  </td>
 
-                <td>
-                  Security / AI
-                </td>
+                  <td>
+                    Security / AI
+                  </td>
 
-                <td className="status-green">
-                  ðŸŸ¢ Ready
-                </td>
+                  <td className="status-green">
+                    Ready
+                  </td>
 
-                <td>
+                  <td>
 
-                  <button
-                    className="action-btn"
-                    onClick={
-                      downloadThreatReport
-                    }
-                    disabled={generating}
-                  >
-                    {generating
-                      ? "Generating..."
-                      : "ðŸ“¥ Download PDF"}
-                  </button>
+                    <button
+                      type="button"
+                      className="action-btn"
+                      onClick={
+                        downloadThreatReport
+                      }
+                      disabled={generating}
+                    >
+                      {generating
+                        ? "Generating..."
+                        : "Download PDF"}
+                    </button>
 
-                </td>
+                  </td>
 
-              </tr>
+                </tr>
 
-            </tbody>
+              </tbody>
 
-          </table>
+            </table>
+          </div>
 
         )}
 
       </div>
 
-      {/* ==========================================
-          THREAT INTELLIGENCE
-      =========================================== */}
-
       <div className="section">
 
         <h2>
-          ðŸš¨ Threat Intelligence
+          Threat Intelligence
         </h2>
 
         {Object.keys(
@@ -442,87 +385,84 @@ function ReportsPage() {
 
         ) : (
 
-          <table>
+          <div className="table-wrapper">
+            <table>
 
-            <thead>
+              <thead>
 
-              <tr>
-                <th>
-                  Attack Type
-                </th>
+                <tr>
+                  <th>
+                    Attack Type
+                  </th>
 
-                <th>
-                  Detected Records
-                </th>
+                  <th>
+                    Detected Records
+                  </th>
 
-                <th>
-                  Status
-                </th>
-              </tr>
+                  <th>
+                    Status
+                  </th>
+                </tr>
 
-            </thead>
+              </thead>
 
-            <tbody>
+              <tbody>
 
-              {Object.entries(
-                attackDistribution
-              ).map(
-                ([attack, count]) => {
+                {Object.entries(
+                  attackDistribution
+                ).map(
+                  ([attack, count]) => {
 
-                  const isBenign =
-                    String(
-                      attack
-                    ).toUpperCase() ===
-                    "BENIGN";
+                    const isBenign =
+                      String(attack)
+                        .toUpperCase() ===
+                      "BENIGN";
 
-                  return (
-                    <tr key={attack}>
+                    return (
+                      <tr key={attack}>
 
-                      <td>
-                        <strong>
-                          {attack}
-                        </strong>
-                      </td>
+                        <td>
+                          <strong>
+                            {attack}
+                          </strong>
+                        </td>
 
-                      <td>
-                        {Number(
-                          count || 0
-                        ).toLocaleString()}
-                      </td>
+                        <td>
+                          {Number(
+                            count || 0
+                          ).toLocaleString()}
+                        </td>
 
-                      <td
-                        className={
-                          isBenign
-                            ? "status-green"
-                            : "status-red"
-                        }
-                      >
-                        {isBenign
-                          ? "ðŸŸ¢ Normal"
-                          : "ðŸš¨ Threat"}
-                      </td>
+                        <td
+                          className={
+                            isBenign
+                              ? "status-green"
+                              : "status-red"
+                          }
+                        >
+                          {isBenign
+                            ? "Normal"
+                            : "Threat"}
+                        </td>
 
-                    </tr>
-                  );
-                }
-              )}
+                      </tr>
+                    );
+                  }
+                )}
 
-            </tbody>
+              </tbody>
 
-          </table>
+            </table>
+          </div>
 
         )}
 
       </div>
 
-      {/* ==========================================
-          DATASET DISTRIBUTION
-      =========================================== */}
-
       <div className="section">
 
         <h2>
-          ðŸ—‚ Dataset Reports
+          Dataset Reports
         </h2>
 
         {Object.keys(
@@ -535,64 +475,62 @@ function ReportsPage() {
 
         ) : (
 
-          <table>
+          <div className="table-wrapper">
+            <table>
 
-            <thead>
+              <thead>
 
-              <tr>
-                <th>
-                  Dataset
-                </th>
+                <tr>
+                  <th>
+                    Dataset
+                  </th>
 
-                <th>
-                  Analyses
-                </th>
-              </tr>
+                  <th>
+                    Analyses
+                  </th>
+                </tr>
 
-            </thead>
+              </thead>
 
-            <tbody>
+              <tbody>
 
-              {Object.entries(
-                datasetDistribution
-              ).map(
-                ([dataset, count]) => (
+                {Object.entries(
+                  datasetDistribution
+                ).map(
+                  ([dataset, count]) => (
 
-                  <tr key={dataset}>
+                    <tr key={dataset}>
 
-                    <td>
-                      <strong>
-                        {dataset}
-                      </strong>
-                    </td>
+                      <td>
+                        <strong>
+                          {dataset}
+                        </strong>
+                      </td>
 
-                    <td>
-                      {Number(
-                        count || 0
-                      ).toLocaleString()}
-                    </td>
+                      <td>
+                        {Number(
+                          count || 0
+                        ).toLocaleString()}
+                      </td>
 
-                  </tr>
+                    </tr>
 
-                )
-              )}
+                  )
+                )}
 
-            </tbody>
+              </tbody>
 
-          </table>
+            </table>
+          </div>
 
         )}
 
       </div>
 
-      {/* ==========================================
-          QUICK REPORT
-      =========================================== */}
-
       <div className="section">
 
         <h2>
-          âš¡ Generate Quick Report
+          Generate Quick Report
         </h2>
 
         <p>
@@ -601,6 +539,7 @@ function ReportsPage() {
         </p>
 
         <button
+          type="button"
           className="action-btn"
           onClick={
             downloadThreatReport
@@ -609,105 +548,100 @@ function ReportsPage() {
         >
           {generating
             ? "Generating PDF..."
-            : "ðŸ¤– Generate AI Report"}
+            : "Generate AI Report"}
         </button>
 
       </div>
 
-      {/* ==========================================
-          REPORT SYSTEM STATUS
-      =========================================== */}
-
       <div className="section">
 
         <h2>
-          ðŸ’¾ Report System Status
+          Report System Status
         </h2>
 
-        <table>
+        <div className="table-wrapper">
+          <table>
 
-          <tbody>
+            <tbody>
 
-            <tr>
+              <tr>
 
-              <th>
-                Report Engine
-              </th>
+                <th>
+                  Report Engine
+                </th>
 
-              <td className="status-green">
-                ðŸŸ¢ Active
-              </td>
+                <td className="status-green">
+                  Active
+                </td>
 
-            </tr>
+              </tr>
 
-            <tr>
+              <tr>
 
-              <th>
-                Threat Intelligence API
-              </th>
+                <th>
+                  Threat Intelligence API
+                </th>
 
-              <td className="status-green">
-                ðŸŸ¢ Connected
-              </td>
+                <td className="status-green">
+                  Connected
+                </td>
 
-            </tr>
+              </tr>
 
-            <tr>
+              <tr>
 
-              <th>
-                PDF Export
-              </th>
+                <th>
+                  PDF Export
+                </th>
 
-              <td className="status-green">
-                ðŸŸ¢ Available
-              </td>
+                <td className="status-green">
+                  Available
+                </td>
 
-            </tr>
+              </tr>
 
-            <tr>
+              <tr>
 
-              <th>
-                AI Model
-              </th>
+                <th>
+                  AI Model
+                </th>
 
-              <td className="status-green">
-                Random Forest â€” Active
-              </td>
+                <td className="status-green">
+                  Random Forest - Active
+                </td>
 
-            </tr>
+              </tr>
 
-            <tr>
+              <tr>
 
-              <th>
-                Database
-              </th>
+                <th>
+                  Database
+                </th>
 
-              <td className="status-green">
-                ðŸŸ¢ Connected
-              </td>
+                <td className="status-green">
+                  Connected
+                </td>
 
-            </tr>
+              </tr>
 
-          </tbody>
+            </tbody>
 
-        </table>
+          </table>
+        </div>
 
       </div>
-
-      {/* ==========================================
-          REFRESH
-      =========================================== */}
 
       <div className="section">
 
         <button
+          type="button"
           className="action-btn"
           onClick={loadReports}
           disabled={loading}
         >
           {loading
             ? "Refreshing..."
-            : "ðŸ”„ Refresh Reports"}
+            : "Refresh Reports"}
         </button>
 
       </div>
